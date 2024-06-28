@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "Favicon Color",
+  "version": "1.0.2",
+
+  "description": "Calculates favicon color and applies to current tab.",
+
+  "permissions": [
+    "theme",
+    "tabs",
+    "storage"
+  ],
+
+  "icons": {
+    "48": "icon.svg",
+    "96": "icon.svg"
+  },
+
+  "background": {
+    "scripts": ["chroma.min.js", "background.js"]
+  },
+  
+  "options_ui": {
+    "page": "options.html"
+  },
+
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{3aebb6e1-b5e5-440f-a5e7-1fe875078e3c}"
+    }
+  }
+}
