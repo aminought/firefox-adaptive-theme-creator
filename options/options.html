@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Favicon Color Options</title>
+</head>
+<style>
+    #defaultTabColors.hidden {
+        display: none;
+    }
+</style>
+<body>
+    <form id="options">
+        <label for="saturationLimit">Saturation limit:</label>
+        <input id="saturationLimit" name="saturationLimit" type="range" step="0.05" min="0.05" max="1" value="1">
+        <br><br>
+
+        <input id="changeDefaultTabColors" name="changeDefaultTabColors" type="checkbox">
+        <label for="changeDefaultTabColors">Change default tab colors</label>
+        <br>
+
+        <div id="defaultTabColors" class="hidden">
+            <label for="defaultTabBgColor">Default tab background color:</label>
+            <input id="defaultTabBgColor" name="defaultTabBgColor" type="color" value="#d7d7db">
+            <br>
+
+            <label for="defaultTabFgColor">Default tab foreground color:</label>
+            <input id="defaultTabFgColor" name="defaultTabFgColor" type="color" value="#4a4a4f">
+            <br>
+        </div><br>
+
+        <button type="submit">Save</button>
+        <button id="reset-button" type="button">Reset</button>
+    </form>
+
+    <script src="options.js"></script>
+</body>
+</html>
+

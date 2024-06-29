@@ -12,16 +12,22 @@
   ],
 
   "icons": {
-    "48": "icon.svg",
-    "96": "icon.svg"
+    "48": "icons/icon.svg",
+    "96": "icons/icon.svg"
   },
 
   "background": {
-    "scripts": ["chroma.min.js", "background.js"]
+    "scripts": [
+      "lib/chroma.min.js",
+      "background/colors.js",
+      "background/palette.js",
+      "background/theme.js",
+      "background/background.js"
+    ]
   },
   
   "options_ui": {
-    "page": "options.html"
+    "page": "options/options.html"
   },
 
   "browser_specific_settings": {
