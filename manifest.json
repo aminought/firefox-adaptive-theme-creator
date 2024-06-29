@@ -3,7 +3,7 @@
   "name": "Favicon Color",
   "version": "1.0.2",
 
-  "description": "Calculates favicon color and applies to current tab.",
+  "description": "Calculates the most popular favicon color for a website and applies it to the current tab.",
 
   "permissions": [
     "theme",
