@@ -1,57 +1,80 @@
+// eslint-disable-next-line no-unused-vars
 class Theme {
-    async init() {
-        await this.loadTheme();
-        await this.updateOptions();
+  constructor(options) {
+    this.options = options;
+    this.defaultThemeInfo = null;
+    this.lastThemeInfo = null;
+  }
+
+  async loadTheme(themeInfo) {
+    if (typeof themeInfo === "undefined") {
+      themeInfo = await browser.theme.getCurrent();
+    }
+    if (themeInfo.colors === null) {
+      notifyNotCompatible();
+      return;
+    }
+    this.defaultThemeInfo = themeInfo;
+  }
+
+  async update(tab) {
+    if (this.defaultThemeInfo === null) {
+      return;
     }
 
-    async loadTheme() {
-        this.defaultThemeInfo = await browser.theme.getCurrent();
+    if (!tab) {
+      tab = await browser.tabs.query({ active: true, currentWindow: true })[0];
     }
 
-    async updateOptions() {
-        this.options = await browser.storage.sync.get();
+    const saturationLimit = this.options.getSaturationLimit();
+    let tabBgColor = this.getDefaultTabBackgroundColor();
+    let tabFgColor = this.getDefaultTabForegroundColor();
+
+    try {
+      const mostPopularColor = await getMostPopularColor(tab.favIconUrl);
+      if (mostPopularColor) {
+        tabBgColor = limitSaturation(mostPopularColor, saturationLimit);
+        tabFgColor = calculateFgColor(tabBgColor);
+      }
+    } finally {
+      const themeInfo = this.clone();
+      themeInfo.colors.tab_selected = tabBgColor ? tabBgColor.css() : null;
+      themeInfo.colors.tab_text = tabFgColor ? tabFgColor.css() : null;
+      if (themeInfo.images) {
+        await fixImages(themeInfo.images);
+      }
+      this.lastThemeInfo = themeInfo;
+      browser.theme.update(themeInfo);
     }
+  }
 
-    async update(tab) {
-        if (!tab) {
-            tab = await browser.tabs.query({ active: true, currentWindow: true })[0];
-        }
+  clone() {
+    return JSON.parse(JSON.stringify(this.defaultThemeInfo));
+  }
 
-        const saturationLimit = this.options.saturationLimit || 1;
-        let tabBgColor = this.#defaultTabBgColor;
-        let tabFgColor = this.#defaultTabFgColor;
+  isEqual(themeInfo) {
+    return JSON.stringify(themeInfo) === JSON.stringify(this.lastThemeInfo);
+  }
 
-        try {
-            const mostPopularColor = await getMostPopularColor(tab.favIconUrl);
-            if (mostPopularColor) {
-                tabBgColor = limitSaturation(mostPopularColor, saturationLimit);
-                tabFgColor = calculateFgColor(tabBgColor);
-            }
-        } finally {
-            const themeInfo = this.clone();
-            themeInfo.colors.tab_selected = tabBgColor.css();
-            themeInfo.colors.tab_text = tabFgColor.css();
-            browser.theme.update(themeInfo);
-        }
-    }
+  isLastThemeInfoEmpty() {
+    return this.lastThemeInfo === null;
+  }
 
-    clone() {
-        return JSON.parse(JSON.stringify(this.defaultThemeInfo));
-    }
+  getDefaultTabBackgroundColor() {
+    return (
+      this.options.getDefaultTabBackgroundColor() ||
+      (this.defaultThemeInfo.colors.tab_selected
+        ? chroma(this.defaultThemeInfo.colors.tab_selected)
+        : null)
+    );
+  }
 
-    get #defaultTabBgColor() {
-        return chroma(
-            this.options.changeDefaultTabColors
-                ? this.options.defaultTabBgColor || this.defaultThemeInfo.colors.tab_selected
-                : this.defaultThemeInfo.colors.tab_selected
-        );
-    }
-
-    get #defaultTabFgColor() {
-        return chroma(
-            this.options.changeDefaultTabColors
-                ? this.options.defaultTabFgColor || this.defaultThemeInfo.colors.tab_text
-                : this.defaultThemeInfo.colors.tab_text
-        );
-    }
+  getDefaultTabForegroundColor() {
+    return (
+      this.options.getDefaultTabForegroundColor() ||
+      (this.defaultThemeInfo.colors.tab_text
+        ? chroma(this.defaultThemeInfo.colors.tab_text)
+        : null)
+    );
+  }
 }

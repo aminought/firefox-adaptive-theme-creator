@@ -1,14 +1,15 @@
 {
   "manifest_version": 2,
   "name": "Favicon Color",
-  "version": "1.1",
+  "version": "1.1.1",
 
   "description": "Calculates the most popular favicon color for a website and applies it to the current tab.",
 
   "permissions": [
     "theme",
     "tabs",
-    "storage"
+    "storage",
+    "notifications"
   ],
 
   "icons": {
@@ -20,7 +21,9 @@
     "scripts": [
       "lib/chroma.min.js",
       "background/colors.js",
-      "background/palette.js",
+      "background/images.js",
+      "background/notifications.js",
+      "background/options.js",
       "background/theme.js",
       "background/background.js"
     ]
