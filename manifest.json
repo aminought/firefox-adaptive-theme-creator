@@ -25,6 +25,7 @@
       "background/notifications.js",
       "background/options.js",
       "background/theme.js",
+      "background/cache.js",
       "background/background.js"
     ]
   },

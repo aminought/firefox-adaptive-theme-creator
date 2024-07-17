@@ -1,7 +1,8 @@
 // eslint-disable-next-line no-unused-vars
 class Theme {
-  constructor(options) {
+  constructor(options, cache) {
     this.options = options;
+    this.cache = cache;
     this.defaultThemeInfo = null;
     this.lastThemeInfo = null;
   }
@@ -31,7 +32,11 @@ class Theme {
     let tabFgColor = this.getDefaultTabForegroundColor();
 
     try {
-      const mostPopularColor = await getMostPopularColor(tab.favIconUrl);
+      let mostPopularColor = this.cache.get(tab.favIconUrl);
+      if (typeof mostPopularColor === "undefined") {
+        mostPopularColor = await getMostPopularColor(tab.favIconUrl);
+        this.cache.set(tab.favIconUrl, mostPopularColor);
+      }
       if (mostPopularColor) {
         tabBgColor = limitSaturation(mostPopularColor, saturationLimit);
         tabFgColor = calculateFgColor(tabBgColor);

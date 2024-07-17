@@ -1,7 +1,8 @@
 const options = new Options();
 
 options.load().then(async () => {
-  const theme = new Theme(options);
+  const cache = new Cache();
+  const theme = new Theme(options, cache);
   await theme.loadTheme();
   theme.update();
 
