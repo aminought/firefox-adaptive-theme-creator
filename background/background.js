@@ -20,6 +20,7 @@ options.load().then(async () => {
 
   browser.runtime.onMessage.addListener(async (message) => {
     if (message.event === "optionsUpdated") {
+      notifyOptionsUpdated();
       await options.load();
       theme.update();
     }

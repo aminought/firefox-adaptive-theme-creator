@@ -17,6 +17,7 @@ export default [
                 getMostPopularColor: "readonly",
                 limitSaturation: "readonly",
                 notifyNotCompatible: "readonly",
+                notifyOptionsUpdated: "readonly",
             },
         },
     },
