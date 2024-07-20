@@ -7,12 +7,13 @@ class Cache {
   }
 
   get(key) {
-    const value = this.cache.get(key);
-    if (typeof value !== "undefined") {
+    if (this.cache.has(key)) {
+      const value = this.cache.get(key);
       this.cache.delete(key);
       this.cache.set(key, value);
+      return value;
     }
-    return value;
+    return null;
   }
 
   set(key, value) {

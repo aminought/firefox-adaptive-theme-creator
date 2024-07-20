@@ -28,29 +28,47 @@ class Theme {
     }
 
     const saturationLimit = this.options.getSaturationLimit();
-    let tabBgColor = this.getDefaultTabBackgroundColor();
-    let tabFgColor = this.getDefaultTabForegroundColor();
+    let tabBgColor = null;
+    let tabFgColor = null;
 
     try {
-      let mostPopularColor = this.cache.get(tab.favIconUrl);
-      if (typeof mostPopularColor === "undefined") {
-        mostPopularColor = await getMostPopularColor(tab.favIconUrl);
-        this.cache.set(tab.favIconUrl, mostPopularColor);
-      }
-      if (mostPopularColor) {
+      const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
+      if (mostPopularColor !== null) {
         tabBgColor = limitSaturation(mostPopularColor, saturationLimit);
         tabFgColor = calculateFgColor(tabBgColor);
       }
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      tabBgColor = this.getDefaultTabBackgroundColor();
+      tabFgColor = this.getDefaultTabForegroundColor();
     } finally {
       const themeInfo = this.clone();
-      themeInfo.colors.tab_selected = tabBgColor ? tabBgColor.css() : null;
-      themeInfo.colors.tab_text = tabFgColor ? tabFgColor.css() : null;
+      if (tabBgColor !== null) {
+        themeInfo.colors.tab_selected = tabBgColor.css();
+      }
+      if (tabFgColor !== null) {
+        themeInfo.colors.tab_text = tabFgColor.css();
+      }
       if (themeInfo.images) {
         await fixImages(themeInfo.images);
       }
       this.lastThemeInfo = themeInfo;
       browser.theme.update(themeInfo);
     }
+  }
+
+  async getMostPopularColor(favIconUrl) {
+    let mostPopularColor = null;
+    if (this.options.getCacheEnabled()) {
+      mostPopularColor = this.cache.get(favIconUrl);
+    }
+    if (mostPopularColor === null) {
+      mostPopularColor = await getMostPopularColor(favIconUrl);
+      if (this.options.getCacheEnabled() && mostPopularColor !== null) {
+        this.cache.set(favIconUrl, mostPopularColor);
+      }
+    }
+    return mostPopularColor;
   }
 
   clone() {

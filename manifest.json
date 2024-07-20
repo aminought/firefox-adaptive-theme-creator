@@ -23,7 +23,7 @@
       "background/colors.js",
       "background/images.js",
       "background/notifications.js",
-      "background/options.js",
+      "options/options.js",
       "background/theme.js",
       "background/cache.js",
       "background/background.js"
@@ -31,7 +31,7 @@
   },
   
   "options_ui": {
-    "page": "options/options.html"
+    "page": "options/options_page.html"
   },
 
   "browser_specific_settings": {

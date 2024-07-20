@@ -41,9 +41,8 @@ const getColorPalette = (base64Image) => {
       try {
         const palette = extractPaletteFromImage(image, canvas, context);
         resolve(palette);
-        // eslint-disable-next-line no-unused-vars
       } catch (error) {
-        resolve([]);
+        reject(error);
       }
     };
 
@@ -54,13 +53,8 @@ const getColorPalette = (base64Image) => {
 
 // eslint-disable-next-line no-unused-vars
 const getMostPopularColor = async (base64Image) => {
-  try {
     const palette = await getColorPalette(base64Image);
     return palette.length ? chroma(palette[0]) : null;
-    // eslint-disable-next-line no-unused-vars
-  } catch (error) {
-    return null;
-  }
 };
 
 const fixDataUrl = (dataUrl) =>
