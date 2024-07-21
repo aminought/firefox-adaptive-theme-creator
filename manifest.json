@@ -37,7 +37,7 @@
   "browser_action": {
     "default_icon": "icons/icon.svg",
     "default_title": "Favicon Color",
-    "default_popup": "popup/options_page.html"
+    "default_popup": "popup/popup.html"
   },
 
   "browser_specific_settings": {

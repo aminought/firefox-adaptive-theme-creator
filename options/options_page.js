@@ -41,10 +41,36 @@ const resetOptions = async (e) => {
   restoreOptions();
 };
 
+const addSaturationLimitOptions = () => {
+  const select = document.querySelector("#saturationLimit");
+  for (let i = 0.1; i <= 1.0; i += 0.1) {
+    const option = document.createElement("option");
+    option.value = i.toFixed(1);
+    option.label = option.value;
+    select.appendChild(option);
+  }
+};
+
+const setColor = (property, color) => {
+  document.documentElement.style.setProperty(property, color);
+};
+
+const styleOptions = async () => {
+  const theme = await browser.theme.getCurrent();
+  if (!theme.colors) {
+    return;
+  }
+  setColor("--background-color", theme.colors.popup);
+  setColor("--color", theme.colors.popup_text);
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
+  addSaturationLimitOptions();
+  styleOptions();
   await options.load();
   restoreOptions();
   document.querySelector("#options").addEventListener("change", saveOptions);
-  document.querySelector("#reset-button").addEventListener("click", resetOptions);
+  document
+    .querySelector("#reset-button")
+    .addEventListener("click", resetOptions);
 });
-
