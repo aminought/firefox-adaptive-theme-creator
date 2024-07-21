@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Favicon Color Options</title>
-    <link rel="stylesheet" href="options_page.css">
+    <link rel="stylesheet" href="../options/options_page.css">
   </head>
   <body>
     <form id="options">
@@ -26,16 +26,6 @@
       <label for="changeDefaultTabColors">Change default tab colors</label>
       <br />
 
-      <div id="defaultTabColors">
-        <label for="defaultTabBgColor">Default tab background color:</label>
-        <input id="defaultTabBgColor" name="defaultTabBgColor" type="color" />
-        <br />
-
-        <label for="defaultTabFgColor">Default tab foreground color:</label>
-        <input id="defaultTabFgColor" name="defaultTabFgColor" type="color" />
-        <br /><br />
-      </div>
-
       <input id="cacheEnabled" name="cacheEnabled" type="checkbox" />
       <label for="cacheEnabled">Enable cache</label>
       <br /><br />
@@ -43,7 +33,7 @@
       <button id="reset-button" type="button">Reset</button>
     </form>
 
-    <script src="options.js"></script>
-    <script src="options_page.js"></script>
+    <script src="../options/options.js"></script>
+    <script src="../options/options_page.js"></script>
   </body>
 </html>

@@ -24,7 +24,7 @@ class Theme {
     }
 
     if (!tab) {
-      tab = await browser.tabs.query({ active: true, currentWindow: true })[0];
+      ([tab] = await browser.tabs.query({ active: true, currentWindow: true }));
     }
 
     const saturationLimit = this.options.getSaturationLimit();

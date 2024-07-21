@@ -16,8 +16,10 @@ class Options {
 
   async load() {
     const storage = await browser.storage.sync.get();
-    for (const key of this.keys()) {
-      this.copy(storage, key);
+    for (const key in storage) {
+      if (this.options.has(key)) {
+        this.set(key, storage[key]);
+      }
     }
   }
 
@@ -27,12 +29,6 @@ class Options {
       .then(() => {
         browser.runtime.sendMessage({ event: "optionsUpdated" });
       });
-  }
-
-  copy(storage, key) {
-    if (key in storage) {
-      this.options[key] = storage[key];
-    }
   }
 
   set(key, value) {
@@ -48,26 +44,26 @@ class Options {
   }
 
   getSaturationLimit() {
-    return this.options.saturationLimit;
+    return this.options.get('saturationLimit');
   }
 
   isChangeDefaultTabColorsEnabled() {
-    return this.options.changeDefaultTabColors;
+    return this.options.get('changeDefaultTabColors');
   }
 
   getDefaultTabBackgroundColor() {
     return this.isChangeDefaultTabColorsEnabled()
-      ? chroma(this.options.defaultTabBgColor)
+      ? chroma(this.options.get('defaultTabBgColor'))
       : null;
   }
 
   getDefaultTabForegroundColor() {
     return this.isChangeDefaultTabColorsEnabled()
-      ? chroma(this.options.defaultTabFgColor)
+      ? chroma(this.options.get('defaultTabFgColor'))
       : null;
   }
 
   getCacheEnabled() {
-    return this.options.cacheEnabled;
+    return this.options.get('cacheEnabled');
   }
 }

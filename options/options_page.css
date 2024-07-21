@@ -1,0 +1,3 @@
+#options:not(:has(#changeDefaultTabColors:checked)) #defaultTabColors {
+    display: none;
+}
