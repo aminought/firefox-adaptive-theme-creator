@@ -1,7 +1,6 @@
-const MAX_LENGTH = 100;
+export class Cache {
+  MAX_LENGTH = 100;
 
-// eslint-disable-next-line no-unused-vars
-class Cache {
   constructor() {
     this.cache = new Map();
   }
@@ -19,7 +18,7 @@ class Cache {
   set(key, value) {
     if (this.cache.has(key)) {
       this.cache.delete(key);
-    } else if (this.cache.size === MAX_LENGTH) {
+    } else if (this.cache.size === this.MAX_LENGTH) {
       this.cache.delete(this.first());
     }
     this.cache.set(key, value);
@@ -27,5 +26,9 @@ class Cache {
 
   first() {
     return this.cache.keys().next().value;
+  }
+
+  clear() {
+    this.cache.clear();
   }
 }

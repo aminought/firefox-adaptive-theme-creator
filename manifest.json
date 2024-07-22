@@ -20,14 +20,9 @@
   "background": {
     "scripts": [
       "lib/chroma.min.js",
-      "background/colors.js",
-      "background/images.js",
-      "background/notifications.js",
-      "options/options.js",
-      "background/theme.js",
-      "background/cache.js",
       "background/background.js"
-    ]
+    ],
+    "type": "module"
   },
   
   "options_ui": {

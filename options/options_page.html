@@ -7,43 +7,60 @@
   </head>
   <body>
     <form id="options">
-      <div class="row">
-        <label for="saturationLimit">Saturation limit:</label>
-        <select id="saturationLimit" name="saturationLimit"></select>
-      </div>
-
-      <div class="row">
-        <input
-          id="changeDefaultTabColors"
-          name="changeDefaultTabColors"
-          type="checkbox"
-        />
-        <label for="changeDefaultTabColors">Change default tab colors</label>
-      </div>
-
-      <div id="defaultTabColors">
+      <div class="group">
         <div class="row">
+          <label for="saturationLimit">Saturation limit:</label>
+          <select id="saturationLimit" name="saturationLimit"></select>
+        </div>
+      </div>
+
+      <div class="group collapsible">
+        <div class="row">
+          <label for="changeDefaultTabColors">Change default tab colors</label>
+          <input
+            id="changeDefaultTabColors"
+            name="changeDefaultTabColors"
+            type="checkbox"
+          />
+        </div>
+
+        <div class="row defaultTabColors">
           <label for="defaultTabBgColor">Default tab background color:</label>
           <input id="defaultTabBgColor" name="defaultTabBgColor" type="color" />
         </div>
 
-        <div class="row">
+        <div class="row defaultTabColors">
           <label for="defaultTabFgColor">Default tab foreground color:</label>
           <input id="defaultTabFgColor" name="defaultTabFgColor" type="color" />
         </div>
       </div>
 
-      <div class="row">
-        <input id="cacheEnabled" name="cacheEnabled" type="checkbox" />
-        <label for="cacheEnabled">Enable cache</label>
-      </div>
+      <div class="group collapsible">
+        <details>
+          <summary>Advanced</summary>
 
-      <br />
+          <div class="row">
+            <label for="cacheEnabled">Enable cache</label>
+            <input id="cacheEnabled" name="cacheEnabled" type="checkbox" />
+          </div>
+
+          <div class="row">
+            <label for="colorValueOffset">Color value offset: </label>
+            <input
+              id="colorValueOffset"
+              name="colorValueOffset"
+              type="number"
+              min="0"
+              max="255"
+            />
+          </div>
+        </details>
+      </div>
 
       <button id="reset-button" type="button">Reset</button>
     </form>
 
-    <script src="options.js"></script>
-    <script src="options_page.js"></script>
+    <script type="module" src="options.js"></script>
+    <script type="module" src="options_page.js"></script>
   </body>
 </html>

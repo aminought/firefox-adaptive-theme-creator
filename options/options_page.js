@@ -1,4 +1,5 @@
-const options = new Options();
+import { Options } from "./options.js";
+
 const form = document.getElementById("options");
 
 const getOption = (id) => {
@@ -16,7 +17,7 @@ const setOption = (id, value) => {
   }
 };
 
-const restoreOptions = () => {
+const restoreOptions = (options) => {
   for (const key of options.keys()) {
     if (key in form) {
       setOption(key, options.get(key));
@@ -24,7 +25,7 @@ const restoreOptions = () => {
   }
 };
 
-const saveOptions = async (e) => {
+const saveOptions = async (e, options) => {
   e.preventDefault();
   for (const key of options.keys()) {
     if (key in form) {
@@ -34,11 +35,11 @@ const saveOptions = async (e) => {
   await options.save();
 };
 
-const resetOptions = async (e) => {
+const resetOptions = async (e, options) => {
   e.preventDefault();
-  options.init();
+  options.reset();
   await options.save();
-  restoreOptions();
+  restoreOptions(options);
 };
 
 const addSaturationLimitOptions = () => {
@@ -65,12 +66,14 @@ const styleOptions = async () => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const options = await Options.load();
   addSaturationLimitOptions();
   styleOptions();
-  await options.load();
-  restoreOptions();
-  document.querySelector("#options").addEventListener("change", saveOptions);
+  restoreOptions(options);
+  document
+    .querySelector("#options")
+    .addEventListener("change", (e) => saveOptions(e, options));
   document
     .querySelector("#reset-button")
-    .addEventListener("click", resetOptions);
+    .addEventListener("click", (e) => resetOptions(e, options));
 });

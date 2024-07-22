@@ -9,11 +9,36 @@ body {
   padding: 4px;
 }
 
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.group.collapsible {
+  background-color: color-mix(in srgb, currentColor 5%, transparent);
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
 button {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
   border-radius: 4px;
-  border-width: 0px;
+  border-width: 0;
   padding: 4px 8px;
   font-weight: bold;
 }
@@ -26,9 +51,8 @@ select {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
   border-radius: 4px;
-  border-width: 0px;
-  padding: 4px 8px;
-  margin-left: 4px;
+  border-width: 0;
+  padding: 4px 0 4px 8px;
 }
 
 select:hover {
@@ -36,18 +60,11 @@ select:hover {
 }
 
 input[type="color"] {
-  margin-left: 4px;
   border: unset;
   outline: unset;
   height: 1.5em;
   width: 1.5em;
-  padding: 0px;
-}
-
-input[type="color"]:hover {
-  border: unset;
-  outline: unset;
-  padding: 0px;
+  padding: 0;
 }
 
 input[type="color"]::-moz-color-swatch {
@@ -56,16 +73,35 @@ input[type="color"]::-moz-color-swatch {
   box-shadow: inset 0 1px 1px var(--color);
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  margin-bottom: 4px;
+input[type="number"] {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border-radius: 4px;
+  border-width: 0;
+  padding: 4px 0 4px 8px;
 }
 
-#defaultTabColors {
-  margin-left: 25px;
+input[type="number"] {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-#options:not(:has(#changeDefaultTabColors:checked)) #defaultTabColors {
+#options:not(:has(#changeDefaultTabColors:checked)) .defaultTabColors {
   display: none;
+}
+
+.defaultTabColors {
+  margin-left: 24px;
+}
+
+details > summary {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+details > .row {
+  margin-left: 24px;
+}
+
+#reset-button {
+  width: fit-content;
 }

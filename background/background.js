@@ -1,35 +1,27 @@
-const options = new Options();
+import { Options } from "../options/options.js";
+import { Runtime } from "./runtime.js";
+import { Theme } from "../theme/theme.js";
 
-options.load().then(async () => {
-  const cache = new Cache();
-  const theme = new Theme(options, cache);
-  await theme.loadTheme();
-  theme.update();
+Options.load().then(async (options) => {
+  const theme = await Theme.load();
+  const runtime = new Runtime(options, theme);
 
-  browser.tabs.onActivated.addListener(async ({ tabId }) => {
-    const tab = await browser.tabs.get(tabId);
-    theme.update(tab);
+  runtime.updateTheme();
+
+  browser.tabs.onActivated.addListener(({ tabId }) => {
+    runtime.onTabActivated(tabId);
   });
 
   browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    if (changeInfo.status === "loading") {return;}
-    if (tab.active) {
-      theme.update(tab);
-    }
+    runtime.onTabUpdated(tabId, changeInfo, tab);
   });
 
-  browser.runtime.onMessage.addListener(async (message) => {
-    if (message.event === "optionsUpdated") {
-      await options.load();
-      theme.update();
-    }
+  browser.runtime.onMessage.addListener((message) => {
+    runtime.onMessage(message);
   });
 
-  browser.theme.onUpdated.addListener(async (updateInfo) => {
-    if (theme.isEqual(updateInfo.theme)) {
-      return;
-    }
-    await theme.loadTheme();
-    theme.update();
+  browser.theme.onUpdated.addListener((updateInfo) => {
+    const updatedTheme = new Theme(updateInfo.theme);
+    runtime.onThemeUpdated(updatedTheme);
   });
 });

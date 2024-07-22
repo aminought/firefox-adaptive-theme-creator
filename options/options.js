@@ -1,20 +1,30 @@
-// eslint-disable-next-line no-unused-vars
-class Options {
-  constructor() {
-    this.init();
+import { Color } from "../colors/color.js";
+
+export class Options {
+  DEFAULT_OPTIONS = new Map([
+    ["saturationLimit", 0.5],
+    ["changeDefaultTabColors", false],
+    ["defaultTabBgColor", "#d7d7db"],
+    ["defaultTabFgColor", "#4a4a4f"],
+    ["colorValueOffset", 15],
+    ["cacheEnabled", true],
+  ]);
+
+  constructor(storage) {
+    this.reset();
+    for (const key in storage) {
+      if (this.options.has(key)) {
+        this.set(key, storage[key]);
+      }
+    }
   }
 
-  init() {
-    this.options = new Map([
-      ["saturationLimit", 0.5],
-      ["changeDefaultTabColors", false],
-      ["defaultTabBgColor", "#d7d7db"],
-      ["defaultTabFgColor", "#4a4a4f"],
-      ["cacheEnabled", true],
-    ]);
+  static async load() {
+    const storage = await browser.storage.sync.get();
+    return new Options(storage);
   }
 
-  async load() {
+  async reload() {
     const storage = await browser.storage.sync.get();
     for (const key in storage) {
       if (this.options.has(key)) {
@@ -31,6 +41,10 @@ class Options {
       });
   }
 
+  reset() {
+    this.options = new Map(this.DEFAULT_OPTIONS);
+  }
+
   set(key, value) {
     this.options.set(key, value);
   }
@@ -44,26 +58,30 @@ class Options {
   }
 
   getSaturationLimit() {
-    return this.options.get('saturationLimit');
+    return this.options.get("saturationLimit");
   }
 
   isChangeDefaultTabColorsEnabled() {
-    return this.options.get('changeDefaultTabColors');
+    return this.options.get("changeDefaultTabColors");
   }
 
   getDefaultTabBackgroundColor() {
     return this.isChangeDefaultTabColorsEnabled()
-      ? chroma(this.options.get('defaultTabBgColor'))
+      ? new Color(this.options.get("defaultTabBgColor"))
       : null;
   }
 
   getDefaultTabForegroundColor() {
     return this.isChangeDefaultTabColorsEnabled()
-      ? chroma(this.options.get('defaultTabFgColor'))
+      ? new Color(this.options.get("defaultTabFgColor"))
       : null;
   }
 
+  getColorValueOffset() {
+    return this.options.get("colorValueOffset");
+  }
+
   getCacheEnabled() {
-    return this.options.get('cacheEnabled');
+    return this.options.get("cacheEnabled");
   }
 }
