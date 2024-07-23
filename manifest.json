@@ -8,8 +8,7 @@
   "permissions": [
     "theme",
     "tabs",
-    "storage",
-    "notifications"
+    "storage"
   ],
 
   "icons": {
@@ -32,7 +31,7 @@
   "browser_action": {
     "default_icon": "icons/icon.svg",
     "default_title": "Favicon Color",
-    "default_popup": "popup/popup.html"
+    "default_popup": "options/options_page.html"
   },
 
   "browser_specific_settings": {

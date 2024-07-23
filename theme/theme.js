@@ -61,7 +61,7 @@ export class Theme {
   }
 
   async fixImages() {
-    const {images} = this.themeInfo;
+    const { images } = this.themeInfo;
     if (images === null) {
       return;
     }
@@ -83,24 +83,13 @@ export class Theme {
     }
   }
 
-  getTabSelectedColor() {
-    return this.themeInfo.colors.tab_selected
-      ? new Color(this.themeInfo.colors.tab_selected)
-      : null;
+  getColor(part) {
+    const color = this.themeInfo.colors[part];
+    return color ? new Color(color) : null;
   }
 
-  getTabTextColor() {
-    return this.themeInfo.colors.tab_text
-      ? new Color(this.themeInfo.colors.tab_text)
-      : null;
-  }
-
-  setTabSelectedColor(color) {
-    this.themeInfo.colors.tab_selected = color.css();
-  }
-
-  setTabTextColor(color) {
-    this.themeInfo.colors.tab_text = color.css();
+  setColor(part, color) {
+    this.themeInfo.colors[part] = color.css();
   }
 
   clone() {

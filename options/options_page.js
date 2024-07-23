@@ -1,49 +1,25 @@
+import { BrowserPreview } from "./browser_preview.js";
+import { Color } from "../colors/color.js";
+import { ContextMenu } from "./context_menu.js";
+import { Form } from "./form.js";
 import { Options } from "./options.js";
+import { Theme } from "../theme/theme.js";
 
-const form = document.getElementById("options");
-
-const getOption = (id) => {
-  if (form[id].type === "checkbox") {
-    return form[id].checked;
-  }
-  return form[id].value;
-};
-
-const setOption = (id, value) => {
-  if (form[id].type === "checkbox") {
-    form[id].checked = value;
-  } else {
-    form[id].value = value;
-  }
-};
-
-const restoreOptions = (options) => {
-  for (const key of options.keys()) {
-    if (key in form) {
-      setOption(key, options.get(key));
-    }
-  }
-};
-
-const saveOptions = async (e, options) => {
+const onFormChange = async (e, options, form) => {
   e.preventDefault();
-  for (const key of options.keys()) {
-    if (key in form) {
-      options.set(key, getOption(key));
-    }
-  }
+  form.export(options);
   await options.save();
 };
 
-const resetOptions = async (e, options) => {
+const onFormReset = async (e, options, form) => {
   e.preventDefault();
   options.reset();
   await options.save();
-  restoreOptions(options);
+  form.import(options);
 };
 
-const addSaturationLimitOptions = () => {
-  const select = document.querySelector("#saturationLimit");
+const addSaturationLimitOptions = (selector) => {
+  const select = document.querySelector(selector);
   for (let i = 0.1; i <= 1.0; i += 0.1) {
     const option = document.createElement("option");
     option.value = i.toFixed(1);
@@ -52,28 +28,111 @@ const addSaturationLimitOptions = () => {
   }
 };
 
-const setColor = (property, color) => {
+const setRootColor = (property, color) => {
   document.documentElement.style.setProperty(property, color);
 };
 
-const styleOptions = async () => {
-  const theme = await browser.theme.getCurrent();
-  if (!theme.colors) {
+const stylePage = async (options) => {
+  const theme = await Theme.load();
+  if (!theme.isCompatible()) {
     return;
   }
-  setColor("--background-color", theme.colors.popup);
-  setColor("--color", theme.colors.popup_text);
+
+  setRootColor("--background-color", theme.getColor("popup")?.css());
+  setRootColor("--color", theme.getColor("popup_text")?.css());
+
+  const [tab] = await browser.tabs.query({ active: true });
+
+  for (const part of Options.PARTS) {
+    let color = theme.getColor(part);
+    let saturationLimit = options.getGlobalSaturationLimit();
+    if (tab.url.startsWith("about:") && options.isEnabled(part)) {
+      if (options.isCustomSaturationLimitEnabled(part)) {
+        saturationLimit = options.getCustomSaturationLimit(part);
+      }
+      color = new Color("red").limitSaturation(saturationLimit);
+    }
+    BrowserPreview.colorPart(part, color);
+  }
+};
+
+const loadContent = (options, form) => {
+  addSaturationLimitOptions("#saturation_limit");
+  addSaturationLimitOptions(".custom_saturation_limit");
+  form.import(options);
+};
+
+// eslint-disable-next-line max-params
+const onBrowserPreviewClick = (e, options, browserPreview, contextMenu) => {
+  e.preventDefault();
+  if (contextMenu.isOpened()) {
+    contextMenu.close();
+    return;
+  }
+
+  const { classList } = e.target;
+  let part = e.target.id;
+
+  if (classList.contains("placeholder")) {
+    part = "toolbar";
+  }
+
+  if (Options.PARTS.includes(part)) {
+    options.toggleEnabled(part);
+    options.save();
+  } else if (part === "appcontent" || part === "rickroll") {
+    browserPreview.rickroll();
+  }
+};
+
+const onBrowserPreviewContextMenu = (e, options, contextMenu) => {
+  e.preventDefault();
+  const { classList } = e.target;
+  let part = e.target.id;
+  if (classList.contains("placeholder")) {
+    part = "toolbar";
+  }
+  if (!Options.PARTS.includes(part)) {
+    return;
+  }
+  const saturationLimitEnabled = options.isCustomSaturationLimitEnabled(part);
+  const saturationLimit = options.getCustomSaturationLimit(part)
+    ? options.getCustomSaturationLimit(part)
+    : options.getGlobalSaturationLimit();
+
+  contextMenu.fillTitle(part);
+  contextMenu.fillSaturationLimitEnabled(part, saturationLimitEnabled);
+  contextMenu.fillSaturationLimit(part, saturationLimit);
+  contextMenu.open();
+
+  const body = document.querySelector("body");
+  contextMenu.positionInside(body, e.clientX, e.clientY);
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
   const options = await Options.load();
-  addSaturationLimitOptions();
-  styleOptions();
-  restoreOptions(options);
-  document
-    .querySelector("#options")
-    .addEventListener("change", (e) => saveOptions(e, options));
-  document
-    .querySelector("#reset-button")
-    .addEventListener("click", (e) => resetOptions(e, options));
+  const form = new Form();
+  const browserPreview = new BrowserPreview();
+  const contextMenu = new ContextMenu();
+  const resetButton = document.getElementById("reset_button");
+
+  loadContent(options, form);
+  stylePage(options);
+
+  form.onChange((e) => onFormChange(e, options, form));
+
+  resetButton.addEventListener("click", (e) => onFormReset(e, options, form));
+
+  browserPreview.onClick((e) =>
+    onBrowserPreviewClick(e, options, browserPreview, contextMenu)
+  );
+  browserPreview.onContextMenu((e) =>
+    onBrowserPreviewContextMenu(e, options, contextMenu)
+  );
+
+  browser.runtime.onMessage.addListener((message) => {
+    if (message.event === "themeUpdated") {
+      stylePage(options);
+    }
+  });
 });

@@ -3,35 +3,55 @@
   <head>
     <meta charset="UTF-8" />
     <title>Favicon Color Options</title>
-    <link rel="stylesheet" href="options_page.css" />
+    <link rel="stylesheet" href="../options/options_page.css" />
+    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <form id="options">
       <div class="group">
         <div class="row">
-          <label for="saturationLimit">Saturation limit:</label>
-          <select id="saturationLimit" name="saturationLimit"></select>
+          <label for="saturation_limit">Global saturation limit:</label>
+          <select id="saturation_limit" name="saturation_limit"></select>
         </div>
       </div>
 
-      <div class="group collapsible">
-        <div class="row">
-          <label for="changeDefaultTabColors">Change default tab colors</label>
-          <input
-            id="changeDefaultTabColors"
-            name="changeDefaultTabColors"
-            type="checkbox"
-          />
+      <div class="group">
+        <div id="browser_preview">
+          <div id="navigator">
+            <div id="frame">
+              <div id="tab_selected"></div>
+            </div>
+            <div id="toolbar">
+              <div class="toolbar-button"></div>
+              <div class="toolbar-button"></div>
+              <div class="placeholder"></div>
+              <div class="placeholder"></div>
+              <div id="toolbar_field"></div>
+              <div class="placeholder"></div>
+              <div class="placeholder"></div>
+              <div class="placeholder"></div>
+              <div class="toolbar-button"></div>
+              <div id="popup"></div>
+            </div>
+          </div>
+          <div id="browser">
+            <div id="sidebar"></div>
+            <div id="appcontent"></div>
+          </div>
         </div>
 
-        <div class="row defaultTabColors">
-          <label for="defaultTabBgColor">Default tab background color:</label>
-          <input id="defaultTabBgColor" name="defaultTabBgColor" type="color" />
-        </div>
-
-        <div class="row defaultTabColors">
-          <label for="defaultTabFgColor">Default tab foreground color:</label>
-          <input id="defaultTabFgColor" name="defaultTabFgColor" type="color" />
+        <div id="context_menu" class="hidden">
+          <label id="context_menu_title"></label>
+          <div class="row">
+            <label for="custom_saturation_limit_enabled"
+              >Use custom saturation limit</label
+            >
+            <input class="custom_saturation_limit_enabled" type="checkbox" />
+          </div>
+          <div class="row custom_saturation_limit_options">
+            <label>Custom saturation limit:</label>
+            <select class="custom_saturation_limit"></select>
+          </div>
         </div>
       </div>
 
@@ -40,15 +60,15 @@
           <summary>Advanced</summary>
 
           <div class="row">
-            <label for="cacheEnabled">Enable cache</label>
-            <input id="cacheEnabled" name="cacheEnabled" type="checkbox" />
+            <label for="cache_enabled">Enable cache</label>
+            <input id="cache_enabled" name="cache_enabled" type="checkbox" />
           </div>
 
           <div class="row">
-            <label for="colorValueOffset">Color value offset: </label>
+            <label for="color_value_offset">Color value offset: </label>
             <input
-              id="colorValueOffset"
-              name="colorValueOffset"
+              id="color_value_offset"
+              name="color_value_offset"
               type="number"
               min="0"
               max="255"
@@ -57,10 +77,16 @@
         </details>
       </div>
 
-      <button id="reset-button" type="button">Reset</button>
+      <button id="reset_button" type="button">Reset</button>
     </form>
 
-    <script type="module" src="options.js"></script>
-    <script type="module" src="options_page.js"></script>
+    <script src="../lib/chroma.min.js"></script>
+    <script type="module" src="../options/options.js"></script>
+    <script type="module" src="../colors/color.js"></script>
+    <script type="module" src="../theme/theme.js"></script>
+    <script type="module" src="./form.js"></script>
+    <script type="module" src="./browser_preview.js"></script>
+    <script type="module" src="./context_menu.js"></script>
+    <script type="module" src="../options/options_page.js"></script>
   </body>
 </html>

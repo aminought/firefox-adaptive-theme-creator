@@ -1,22 +1,48 @@
-import { Color } from "../colors/color.js";
-
 export class Options {
-  DEFAULT_OPTIONS = new Map([
-    ["saturationLimit", 0.5],
-    ["changeDefaultTabColors", false],
-    ["defaultTabBgColor", "#d7d7db"],
-    ["defaultTabFgColor", "#4a4a4f"],
-    ["colorValueOffset", 15],
-    ["cacheEnabled", true],
-  ]);
+  static PARTS = [
+    "tab_selected",
+    "sidebar",
+    "toolbar",
+    "toolbar_field",
+    "frame",
+    "popup",
+  ];
 
   constructor(storage) {
     this.reset();
     for (const key in storage) {
-      if (this.options.has(key)) {
+      if (key in this.options) {
         this.set(key, storage[key]);
       }
     }
+  }
+
+  static makeDefault() {
+    const options = {
+      saturation_limit: 0.5,
+      color_value_offset: 15,
+      cache_enabled: true,
+    };
+    Options.addPartOptions(options, "tab_selected", true);
+    Options.addPartOptions(options, "sidebar");
+    Options.addPartOptions(options, "toolbar");
+    Options.addPartOptions(options, "toolbar_field");
+    Options.addPartOptions(options, "frame");
+    Options.addPartOptions(options, "popup");
+    return options;
+  }
+
+  // eslint-disable-next-line max-params
+  static addPartOptions(
+    options,
+    part,
+    enabled = false,
+    saturationLimitEnabled = false,
+    saturationLimit = null
+  ) {
+    options[`${part}.enabled`] = enabled;
+    options[`${part}.saturation_limit.enabled`] = saturationLimitEnabled;
+    options[`${part}.saturation_limit`] = saturationLimit;
   }
 
   static async load() {
@@ -27,61 +53,71 @@ export class Options {
   async reload() {
     const storage = await browser.storage.sync.get();
     for (const key in storage) {
-      if (this.options.has(key)) {
+      if (key in this.options) {
         this.set(key, storage[key]);
       }
     }
   }
 
   async save() {
-    await browser.storage.sync
-      .set(Object.fromEntries(this.options))
-      .then(() => {
-        browser.runtime.sendMessage({ event: "optionsUpdated" });
-      });
+    await browser.storage.sync.set(this.options).then(() => {
+      browser.runtime.sendMessage({ event: "optionsUpdated" });
+    });
   }
 
   reset() {
-    this.options = new Map(this.DEFAULT_OPTIONS);
+    this.options = Options.makeDefault();
   }
 
   set(key, value) {
-    this.options.set(key, value);
+    this.options[key] = value;
   }
 
   get(key) {
-    return this.options.get(key);
+    return this.options[key];
   }
 
   keys() {
-    return this.options.keys();
+    return Object.keys(this.options);
   }
 
-  getSaturationLimit() {
-    return this.options.get("saturationLimit");
-  }
-
-  isChangeDefaultTabColorsEnabled() {
-    return this.options.get("changeDefaultTabColors");
-  }
-
-  getDefaultTabBackgroundColor() {
-    return this.isChangeDefaultTabColorsEnabled()
-      ? new Color(this.options.get("defaultTabBgColor"))
-      : null;
-  }
-
-  getDefaultTabForegroundColor() {
-    return this.isChangeDefaultTabColorsEnabled()
-      ? new Color(this.options.get("defaultTabFgColor"))
-      : null;
+  getGlobalSaturationLimit() {
+    return this.options.saturation_limit;
   }
 
   getColorValueOffset() {
-    return this.options.get("colorValueOffset");
+    return this.options.color_value_offset;
   }
 
   getCacheEnabled() {
-    return this.options.get("cacheEnabled");
+    return this.options.cache_enabled;
+  }
+
+  isEnabled(part) {
+    return this.options[`${part}.enabled`];
+  }
+
+  setEnabled(part, value) {
+    this.options[`${part}.enabled`] = value;
+  }
+
+  toggleEnabled(part) {
+    this.setEnabled(part, !this.isEnabled(part));
+  }
+
+  isCustomSaturationLimitEnabled(part) {
+    return this.options[`${part}.saturation_limit.enabled`];
+  }
+
+  setCustomSaturationLimitEnabled(part, value) {
+    this.options[`${part}.saturation_limit.enabled`] = value;
+  }
+
+  getCustomSaturationLimit(part) {
+    return this.options[`${part}.saturation_limit`];
+  }
+
+  setCustomSaturationLimit(part, value) {
+    this.options[`${part}.saturation_limit`] = value;
   }
 }

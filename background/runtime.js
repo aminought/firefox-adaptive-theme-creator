@@ -1,6 +1,6 @@
 import { Cache } from "./cache.js";
 import { ColorExtractor } from "../colors/color_extractor.js";
-import { Notifier } from "./notifier.js";
+import { Options } from "../options/options.js";
 
 export class Runtime {
   constructor(options, theme) {
@@ -10,10 +10,6 @@ export class Runtime {
     this.cache = new Cache();
     this.colorExtractor = new ColorExtractor(this.options);
     this.currentTheme = null;
-
-    if (!this.defaultTheme.isCompatible()) {
-      Notifier.notifyNotCompatible();
-    }
   }
 
   async updateTheme(tab) {
@@ -25,34 +21,36 @@ export class Runtime {
       [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     }
 
-    const saturationLimit = this.options.getSaturationLimit();
-    let tabBgColor = null;
-    let tabFgColor = null;
+    const saturationLimit = this.options.getGlobalSaturationLimit();
+    const colors = Object.fromEntries(
+      Options.PARTS.map((part) => [part, this.defaultTheme.getColor(part)])
+    );
 
     try {
       const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
       if (mostPopularColor !== null) {
-        tabBgColor = mostPopularColor.limitSaturation(saturationLimit);
-        tabFgColor = tabBgColor.getForeground();
+        for (const part of Options.PARTS) {
+          const color = mostPopularColor.limitSaturation(
+            this.options.isCustomSaturationLimitEnabled(part)
+              ? this.options.getCustomSaturationLimit(part)
+              : saturationLimit
+          );
+          colors[part] = color;
+        }
       }
       // eslint-disable-next-line no-unused-vars
-    } catch (error) {
-      tabBgColor =
-        this.options.getDefaultTabBackgroundColor() ||
-        this.defaultTheme.getTabSelectedColor();
-      tabFgColor =
-        this.options.getDefaultTabForegroundColor() ||
-        this.defaultTheme.getTabTextColor();
+    } catch (e) {
+      /* Empty */
     } finally {
       this.currentTheme = this.defaultTheme.clone();
-      if (tabBgColor !== null) {
-        this.currentTheme.setTabSelectedColor(tabBgColor);
-      }
-      if (tabFgColor !== null) {
-        this.currentTheme.setTabTextColor(tabFgColor);
+      for (const part of Options.PARTS) {
+        if (this.options.isEnabled(part) && colors[part] !== null) {
+          this.currentTheme.setColor(part, colors[part]);
+        }
       }
       await this.currentTheme.fixImages();
-      this.currentTheme.update();
+      await this.currentTheme.update();
+      browser.runtime.sendMessage({ event: "themeUpdated" });
     }
   }
 
