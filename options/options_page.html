@@ -2,99 +2,129 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Favicon Color Options</title>
+    <title>Favicon Color</title>
     <link rel="stylesheet" href="../options/options_page.css" />
     <link rel="stylesheet" href="popup.css" />
   </head>
+
   <body>
     <form id="options">
-      <div class="group">
-        <div class="row">
-          <label for="saturation_limit">Global saturation limit:</label>
-          <select id="saturation_limit" name="saturation_limit"></select>
-        </div>
-        <div class="row">
-          <label for="darken">Darken:</label>
-          <select id="darken" name="darken"></select>
-        </div>
-        <div class="row">
-          <label for="brighten">Brighten:</label>
-          <select id="brighten" name="brighten"></select>
-        </div>
-      </div>
-
-      <div class="group">
-        <div id="browser_preview">
-          <div id="navigator">
-            <div id="frame" class="part">
-              <div id="tab_selected" class="part"></div>
-            </div>
-            <div id="toolbar" class="part">
-              <div class="toolbar-button"></div>
-              <div class="toolbar-button"></div>
-              <div class="placeholder"></div>
-              <div class="placeholder"></div>
-              <div id="toolbar_field" class="part"></div>
-              <div class="placeholder"></div>
-              <div class="placeholder"></div>
-              <div class="placeholder"></div>
-              <div class="toolbar-button"></div>
-              <div id="popup" class="part"></div>
-            </div>
-          </div>
-          <div id="browser">
-            <div id="sidebar" class="part"></div>
-            <div id="appcontent" class="part"></div>
-          </div>
+      <div class="options_group">
+        <div class="option">
+          <label
+            class="option_title"
+            for="saturation_limit"
+            data-i18n="saturationLimit"
+          ></label>
+          <select
+            id="saturation_limit"
+            class="option_input"
+            name="saturation_limit"
+          ></select>
         </div>
 
-        <div id="context_menu" class="hidden">
-          <label id="context_menu_title"></label>
-          <div class="row">
-            <label for="custom_enabled">Customize browser part</label>
-            <input class="custom_enabled" type="checkbox" />
-          </div>
-          <div class="row custom_options">
-            <label>Saturation limit:</label>
-            <select class="custom_saturation_limit"></select>
-          </div>
-          <div class="row custom_options">
-            <label>Darken:</label>
-            <select class="custom_darken"></select>
-          </div>
-          <div class="row custom_options">
-            <label>Brighten:</label>
-            <select class="custom_brighten"></select>
-          </div>
+        <div class="option">
+          <label class="option_title" for="darken" data-i18n="darkness"></label>
+          <select class="option_input" id="darken" name="darken"></select>
+        </div>
+
+        <div class="option">
+          <label
+            class="option_title"
+            for="brighten"
+            data-i18n="brightness"
+          ></label>
+          <select class="option_input" id="brighten" name="brighten"></select>
         </div>
       </div>
 
-      <div class="group collapsible">
-        <details>
-          <summary>Advanced</summary>
-
-          <div class="row">
-            <label for="cache_enabled">Enable cache</label>
-            <input id="cache_enabled" name="cache_enabled" type="checkbox" />
+      <div id="browser_preview">
+        <div id="navigator">
+          <div id="frame" class="part">
+            <div id="tab_selected" class="part"></div>
           </div>
-
-          <div class="row">
-            <label for="color_value_offset">Color value offset: </label>
-            <input
-              id="color_value_offset"
-              name="color_value_offset"
-              type="number"
-              min="0"
-              max="255"
-            />
+          <div id="toolbar" class="part">
+            <div class="toolbar-button"></div>
+            <div class="toolbar-button"></div>
+            <div class="placeholder"></div>
+            <div class="placeholder"></div>
+            <div id="toolbar_field" class="part"></div>
+            <div class="placeholder"></div>
+            <div class="placeholder"></div>
+            <div class="placeholder"></div>
+            <div class="toolbar-button"></div>
+            <div id="popup" class="part"></div>
           </div>
-        </details>
+        </div>
+        <div id="browser">
+          <div id="sidebar" class="part"></div>
+          <div id="appcontent" class="part"></div>
+        </div>
       </div>
 
-      <button id="reset_button" type="button">Reset</button>
+      <div id="context_menu" class="hidden">
+        <label id="context_menu_title"></label>
+        <div class="option">
+          <label
+            class="option_title"
+            for="custom_enabled"
+            data-i18n="specialSettings"
+          ></label>
+          <input class="optoin_value custom_enabled" type="checkbox" />
+        </div>
+        <div class="option custom_options">
+          <label class="option_title" data-i18n="saturationLimit"></label>
+          <select class="option_input custom_saturation_limit"></select>
+        </div>
+        <div class="option custom_options">
+          <label class="option_title" data-i18n="darkness"></label>
+          <select class="option_input custom_darken"></select>
+        </div>
+        <div class="option custom_options">
+          <label class="option_title" data-i18n="brightness"></label>
+          <select class="option_input custom_brighten"></select>
+        </div>
+      </div>
+
+      <div class="options_group">
+        <div class="option">
+          <label
+            class="option_title"
+            for="cache_enabled"
+            data-i18n="enableCache"
+          ></label>
+          <input
+            id="cache_enabled"
+            class="option_input"
+            name="cache_enabled"
+            type="checkbox"
+          />
+        </div>
+
+        <div class="option">
+          <label
+            class="option_title"
+            for="color_value_offset"
+            data-i18n="colorValueOffset"
+          ></label>
+          <input
+            id="color_value_offset"
+            class="option_input"
+            name="color_value_offset"
+            type="number"
+            min="0"
+            max="255"
+          />
+        </div>
+      </div>
+
+      <div class="button right">
+        <button id="reset_button" type="button" data-i18n="reset"></button>
+      </div>
     </form>
 
     <script src="../lib/chroma.min.js"></script>
+    <script type="module" src="../options/localizer.js"></script>
     <script type="module" src="../options/options.js"></script>
     <script type="module" src="../colors/color.js"></script>
     <script type="module" src="../theme/theme.js"></script>

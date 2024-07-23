@@ -1,111 +1,24 @@
 html {
   --background-color: #f0f0f4; /* light 20 */
   --color: #42414d; /* dark 30 */
+  --radius: 4px;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--color);
   padding: 4px;
+  font: caption;
 }
 
-#options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.group.collapsible {
-  background-color: color-mix(in srgb, currentColor 5%, transparent);
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 4px;
-}
-
-button {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
-  color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
-  padding: 4px 8px;
-  font-weight: bold;
-}
-
-button:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
-}
-
-select {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
-  color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
-  padding: 4px 0 4px 8px;
-}
-
-select:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
-}
-
-input[type="color"] {
-  border: unset;
-  outline: unset;
-  height: 1.5em;
-  width: 1.5em;
-  padding: 0;
-}
-
-input[type="color"]::-moz-color-swatch {
-  border: none;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px var(--color);
-}
-
-input[type="number"] {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
-  color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
-  padding: 4px 0 4px 8px;
-}
-
-input[type="number"] {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
-}
-
-details > summary {
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-
-details > .row {
-  margin-left: 24px;
-}
-
-#reset_button {
-  width: fit-content;
-}
+/* browser preview */
 
 #browser_preview {
   display: flex;
   flex-direction: column;
   border: solid 1px;
-  border-radius: 4px;
+  border-radius: var(--radius);
   overflow: hidden;
-  width: 100%;
-  min-width: 400px;
   aspect-ratio: 16 / 9;
   background-color: var(--background-color);
 }
@@ -216,15 +129,88 @@ details > .row {
   aspect-ratio: 16 / 9;
 }
 
+/* options */
+
+#options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.options_group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  /* background-color: color-mix(in srgb, currentColor 20%, transparent); */
+  padding-left: 4px;
+  border-radius: var(--radius);
+  border: solid 1px;
+}
+
+.button.right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border: solid 1px;
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+select {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-width: 0 0 0 1px;
+  padding: 2px 0 2px 8px;
+}
+
+select:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+input[type="number"] {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-width: 0 0 0 1px;
+  padding: 2px 0 2px 8px;
+}
+
+input[type="number"] {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+/* context menu */
+
 #context_menu {
   display: flex;
   flex-direction: column;
   gap: 4px;
   position: absolute;
-  background-color: var(--background-color);
-  padding: 10px;
-  border-radius: 4px;
-  box-shadow: 0px 0px 2px var(--color);
+  background-color: transparent;
+  color: var(--color);
 }
 
 #context_menu.hidden {
@@ -237,4 +223,15 @@ details > .row {
 
 #context_menu_title {
   font-weight: bold;
+  background-color: var(--background-color);
+  color: var(--color);
+  border-radius: var(--radius);
+  padding: 4px;
+  width: fit-content;
+  border: 1px solid;
+}
+
+#context_menu .option {
+  background-color: var(--background-color);
+  color: var(--color);
 }

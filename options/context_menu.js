@@ -1,3 +1,5 @@
+import { Localizer } from "./localizer.js";
+
 export class ContextMenu {
   constructor() {
     this.menu = document.getElementById("context_menu");
@@ -23,7 +25,11 @@ export class ContextMenu {
   positionInside = (parent, clientX, clientY) => {
     const menuRect = this.menu.getBoundingClientRect();
     const parentRect = parent.getBoundingClientRect();
-    this.menu.style.top = `${clientY}px`;
+    if (clientY + menuRect.height > parentRect.bottom) {
+      this.menu.style.top = `${clientY - menuRect.height}px`;
+    } else {
+      this.menu.style.top = `${clientY}px`;
+    }
     if (clientX + menuRect.width > parentRect.right) {
       this.menu.style.left = `${clientX - menuRect.width}px`;
     } else {
@@ -32,7 +38,7 @@ export class ContextMenu {
   };
 
   fillTitle(part) {
-    this.title.innerHTML = part;
+    this.title.innerHTML = Localizer.getMessage(part);
   }
 
   fillCustomEnabled(part, value) {

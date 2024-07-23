@@ -2,6 +2,7 @@ import { BrowserPreview } from "./browser_preview.js";
 import { Color } from "../colors/color.js";
 import { ContextMenu } from "./context_menu.js";
 import { Form } from "./form.js";
+import { Localizer } from "./localizer.js";
 import { Options } from "./options.js";
 import { Theme } from "../theme/theme.js";
 
@@ -66,6 +67,7 @@ const stylePage = async (options) => {
 };
 
 const loadContent = (options, form) => {
+  Localizer.localizePage();
   addOptions("#saturation_limit", 0.1, 1.0, 0.1);
   addOptions("#darken", 0.0, 5.0, 0.5);
   addOptions("#brighten", 0.0, 5.0, 0.5);
@@ -135,6 +137,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = new Form();
   const browserPreview = new BrowserPreview();
   const contextMenu = new ContextMenu();
+  // const body = document.querySelector("body");
   const resetButton = document.getElementById("reset_button");
 
   loadContent(options, form);
@@ -150,6 +153,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   browserPreview.onContextMenu((e) =>
     onBrowserPreviewContextMenu(e, options, contextMenu)
   );
+
+  // body.addEventListener("click", () => {
+  //   if (contextMenu.isOpened()) {
+  //     contextMenu.close();
+  //   }
+  // });
 
   browser.runtime.onMessage.addListener((message) => {
     if (message.event === "themeUpdated") {

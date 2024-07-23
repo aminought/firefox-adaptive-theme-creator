@@ -1,0 +1,53 @@
+{
+    "extensionName": {
+        "message": "Favicon Color"
+    },
+    "extensionDescription": {
+        "message": "Вычисляет самый популярный цвет из иконки сайта и строит всю тему на его основе."
+    },
+    "globalOptions": {
+        "message": "Глобальные настройки"
+    },
+    "advancedOptions": {
+        "message": "Продвинутые настройки"
+    },
+    "enableCache": {
+        "message": "Включить кэш"
+    },
+    "colorValueOffset": {
+        "message": "Смещение значения цвета (0-255)"
+    },
+    "reset": {
+        "message": "Сбросить"
+    },
+    "sidebar": {
+        "message": "Боковая панель"
+    },
+    "toolbar": {
+        "message": "Панель инструментов"
+    },
+    "toolbar_field": {
+        "message": "Поле панели инструментов"
+    },
+    "tab_selected": {
+        "message": "Активная вкладка"
+    },
+    "frame": {
+        "message": "Рамка браузера"
+    },
+    "popup": {
+        "message": "Всплывающее окно"
+    },
+    "specialSettings": {
+        "message": "Отдельная настройка"
+    },
+    "saturationLimit": {
+        "message": "Насыщенность"
+    },
+    "darkness": {
+        "message": "Затемнение"
+    },
+    "brightness": {
+        "message": "Яркость"
+    }
+}

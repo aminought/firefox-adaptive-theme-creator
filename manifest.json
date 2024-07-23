@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Favicon Color",
+  "name": "__MSG_extensionName__",
   "version": "1.2",
 
-  "description": "Calculates the most popular favicon color for a website and applies it to the current tab.",
+  "description": "__MSG_extensionDescription__",
 
   "permissions": [
     "theme",
@@ -38,5 +38,7 @@
     "gecko": {
       "id": "{3aebb6e1-b5e5-440f-a5e7-1fe875078e3d}"
     }
-  }
+  },
+
+  "default_locale": "en"
 }
