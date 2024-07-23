@@ -36,9 +36,12 @@ const setRootColor = (property, color) => {
 
 const stylePage = async (options) => {
   const theme = await Theme.load();
+  const warning = document.getElementById('warning');
   if (!theme.isCompatible()) {
+    warning.classList.toggle('hidden', false);
     return;
   }
+  warning.classList.toggle('hidden', true);
 
   setRootColor("--background-color", theme.getColor("popup")?.css());
   setRootColor("--color", theme.getColor("popup_text")?.css());
@@ -137,7 +140,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const form = new Form();
   const browserPreview = new BrowserPreview();
   const contextMenu = new ContextMenu();
-  // const body = document.querySelector("body");
   const resetButton = document.getElementById("reset_button");
 
   loadContent(options, form);
@@ -153,12 +155,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   browserPreview.onContextMenu((e) =>
     onBrowserPreviewContextMenu(e, options, contextMenu)
   );
-
-  // body.addEventListener("click", () => {
-  //   if (contextMenu.isOpened()) {
-  //     contextMenu.close();
-  //   }
-  // });
 
   browser.runtime.onMessage.addListener((message) => {
     if (message.event === "themeUpdated") {
