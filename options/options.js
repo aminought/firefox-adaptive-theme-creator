@@ -19,7 +19,9 @@ export class Options {
 
   static makeDefault() {
     const options = {
-      saturation_limit: 0.5,
+      saturation_limit: '0.5',
+      darken: '0.0',
+      brighten: '0.0',
       color_value_offset: 15,
       cache_enabled: true,
     };
@@ -83,6 +85,14 @@ export class Options {
 
   getGlobalSaturationLimit() {
     return this.options.saturation_limit;
+  }
+
+  getGlobalDarken() {
+    return this.options.darken;
+  }
+
+  getGlobalBrighten() {
+    return this.options.brighten;
   }
 
   getColorValueOffset() {

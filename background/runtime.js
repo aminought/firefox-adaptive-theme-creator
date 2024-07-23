@@ -22,6 +22,8 @@ export class Runtime {
     }
 
     const saturationLimit = this.options.getGlobalSaturationLimit();
+    const darken = this.options.getGlobalDarken();
+    const brighten = this.options.getGlobalBrighten();
     const colors = Object.fromEntries(
       Options.PARTS.map((part) => [part, this.defaultTheme.getColor(part)])
     );
@@ -30,11 +32,14 @@ export class Runtime {
       const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
       if (mostPopularColor !== null) {
         for (const part of Options.PARTS) {
-          const color = mostPopularColor.limitSaturation(
-            this.options.isCustomSaturationLimitEnabled(part)
-              ? this.options.getCustomSaturationLimit(part)
-              : saturationLimit
-          );
+          const color = mostPopularColor
+            .limitSaturation(
+              this.options.isCustomSaturationLimitEnabled(part)
+                ? this.options.getCustomSaturationLimit(part)
+                : saturationLimit
+            )
+            .darken(darken)
+            .brighten(brighten);
           colors[part] = color;
         }
       }

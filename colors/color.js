@@ -16,6 +16,14 @@ export class Color {
     return new Color(color);
   }
 
+  darken(value) {
+    return new Color(this.color.darken(value));
+  }
+
+  brighten(value) {
+    return new Color(this.color.brighten(value));
+  }
+
   css() {
     return this.color.css();
   }

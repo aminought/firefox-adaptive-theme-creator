@@ -18,11 +18,12 @@ const onFormReset = async (e, options, form) => {
   form.import(options);
 };
 
-const addSaturationLimitOptions = (selector) => {
+// eslint-disable-next-line max-params
+const addOptions = (selector, start, end, step, fixed = 1) => {
   const select = document.querySelector(selector);
-  for (let i = 0.1; i <= 1.0; i += 0.1) {
+  for (let i = start; i <= end; i += step) {
     const option = document.createElement("option");
-    option.value = i.toFixed(1);
+    option.value = i.toFixed(fixed);
     option.label = option.value;
     select.appendChild(option);
   }
@@ -46,19 +47,26 @@ const stylePage = async (options) => {
   for (const part of Options.PARTS) {
     let color = theme.getColor(part);
     let saturationLimit = options.getGlobalSaturationLimit();
+    const darken = options.getGlobalDarken();
+    const brighten = options.getGlobalBrighten();
     if (tab.url.startsWith("about:") && options.isEnabled(part)) {
       if (options.isCustomSaturationLimitEnabled(part)) {
         saturationLimit = options.getCustomSaturationLimit(part);
       }
-      color = new Color("red").limitSaturation(saturationLimit);
+      color = new Color("red")
+        .limitSaturation(saturationLimit)
+        .darken(darken)
+        .brighten(brighten);
     }
     BrowserPreview.colorPart(part, color);
   }
 };
 
 const loadContent = (options, form) => {
-  addSaturationLimitOptions("#saturation_limit");
-  addSaturationLimitOptions(".custom_saturation_limit");
+  addOptions("#saturation_limit", 0.1, 1.0, 0.1);
+  addOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
+  addOptions("#darken", 0.0, 5.0, 0.5);
+  addOptions("#brighten", 0.0, 5.0, 0.5);
   form.import(options);
 };
 
