@@ -12,6 +12,7 @@ export class Runtime {
     this.currentTheme = null;
   }
 
+  // eslint-disable-next-line max-lines-per-function
   async updateTheme(tab) {
     if (!this.defaultTheme.isCompatible()) {
       return;
@@ -24,27 +25,38 @@ export class Runtime {
     const saturationLimit = this.options.getGlobalSaturationLimit();
     const darken = this.options.getGlobalDarken();
     const brighten = this.options.getGlobalBrighten();
+
+    const backgroundParts = Options.getBackgroundParts();
+    const foregroundParts = Options.getBackgroundParts().map((part) =>
+      Options.getForegroundPart(part)
+    );
     const colors = Object.fromEntries(
-      Options.PARTS.map((part) => [part, this.defaultTheme.getColor(part)])
+      backgroundParts
+        .concat(foregroundParts)
+        .map((part) => [part, this.defaultTheme.getColor(part)])
     );
 
     try {
       const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
       if (mostPopularColor !== null) {
-        for (const part of Options.PARTS) {
+        for (const backgroundPart of Options.getBackgroundParts()) {
           let customSaturationLimit = saturationLimit;
           let customDarken = darken;
           let customBrighten = brighten;
-          if (this.options.isCustomEnabled(part)) {
-            customSaturationLimit = this.options.getCustomSaturationLimit(part);
-            customDarken = this.options.getCustomDarken(part);
-            customBrighten = this.options.getCustomBrighten(part);
+          if (this.options.isCustomEnabled(backgroundPart)) {
+            customSaturationLimit =
+              this.options.getCustomSaturationLimit(backgroundPart);
+            customDarken = this.options.getCustomDarken(backgroundPart);
+            customBrighten = this.options.getCustomBrighten(backgroundPart);
           }
-          const color = mostPopularColor
+          const backgroundColor = mostPopularColor
             .limitSaturation(customSaturationLimit)
             .darken(customDarken)
             .brighten(customBrighten);
-          colors[part] = color;
+          colors[backgroundPart] = backgroundColor;
+
+          const foregroundPart = Options.getForegroundPart(backgroundPart);
+          colors[foregroundPart] = backgroundColor.getForeground();
         }
       }
       // eslint-disable-next-line no-unused-vars
@@ -52,9 +64,14 @@ export class Runtime {
       /* Empty */
     } finally {
       this.currentTheme = this.defaultTheme.clone();
-      for (const part of Options.PARTS) {
-        if (this.options.isEnabled(part) && colors[part] !== null) {
-          this.currentTheme.setColor(part, colors[part]);
+      for (const backgroundPart of Options.getBackgroundParts()) {
+        if (
+          this.options.isEnabled(backgroundPart) &&
+          colors[backgroundPart] !== null
+        ) {
+          const foregroundPart = Options.getForegroundPart(backgroundPart);
+          this.currentTheme.setColor(backgroundPart, colors[backgroundPart]);
+          this.currentTheme.setColor(foregroundPart, colors[foregroundPart]);
         }
       }
       await this.currentTheme.fixImages();

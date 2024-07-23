@@ -1,12 +1,12 @@
 export class Options {
-  static PARTS = [
-    "tab_selected",
-    "sidebar",
-    "toolbar",
-    "toolbar_field",
-    "frame",
-    "popup",
-  ];
+  static PARTS = {
+    tab_selected: "tab_text",
+    sidebar: "sidebar_text",
+    toolbar: "icons",
+    toolbar_field: "toolbar_field_text",
+    frame: "tab_background_text",
+    popup: "popup_text",
+  };
 
   constructor(storage) {
     this.reset();
@@ -19,9 +19,9 @@ export class Options {
 
   static makeDefault() {
     const options = {
-      saturation_limit: '0.5',
-      darken: '0.0',
-      brighten: '0.0',
+      saturation_limit: "0.5",
+      darken: "0.0",
+      brighten: "0.0",
       color_value_offset: 15,
       cache_enabled: true,
     };
@@ -34,11 +34,7 @@ export class Options {
     return options;
   }
 
-  static addPartOptions(
-    options,
-    part,
-    enabled = false,
-  ) {
+  static addPartOptions(options, part, enabled = false) {
     options[`${part}.enabled`] = enabled;
     options[`${part}.custom_enabled`] = false;
     options[`${part}.saturation_limit`] = null;
@@ -144,5 +140,13 @@ export class Options {
 
   setCustomBrighten(part, value) {
     this.options[`${part}.brighten`] = value;
+  }
+
+  static getBackgroundParts() {
+    return Object.keys(Options.PARTS);
+  }
+
+  static getForegroundPart(part) {
+    return Options.PARTS[part];
   }
 }

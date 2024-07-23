@@ -44,7 +44,7 @@ const stylePage = async (options) => {
 
   const [tab] = await browser.tabs.query({ active: true });
 
-  for (const part of Options.PARTS) {
+  for (const part of Options.getBackgroundParts()) {
     let color = theme.getColor(part);
     let saturationLimit = options.getGlobalSaturationLimit();
     let darken = options.getGlobalDarken();
@@ -89,7 +89,7 @@ const onBrowserPreviewClick = (e, options, browserPreview, contextMenu) => {
     part = "toolbar";
   }
 
-  if (Options.PARTS.includes(part)) {
+  if (Options.getBackgroundParts().includes(part)) {
     options.toggleEnabled(part);
     options.save();
   } else if (part === "appcontent" || part === "rickroll") {
@@ -104,7 +104,7 @@ const onBrowserPreviewContextMenu = (e, options, contextMenu) => {
   if (classList.contains("placeholder")) {
     part = "toolbar";
   }
-  if (!Options.PARTS.includes(part)) {
+  if (!Options.getBackgroundParts().includes(part)) {
     return;
   }
   const customEnabled = options.isCustomEnabled(part);
