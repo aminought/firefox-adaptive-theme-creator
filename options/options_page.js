@@ -61,6 +61,7 @@ const stylePage = async (options) => {
         .brighten(brighten);
     }
     BrowserPreview.colorPart(part, color);
+    BrowserPreview.markChanged(part, options.isEnabled(part));
   }
 };
 

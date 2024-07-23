@@ -103,6 +103,7 @@ details > .row {
   flex-direction: column;
   border: solid 1px;
   border-radius: 4px;
+  overflow: hidden;
   width: 100%;
   min-width: 400px;
   aspect-ratio: 16 / 9;
@@ -202,13 +203,17 @@ details > .row {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
 }
 
+.part.changed {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0 5px,
+    rgba(255, 255, 255, 0.25) 5px 10px
+  );
+}
+
 #rickroll {
   max-width: 100%;
   aspect-ratio: 16 / 9;
-}
-
-.colorized {
-  background-color: red !important;
 }
 
 #context_menu {
@@ -226,8 +231,7 @@ details > .row {
   display: none;
 }
 
-#context_menu:not(:has(.custom_enabled:checked))
-  > .custom_options {
+#context_menu:not(:has(.custom_enabled:checked)) > .custom_options {
   display: none;
 }
 

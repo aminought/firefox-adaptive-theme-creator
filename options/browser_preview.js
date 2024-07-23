@@ -10,6 +10,11 @@ export class BrowserPreview {
     element.style.backgroundColor = color?.css();
   }
 
+  static markChanged(part, value) {
+    const element = document.getElementById(part);
+    element.classList.toggle('changed', value);
+  }
+
   showPopup() {
     this.popup.classList.toggle("hidden", false);
   }
