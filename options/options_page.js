@@ -47,11 +47,13 @@ const stylePage = async (options) => {
   for (const part of Options.PARTS) {
     let color = theme.getColor(part);
     let saturationLimit = options.getGlobalSaturationLimit();
-    const darken = options.getGlobalDarken();
-    const brighten = options.getGlobalBrighten();
+    let darken = options.getGlobalDarken();
+    let brighten = options.getGlobalBrighten();
     if (tab.url.startsWith("about:") && options.isEnabled(part)) {
-      if (options.isCustomSaturationLimitEnabled(part)) {
+      if (options.isCustomEnabled(part)) {
         saturationLimit = options.getCustomSaturationLimit(part);
+        darken = options.getCustomDarken(part);
+        brighten = options.getCustomBrighten(part);
       }
       color = new Color("red")
         .limitSaturation(saturationLimit)
@@ -64,9 +66,11 @@ const stylePage = async (options) => {
 
 const loadContent = (options, form) => {
   addOptions("#saturation_limit", 0.1, 1.0, 0.1);
-  addOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
   addOptions("#darken", 0.0, 5.0, 0.5);
   addOptions("#brighten", 0.0, 5.0, 0.5);
+  addOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
+  addOptions(".custom_darken", 0.0, 5.0, 0.5);
+  addOptions(".custom_brighten", 0.0, 5.0, 0.5);
   form.import(options);
 };
 
@@ -103,14 +107,22 @@ const onBrowserPreviewContextMenu = (e, options, contextMenu) => {
   if (!Options.PARTS.includes(part)) {
     return;
   }
-  const saturationLimitEnabled = options.isCustomSaturationLimitEnabled(part);
+  const customEnabled = options.isCustomEnabled(part);
   const saturationLimit = options.getCustomSaturationLimit(part)
     ? options.getCustomSaturationLimit(part)
     : options.getGlobalSaturationLimit();
+  const darken = options.getCustomDarken(part)
+    ? options.getCustomDarken(part)
+    : options.getGlobalDarken();
+  const brighten = options.getCustomBrighten(part)
+    ? options.getCustomBrighten(part)
+    : options.getGlobalBrighten();
 
   contextMenu.fillTitle(part);
-  contextMenu.fillSaturationLimitEnabled(part, saturationLimitEnabled);
+  contextMenu.fillCustomEnabled(part, customEnabled);
   contextMenu.fillSaturationLimit(part, saturationLimit);
+  contextMenu.fillDarken(part, darken);
+  contextMenu.fillBrighten(part, brighten);
   contextMenu.open();
 
   const body = document.querySelector("body");

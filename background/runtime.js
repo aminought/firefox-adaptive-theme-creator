@@ -32,14 +32,18 @@ export class Runtime {
       const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
       if (mostPopularColor !== null) {
         for (const part of Options.PARTS) {
+          let customSaturationLimit = saturationLimit;
+          let customDarken = darken;
+          let customBrighten = brighten;
+          if (this.options.isCustomEnabled(part)) {
+            customSaturationLimit = this.options.getCustomSaturationLimit(part);
+            customDarken = this.options.getCustomDarken(part);
+            customBrighten = this.options.getCustomBrighten(part);
+          }
           const color = mostPopularColor
-            .limitSaturation(
-              this.options.isCustomSaturationLimitEnabled(part)
-                ? this.options.getCustomSaturationLimit(part)
-                : saturationLimit
-            )
-            .darken(darken)
-            .brighten(brighten);
+            .limitSaturation(customSaturationLimit)
+            .darken(customDarken)
+            .brighten(customBrighten);
           colors[part] = color;
         }
       }

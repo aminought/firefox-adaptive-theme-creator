@@ -34,17 +34,16 @@ export class Options {
     return options;
   }
 
-  // eslint-disable-next-line max-params
   static addPartOptions(
     options,
     part,
     enabled = false,
-    saturationLimitEnabled = false,
-    saturationLimit = null
   ) {
     options[`${part}.enabled`] = enabled;
-    options[`${part}.saturation_limit.enabled`] = saturationLimitEnabled;
-    options[`${part}.saturation_limit`] = saturationLimit;
+    options[`${part}.custom_enabled`] = false;
+    options[`${part}.saturation_limit`] = null;
+    options[`${part}.darken`] = null;
+    options[`${part}.brighten`] = null;
   }
 
   static async load() {
@@ -115,12 +114,12 @@ export class Options {
     this.setEnabled(part, !this.isEnabled(part));
   }
 
-  isCustomSaturationLimitEnabled(part) {
-    return this.options[`${part}.saturation_limit.enabled`];
+  isCustomEnabled(part) {
+    return this.options[`${part}.custom_enabled`];
   }
 
-  setCustomSaturationLimitEnabled(part, value) {
-    this.options[`${part}.saturation_limit.enabled`] = value;
+  setCustomEnabled(part, value) {
+    this.options[`${part}.custom_enabled`] = value;
   }
 
   getCustomSaturationLimit(part) {
@@ -129,5 +128,21 @@ export class Options {
 
   setCustomSaturationLimit(part, value) {
     this.options[`${part}.saturation_limit`] = value;
+  }
+
+  getCustomDarken(part) {
+    return this.options[`${part}.darken`];
+  }
+
+  setCustomDarken(part, value) {
+    this.options[`${part}.darken`] = value;
+  }
+
+  getCustomBrighten(part) {
+    return this.options[`${part}.brighten`];
+  }
+
+  setCustomBrighten(part, value) {
+    this.options[`${part}.brighten`] = value;
   }
 }

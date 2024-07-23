@@ -226,8 +226,8 @@ details > .row {
   display: none;
 }
 
-#context_menu:not(:has(.custom_saturation_limit_enabled:checked))
-  > .custom_saturation_limit_options {
+#context_menu:not(:has(.custom_enabled:checked))
+  > .custom_options {
   display: none;
 }
 
