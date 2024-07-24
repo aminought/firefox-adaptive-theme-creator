@@ -26,14 +26,11 @@ export class Runtime {
     const darken = this.options.getGlobalDarken();
     const brighten = this.options.getGlobalBrighten();
 
-    const backgroundParts = Options.getBackgroundParts();
-    const foregroundParts = Options.getBackgroundParts().map((part) =>
-      Options.getForegroundPart(part)
-    );
     const colors = Object.fromEntries(
-      backgroundParts
-        .concat(foregroundParts)
-        .map((part) => [part, this.defaultTheme.getColor(part)])
+      Options.getAllParts().map((part) => [
+        part,
+        this.defaultTheme.getColor(part),
+      ])
     );
 
     try {
@@ -55,8 +52,15 @@ export class Runtime {
             .brighten(customBrighten);
           colors[backgroundPart] = backgroundColor;
 
-          const foregroundPart = Options.getForegroundPart(backgroundPart);
-          colors[foregroundPart] = backgroundColor.getForeground();
+          const foregroundParts = Options.getForegroundParts(backgroundPart);
+          for (const foregroundPart of foregroundParts) {
+            colors[foregroundPart] = backgroundColor.getForeground();
+          }
+
+          const connectedParts = Options.getConnectedParts(backgroundPart);
+          for (const connectedPart of connectedParts) {
+            colors[connectedPart] = backgroundColor;
+          }
         }
       }
       // eslint-disable-next-line no-unused-vars
@@ -69,9 +73,15 @@ export class Runtime {
           this.options.isEnabled(backgroundPart) &&
           colors[backgroundPart] !== null
         ) {
-          const foregroundPart = Options.getForegroundPart(backgroundPart);
           this.currentTheme.setColor(backgroundPart, colors[backgroundPart]);
-          this.currentTheme.setColor(foregroundPart, colors[foregroundPart]);
+          const foregroundParts = Options.getForegroundParts(backgroundPart);
+          for (const foregroundPart of foregroundParts) {
+            this.currentTheme.setColor(foregroundPart, colors[foregroundPart]);
+          }
+          const connectedParts = Options.getConnectedParts(backgroundPart);
+          for (const connectedPart of connectedParts) {
+            this.currentTheme.setColor(connectedPart, colors[connectedPart]);
+          }
         }
       }
       await this.currentTheme.fixImages();

@@ -1,11 +1,29 @@
 export class Options {
   static PARTS = {
-    tab_selected: "tab_text",
-    sidebar: "sidebar_text",
-    toolbar: "icons",
-    toolbar_field: "toolbar_field_text",
-    frame: "tab_background_text",
-    popup: "popup_text",
+    tab_selected: {
+      connected_parts: [],
+      foreground_parts: ["tab_text"],
+    },
+    sidebar: {
+      connected_parts: [],
+      foreground_parts: ["sidebar_text"],
+    },
+    toolbar: {
+      connected_parts: [],
+      foreground_parts: ["icons"],
+    },
+    toolbar_field: {
+      connected_parts: ["toolbar_field_focus"],
+      foreground_parts: ["toolbar_field_text"],
+    },
+    frame: {
+      connected_parts: [],
+      foreground_parts: ["tab_background_text"],
+    },
+    popup: {
+      connected_parts: [],
+      foreground_parts: ["popup_text"],
+    },
   };
 
   constructor(storage) {
@@ -146,7 +164,20 @@ export class Options {
     return Object.keys(Options.PARTS);
   }
 
-  static getForegroundPart(part) {
-    return Options.PARTS[part];
+  static getForegroundParts(part) {
+    return Options.PARTS[part].foreground_parts;
+  }
+
+  static getConnectedParts(part) {
+    return Options.PARTS[part].connected_parts;
+  }
+
+  static getAllParts() {
+    let parts = Options.getBackgroundParts();
+    for (const backgroundPart of Options.getBackgroundParts()) {
+      parts = parts.concat(Options.getForegroundParts(backgroundPart));
+      parts = parts.concat(Options.getConnectedParts(backgroundPart));
+    }
+    return parts;
   }
 }
