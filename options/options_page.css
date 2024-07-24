@@ -228,6 +228,11 @@ select:hover {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
+select > option {
+  background-color: var(--background-color);
+  color: var(--color);
+}
+
 input[type="number"] {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
