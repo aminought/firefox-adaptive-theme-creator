@@ -1,6 +1,6 @@
 import { Cache } from "./cache.js";
 import { ColorExtractor } from "../colors/color_extractor.js";
-import { Notifier } from "./notifier.js";
+import { Options } from "../options/options.js";
 
 export class Runtime {
   constructor(options, theme) {
@@ -10,12 +10,9 @@ export class Runtime {
     this.cache = new Cache();
     this.colorExtractor = new ColorExtractor(this.options);
     this.currentTheme = null;
-
-    if (!this.defaultTheme.isCompatible()) {
-      Notifier.notifyNotCompatible();
-    }
   }
 
+  // eslint-disable-next-line max-lines-per-function
   async updateTheme(tab) {
     if (!this.defaultTheme.isCompatible()) {
       return;
@@ -25,34 +22,61 @@ export class Runtime {
       [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     }
 
-    const saturationLimit = this.options.getSaturationLimit();
-    let tabBgColor = null;
-    let tabFgColor = null;
+    const saturationLimit = this.options.getGlobalSaturationLimit();
+    const darken = this.options.getGlobalDarken();
+    const brighten = this.options.getGlobalBrighten();
+
+    const backgroundParts = Options.getBackgroundParts();
+    const foregroundParts = Options.getBackgroundParts().map((part) =>
+      Options.getForegroundPart(part)
+    );
+    const colors = Object.fromEntries(
+      backgroundParts
+        .concat(foregroundParts)
+        .map((part) => [part, this.defaultTheme.getColor(part)])
+    );
 
     try {
       const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
       if (mostPopularColor !== null) {
-        tabBgColor = mostPopularColor.limitSaturation(saturationLimit);
-        tabFgColor = tabBgColor.getForeground();
+        for (const backgroundPart of Options.getBackgroundParts()) {
+          let customSaturationLimit = saturationLimit;
+          let customDarken = darken;
+          let customBrighten = brighten;
+          if (this.options.isCustomEnabled(backgroundPart)) {
+            customSaturationLimit =
+              this.options.getCustomSaturationLimit(backgroundPart);
+            customDarken = this.options.getCustomDarken(backgroundPart);
+            customBrighten = this.options.getCustomBrighten(backgroundPart);
+          }
+          const backgroundColor = mostPopularColor
+            .limitSaturation(customSaturationLimit)
+            .darken(customDarken)
+            .brighten(customBrighten);
+          colors[backgroundPart] = backgroundColor;
+
+          const foregroundPart = Options.getForegroundPart(backgroundPart);
+          colors[foregroundPart] = backgroundColor.getForeground();
+        }
       }
       // eslint-disable-next-line no-unused-vars
-    } catch (error) {
-      tabBgColor =
-        this.options.getDefaultTabBackgroundColor() ||
-        this.defaultTheme.getTabSelectedColor();
-      tabFgColor =
-        this.options.getDefaultTabForegroundColor() ||
-        this.defaultTheme.getTabTextColor();
+    } catch (e) {
+      /* Empty */
     } finally {
       this.currentTheme = this.defaultTheme.clone();
-      if (tabBgColor !== null) {
-        this.currentTheme.setTabSelectedColor(tabBgColor);
-      }
-      if (tabFgColor !== null) {
-        this.currentTheme.setTabTextColor(tabFgColor);
+      for (const backgroundPart of Options.getBackgroundParts()) {
+        if (
+          this.options.isEnabled(backgroundPart) &&
+          colors[backgroundPart] !== null
+        ) {
+          const foregroundPart = Options.getForegroundPart(backgroundPart);
+          this.currentTheme.setColor(backgroundPart, colors[backgroundPart]);
+          this.currentTheme.setColor(foregroundPart, colors[foregroundPart]);
+        }
       }
       await this.currentTheme.fixImages();
-      this.currentTheme.update();
+      await this.currentTheme.update();
+      browser.runtime.sendMessage({ event: "themeUpdated" });
     }
   }
 

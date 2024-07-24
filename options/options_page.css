@@ -1,44 +1,212 @@
 html {
   --background-color: #f0f0f4; /* light 20 */
   --color: #42414d; /* dark 30 */
+  --radius: 4px;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--color);
-  padding: 4px;
+  font: caption;
+  position: relative;
 }
+
+/* warning */
+
+#warning {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 0, 0, 0) 0 5px,
+    rgba(255, 0, 0, 0.5) 5px 10px
+  );
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+}
+
+#warning.hidden {
+  display: none;
+}
+
+#warning_text {
+  z-index: 11;
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 16px;
+  background-color: color-mix(
+    in srgb,
+    var(--background-color) 90%,
+    transparent
+  );
+  width: fit-content;
+  height: fit-content;
+  max-width: 70%;
+  font-size: 1.1em;
+}
+
+/* browser preview */
+
+#browser_preview {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background-color: var(--background-color);
+}
+
+#navigator {
+  display: flex;
+  flex-direction: column;
+  border-bottom: solid 1px;
+  flex: 1;
+  background-color: var(--background-color);
+}
+
+#frame {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-bottom: solid 1px;
+  flex: 1;
+  padding: 2px 5px;
+  background-color: var(--background-color);
+}
+
+#tab_selected {
+  border: solid 1px;
+  border-radius: 2px;
+  width: 10%;
+  height: 90%;
+  background-color: var(--background-color);
+}
+
+#toolbar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  padding: 2px;
+  gap: 5px;
+  background-color: var(--background-color);
+}
+
+.toolbar-button {
+  border-radius: 100%;
+  height: 70%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color);
+}
+
+.placeholder {
+  height: 90%;
+  aspect-ratio: 1 / 1;
+  background-color: transparent;
+}
+
+#toolbar_field {
+  flex: 1;
+  border: solid 1px;
+  border-radius: 2px;
+  height: 90%;
+  background-color: var(--background-color);
+}
+
+#popup {
+  position: absolute;
+  width: 15%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid;
+  border-radius: 4px;
+  right: calc(0% + 1px);
+  top: calc(100% - 1px);
+  background-color: var(--background-color);
+}
+
+#popup.hidden {
+  display: none;
+}
+
+#browser {
+  display: flex;
+  flex-direction: row;
+  flex: 6;
+  background-color: var(--background-color);
+}
+
+#sidebar {
+  display: flex;
+  border-right: solid 1px;
+  flex: 1;
+  background-color: var(--background-color);
+}
+
+#appcontent {
+  display: flex;
+  flex: 4;
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+}
+
+.part.changed {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0) 0 5px,
+    rgba(255, 255, 255, 0.25) 5px 10px
+  );
+}
+
+#rickroll {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+/* options */
 
 #options {
   display: flex;
   flex-direction: column;
+  padding: 4px;
   gap: 8px;
 }
 
-.group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  border-radius: 4px;
-  padding: 4px;
-}
-
-.group.collapsible {
-  background-color: color-mix(in srgb, currentColor 5%, transparent);
-}
-
-.row {
+.options_group {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-content: flex-start;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   gap: 4px;
+  /* background-color: color-mix(in srgb, currentColor 20%, transparent); */
+  padding-left: 4px;
+  border-radius: var(--radius);
+  border: solid 1px;
+}
+
+.button.right {
+  display: flex;
+  justify-content: flex-end;
 }
 
 button {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
+  border: solid 1px;
+  border-radius: var(--radius);
   padding: 4px 8px;
   font-weight: bold;
 }
@@ -50,58 +218,64 @@ button:hover {
 select {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
-  padding: 4px 0 4px 8px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-width: 0 0 0 1px;
+  padding: 2px 0 2px 8px;
 }
 
 select:hover {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-input[type="color"] {
-  border: unset;
-  outline: unset;
-  height: 1.5em;
-  width: 1.5em;
-  padding: 0;
-}
-
-input[type="color"]::-moz-color-swatch {
-  border: none;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px var(--color);
+select > option {
+  background-color: var(--background-color);
+  color: var(--color);
 }
 
 input[type="number"] {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
-  border-radius: 4px;
-  border-width: 0;
-  padding: 4px 0 4px 8px;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-width: 0 0 0 1px;
+  padding: 2px 0 2px 8px;
 }
 
 input[type="number"] {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-#options:not(:has(#changeDefaultTabColors:checked)) .defaultTabColors {
+/* context menu */
+
+#context_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  position: absolute;
+  background-color: transparent;
+  color: var(--color);
+}
+
+#context_menu.hidden {
   display: none;
 }
 
-.defaultTabColors {
-  margin-left: 24px;
+#context_menu:not(:has(.custom_enabled:checked)) > .custom_options {
+  display: none;
 }
 
-details > summary {
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-
-details > .row {
-  margin-left: 24px;
-}
-
-#reset-button {
+#context_menu_title {
+  font-weight: bold;
+  background-color: var(--background-color);
+  color: var(--color);
+  border-radius: var(--radius);
+  padding: 4px;
   width: fit-content;
+  border: 1px solid;
+}
+
+#context_menu .option {
+  background-color: var(--background-color);
+  color: var(--color);
 }

@@ -1,4 +1,4 @@
-A Firefox extension that calculates the most popular favicon color for a website and applies it to the current tab.
+A Firefox extension that calculates the most popular color from the favicon and builds the entire theme based on it.
 https://addons.mozilla.org/en-US/firefox/addon/favicon-color
 
-https://github.com/aminought/firefox-favicon-color/assets/8617665/fe98fc05-122f-4bcd-82e1-5d188f71dd79
+https://github.com/user-attachments/assets/f57e9261-51ec-484f-97d4-4cc201c8ae1e

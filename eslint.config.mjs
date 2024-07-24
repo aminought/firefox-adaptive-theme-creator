@@ -18,6 +18,7 @@ export default [
   {
     rules: {
       camelcase: "off",
+      "guard-for-in": "off",
       "id-length": "off",
       "max-statements": "off",
       "no-await-in-loop": "off",
@@ -27,6 +28,7 @@ export default [
       "no-plusplus": "off",
       "no-ternary": "off",
       "one-var": "off",
+      "sort-keys": "off",
       "sort-vars": "off",
     },
   },
