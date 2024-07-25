@@ -89,7 +89,7 @@ export class Theme {
   }
 
   setColor(part, color) {
-    this.themeInfo.colors[part] = color.css();
+    this.themeInfo.colors[part] = color?.css();
   }
 
   isModified() {
