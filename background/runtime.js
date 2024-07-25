@@ -85,6 +85,7 @@ export class Runtime {
         }
       }
       await this.currentTheme.fixImages();
+      this.currentTheme.markModified();
       await this.currentTheme.update();
       browser.runtime.sendMessage({ event: "themeUpdated" });
     }
@@ -112,7 +113,7 @@ export class Runtime {
   }
 
   async onTabUpdated(tabId, changeInfo, tab) {
-    if (changeInfo.status === "loading") {
+    if (!("favIconUrl" in changeInfo)) {
       return;
     }
     if (tab.active) {
@@ -133,7 +134,7 @@ export class Runtime {
   }
 
   async onThemeUpdated(theme) {
-    if (this.currentTheme !== null && theme.isEqual(this.currentTheme)) {
+    if (!theme.isCompatible() || theme.isModified()) {
       return;
     }
     await this.defaultTheme.reload();

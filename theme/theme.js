@@ -92,12 +92,16 @@ export class Theme {
     this.themeInfo.colors[part] = color.css();
   }
 
+  isModified() {
+    return this.themeInfo.properties.source === "favicon-color";
+  }
+
+  markModified() {
+    this.themeInfo.properties.source = "favicon-color";
+  }
+
   clone() {
     const themeInfo = JSON.parse(JSON.stringify(this.themeInfo));
     return new Theme(themeInfo);
-  }
-
-  isEqual(theme) {
-    return JSON.stringify(theme.themeInfo) === JSON.stringify(this.themeInfo);
   }
 }
