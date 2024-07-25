@@ -10,7 +10,7 @@ export class Options {
     },
     toolbar: {
       connected_parts: [],
-      foreground_parts: ["icons"],
+      foreground_parts: ["toolbar_text", "bookmark_text", "icons"],
     },
     toolbar_field: {
       connected_parts: ["toolbar_field_focus"],
