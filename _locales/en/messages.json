@@ -5,11 +5,14 @@
     "extensionDescription": {
         "message": "Calculates the most popular color from the favicon and builds the entire theme based on it."
     },
-    "globalOptions": {
-        "message": "Global options"
+    "source": {
+        "message": "Color source"
     },
-    "advancedOptions": {
-        "message": "Advanced options"
+    "favicon": {
+        "message": "Favicon"
+    },
+    "page": {
+        "message": "Page"
     },
     "enableCache": {
         "message": "Enable cache"

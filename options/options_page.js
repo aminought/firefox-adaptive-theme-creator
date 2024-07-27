@@ -20,12 +20,22 @@ const onFormReset = async (e, options, form) => {
 };
 
 // eslint-disable-next-line max-params
-const addOptions = (selector, start, end, step, fixed = 1) => {
+const addNumberOptions = (selector, start, end, step, fixed = 1) => {
   const select = document.querySelector(selector);
   for (let i = start; i <= end; i += step) {
     const option = document.createElement("option");
     option.value = i.toFixed(fixed);
     option.label = option.value;
+    select.appendChild(option);
+  }
+};
+
+const addStringOptions = (selector, strings) => {
+  const select = document.querySelector(selector);
+  for (const string of strings) {
+    const option = document.createElement("option");
+    option.value = string;
+    option.label = Localizer.getMessage(string);
     select.appendChild(option);
   }
 };
@@ -71,12 +81,13 @@ const stylePage = async (options) => {
 
 const loadContent = (options, form) => {
   Localizer.localizePage();
-  addOptions("#saturation_limit", 0.1, 1.0, 0.1);
-  addOptions("#darken", 0.0, 5.0, 0.5);
-  addOptions("#brighten", 0.0, 5.0, 0.5);
-  addOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
-  addOptions(".custom_darken", 0.0, 5.0, 0.5);
-  addOptions(".custom_brighten", 0.0, 5.0, 0.5);
+  addStringOptions("#source", Object.values(Options.SOURCES));
+  addNumberOptions("#saturation_limit", 0.1, 1.0, 0.1);
+  addNumberOptions("#darken", 0.0, 5.0, 0.5);
+  addNumberOptions("#brighten", 0.0, 5.0, 0.5);
+  addNumberOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
+  addNumberOptions(".custom_darken", 0.0, 5.0, 0.5);
+  addNumberOptions(".custom_brighten", 0.0, 5.0, 0.5);
   form.import(options);
 };
 

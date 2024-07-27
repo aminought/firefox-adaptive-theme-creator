@@ -133,7 +133,7 @@ export class ColorExtractor {
           canvas.width = image.width;
           canvas.height = image.height;
           context.drawImage(image, 0, 0);
-          const imageData = context.getImageData(0, 0, image.width, 100);
+          const imageData = context.getImageData(0, 0, image.width, 10);
 
           // console.log("imageData:", imageData);
 

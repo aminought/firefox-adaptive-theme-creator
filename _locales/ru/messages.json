@@ -5,11 +5,14 @@
     "extensionDescription": {
         "message": "Вычисляет самый популярный цвет из иконки сайта и строит всю тему на его основе."
     },
-    "globalOptions": {
-        "message": "Глобальные настройки"
+    "source": {
+        "message": "Источник цвета"
     },
-    "advancedOptions": {
-        "message": "Продвинутые настройки"
+    "favicon": {
+        "message": "Иконка сайта"
+    },
+    "page": {
+        "message": "Страница"
     },
     "enableCache": {
         "message": "Включить кэш"

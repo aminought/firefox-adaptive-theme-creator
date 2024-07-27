@@ -1,4 +1,9 @@
 export class Options {
+  static SOURCES = {
+    FAVICON: "favicon",
+    PAGE: "page",
+  };
+
   static PARTS = {
     tab_selected: {
       connected_parts: [],
@@ -9,7 +14,7 @@ export class Options {
       foreground_parts: ["sidebar_text"],
     },
     toolbar: {
-      connected_parts: [],
+      connected_parts: ["toolbar_bottom_separator"],
       foreground_parts: ["toolbar_text", "bookmark_text", "icons"],
     },
     toolbar_field: {
@@ -37,6 +42,7 @@ export class Options {
 
   static makeDefault() {
     const options = {
+      source: this.SOURCES.FAVICON,
       saturation_limit: "0.5",
       darken: "0.0",
       brighten: "0.0",
@@ -94,6 +100,10 @@ export class Options {
 
   keys() {
     return Object.keys(this.options);
+  }
+
+  getSource() {
+    return this.options.source;
   }
 
   getGlobalSaturationLimit() {

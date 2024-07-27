@@ -97,10 +97,14 @@ export class Runtime {
       mostPopularColor = this.cache.get(favIconUrl);
     }
     if (mostPopularColor === null) {
-      // mostPopularColor = await this.colorExtractor.getMostPopularColorFromFavicon(
-      //   favIconUrl
-      // );
-      mostPopularColor = await this.colorExtractor.getMostPopularColorFromTab();
+      const source = this.options.getSource();
+      if (source === Options.SOURCES.FAVICON) {
+        mostPopularColor =
+          await this.colorExtractor.getMostPopularColorFromFavicon(favIconUrl);
+      } else if (source === Options.SOURCES.PAGE) {
+        mostPopularColor =
+          await this.colorExtractor.getMostPopularColorFromTab();
+      }
       if (this.options.getCacheEnabled() && mostPopularColor !== null) {
         this.cache.set(favIconUrl, mostPopularColor);
       }
