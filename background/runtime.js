@@ -97,9 +97,10 @@ export class Runtime {
       mostPopularColor = this.cache.get(favIconUrl);
     }
     if (mostPopularColor === null) {
-      mostPopularColor = await this.colorExtractor.getMostPopularColor(
-        favIconUrl
-      );
+      // mostPopularColor = await this.colorExtractor.getMostPopularColorFromFavicon(
+      //   favIconUrl
+      // );
+      mostPopularColor = await this.colorExtractor.getMostPopularColorFromTab();
       if (this.options.getCacheEnabled() && mostPopularColor !== null) {
         this.cache.set(favIconUrl, mostPopularColor);
       }
