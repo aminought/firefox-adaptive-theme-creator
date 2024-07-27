@@ -5,6 +5,7 @@ export class ContextMenu {
     this.menu = document.getElementById("context_menu");
     this.title = document.getElementById("context_menu_title");
     this.customEnabled = document.querySelector(".custom_enabled");
+    this.customSource = document.querySelector(".custom_source");
     this.saturationLimit = document.querySelector(".custom_saturation_limit");
     this.darken = document.querySelector(".custom_darken");
     this.brighten = document.querySelector(".custom_brighten");
@@ -53,6 +54,20 @@ export class ContextMenu {
     parent.removeChild(this.customEnabled);
     parent.appendChild(customEnabled);
     this.customEnabled = customEnabled;
+  }
+
+  fillSource(part, value) {
+    const customSource = this.customSource.cloneNode(true);
+    const parent = this.customSource.parentNode;
+
+    const key = `${part}.source`;
+    customSource.id = key;
+    customSource.name = key;
+    customSource.value = value;
+
+    parent.removeChild(this.customSource);
+    parent.appendChild(customSource);
+    this.customEnabled = customSource;
   }
 
   fillSaturationLimit(part, value) {

@@ -117,7 +117,7 @@ export class ColorExtractor {
     return palette.length ? new Color(palette[0]) : null;
   }
 
-  async getMostPopularColorFromTab() {
+  async getMostPopularColorFromPage() {
     const base64Image = await browser.tabs.captureTab();
     if (!base64Image) {
       throw new Error("No image provided");

@@ -22,6 +22,7 @@ export class Runtime {
       [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     }
 
+    const source = this.options.getGlobalSource();
     const saturationLimit = this.options.getGlobalSaturationLimit();
     const darken = this.options.getGlobalDarken();
     const brighten = this.options.getGlobalBrighten();
@@ -34,33 +35,45 @@ export class Runtime {
     );
 
     try {
-      const mostPopularColor = await this.getMostPopularColor(tab.favIconUrl);
-      if (mostPopularColor !== null) {
-        for (const backgroundPart of Options.getBackgroundParts()) {
-          let customSaturationLimit = saturationLimit;
-          let customDarken = darken;
-          let customBrighten = brighten;
-          if (this.options.isCustomEnabled(backgroundPart)) {
-            customSaturationLimit =
-              this.options.getCustomSaturationLimit(backgroundPart);
-            customDarken = this.options.getCustomDarken(backgroundPart);
-            customBrighten = this.options.getCustomBrighten(backgroundPart);
-          }
-          const backgroundColor = mostPopularColor
-            .limitSaturation(customSaturationLimit)
-            .darken(customDarken)
-            .brighten(customBrighten);
-          colors[backgroundPart] = backgroundColor;
+      const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
+        tab.favIconUrl
+      );
+      const pageMostPopularColor = await this.getMostPopularColorFromPage();
+      for (const backgroundPart of Options.getBackgroundParts()) {
+        let customSource = source;
+        let customSaturationLimit = saturationLimit;
+        let customDarken = darken;
+        let customBrighten = brighten;
+        if (this.options.isCustomEnabled(backgroundPart)) {
+          customSource = this.options.getCustomSource(backgroundPart);
+          customSaturationLimit =
+            this.options.getCustomSaturationLimit(backgroundPart);
+          customDarken = this.options.getCustomDarken(backgroundPart);
+          customBrighten = this.options.getCustomBrighten(backgroundPart);
+        }
+        let mostPopularColor = null;
+        if (customSource === Options.SOURCES.FAVICON) {
+          mostPopularColor = faviconMostPopularColor;
+        } else if (customSource === Options.SOURCES.PAGE) {
+          mostPopularColor = pageMostPopularColor;
+        }
+        if (mostPopularColor === null) {
+          continue;
+        }
+        const backgroundColor = mostPopularColor
+          .limitSaturation(customSaturationLimit)
+          .darken(customDarken)
+          .brighten(customBrighten);
+        colors[backgroundPart] = backgroundColor;
 
-          const foregroundParts = Options.getForegroundParts(backgroundPart);
-          for (const foregroundPart of foregroundParts) {
-            colors[foregroundPart] = backgroundColor.getForeground();
-          }
+        const foregroundParts = Options.getForegroundParts(backgroundPart);
+        for (const foregroundPart of foregroundParts) {
+          colors[foregroundPart] = backgroundColor.getForeground();
+        }
 
-          const connectedParts = Options.getConnectedParts(backgroundPart);
-          for (const connectedPart of connectedParts) {
-            colors[connectedPart] = backgroundColor;
-          }
+        const connectedParts = Options.getConnectedParts(backgroundPart);
+        for (const connectedPart of connectedParts) {
+          colors[connectedPart] = backgroundColor;
         }
       }
       // eslint-disable-next-line no-unused-vars
@@ -91,23 +104,26 @@ export class Runtime {
     }
   }
 
-  async getMostPopularColor(favIconUrl) {
+  async getMostPopularColorFromFavicon(favIconUrl) {
     let mostPopularColor = null;
-    if (this.options.getCacheEnabled()) {
-      mostPopularColor = this.cache.get(favIconUrl);
-    }
+    // if (this.options.getCacheEnabled()) {
+    //   mostPopularColor = this.cache.get(favIconUrl);
+    // }
     if (mostPopularColor === null) {
-      const source = this.options.getSource();
-      if (source === Options.SOURCES.FAVICON) {
-        mostPopularColor =
-          await this.colorExtractor.getMostPopularColorFromFavicon(favIconUrl);
-      } else if (source === Options.SOURCES.PAGE) {
-        mostPopularColor =
-          await this.colorExtractor.getMostPopularColorFromTab();
-      }
-      if (this.options.getCacheEnabled() && mostPopularColor !== null) {
-        this.cache.set(favIconUrl, mostPopularColor);
-      }
+      mostPopularColor =
+        await this.colorExtractor.getMostPopularColorFromFavicon(favIconUrl);
+      // if (this.options.getCacheEnabled() && mostPopularColor !== null) {
+      //   this.cache.set(favIconUrl, mostPopularColor);
+      // }
+    }
+    return mostPopularColor;
+  }
+
+  async getMostPopularColorFromPage() {
+    let mostPopularColor = null;
+    if (mostPopularColor === null) {
+      mostPopularColor =
+        await this.colorExtractor.getMostPopularColorFromPage();
     }
     return mostPopularColor;
   }

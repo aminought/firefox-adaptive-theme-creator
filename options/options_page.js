@@ -46,12 +46,12 @@ const setRootColor = (property, color) => {
 
 const stylePage = async (options) => {
   const theme = await Theme.load();
-  const warning = document.getElementById('warning');
+  const warning = document.getElementById("warning");
   if (!theme.isCompatible()) {
-    warning.classList.toggle('hidden', false);
+    warning.classList.toggle("hidden", false);
     return;
   }
-  warning.classList.toggle('hidden', true);
+  warning.classList.toggle("hidden", true);
 
   setRootColor("--background-color", theme.getColor("popup")?.css());
   setRootColor("--color", theme.getColor("popup_text")?.css());
@@ -85,6 +85,7 @@ const loadContent = (options, form) => {
   addNumberOptions("#saturation_limit", 0.1, 1.0, 0.1);
   addNumberOptions("#darken", 0.0, 5.0, 0.5);
   addNumberOptions("#brighten", 0.0, 5.0, 0.5);
+  addStringOptions(".custom_source", Object.values(Options.SOURCES));
   addNumberOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
   addNumberOptions(".custom_darken", 0.0, 5.0, 0.5);
   addNumberOptions(".custom_brighten", 0.0, 5.0, 0.5);
@@ -125,18 +126,28 @@ const onBrowserPreviewContextMenu = (e, options, contextMenu) => {
     return;
   }
   const customEnabled = options.isCustomEnabled(part);
-  const saturationLimit = options.getCustomSaturationLimit(part)
-    ? options.getCustomSaturationLimit(part)
-    : options.getGlobalSaturationLimit();
-  const darken = options.getCustomDarken(part)
-    ? options.getCustomDarken(part)
-    : options.getGlobalDarken();
-  const brighten = options.getCustomBrighten(part)
-    ? options.getCustomBrighten(part)
-    : options.getGlobalBrighten();
+
+  let source = options.getCustomSource(part);
+  let saturationLimit = options.getCustomSaturationLimit(part);
+  let darken = options.getCustomDarken(part);
+  let brighten = options.getCustomBrighten(part);
+
+  if (source === null) {
+    source = options.getGlobalSource();
+  }
+  if (saturationLimit === null) {
+    saturationLimit = options.getGlobalSaturationLimit();
+  }
+  if (darken === null) {
+    darken = options.getGlobalDarken();
+  }
+  if (brighten === null) {
+    brighten = options.getGlobalBrighten();
+  }
 
   contextMenu.fillTitle(part);
   contextMenu.fillCustomEnabled(part, customEnabled);
+  contextMenu.fillSource(part, source);
   contextMenu.fillSaturationLimit(part, saturationLimit);
   contextMenu.fillDarken(part, darken);
   contextMenu.fillBrighten(part, brighten);

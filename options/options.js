@@ -61,6 +61,7 @@ export class Options {
   static addPartOptions(options, part, enabled = false) {
     options[`${part}.enabled`] = enabled;
     options[`${part}.custom_enabled`] = false;
+    options[`${part}.source`] = null;
     options[`${part}.saturation_limit`] = null;
     options[`${part}.darken`] = null;
     options[`${part}.brighten`] = null;
@@ -102,7 +103,7 @@ export class Options {
     return Object.keys(this.options);
   }
 
-  getSource() {
+  getGlobalSource() {
     return this.options.source;
   }
 
@@ -144,6 +145,14 @@ export class Options {
 
   setCustomEnabled(part, value) {
     this.options[`${part}.custom_enabled`] = value;
+  }
+
+  getCustomSource(part) {
+    return this.options[`${part}.source`];
+  }
+
+  setCustomSource(part, value) {
+    this.options[`${part}.source`] = value;
   }
 
   getCustomSaturationLimit(part) {
