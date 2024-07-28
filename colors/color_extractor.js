@@ -132,8 +132,9 @@ export class ColorExtractor {
    * @returns {Color?}
    */
   async getMostPopularColorFromPage(tab) {
+    const { pageCaptureHeight } = this.options.getGlobalOptions();
     const base64Image = await browser.tabs.captureTab(tab.id, {
-      rect: { x: 0, y: 0, width: tab.width, height: 1 },
+      rect: { x: 0, y: 0, width: tab.width, height: Number(pageCaptureHeight) },
     });
     if (!base64Image) {
       throw new Error("No image provided");

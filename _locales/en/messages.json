@@ -55,5 +55,8 @@
     },
     "warning": {
         "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
-    }
+    },
+    "pageCaptureHeight": {
+        "message": "Page capture height"
+    } 
 }

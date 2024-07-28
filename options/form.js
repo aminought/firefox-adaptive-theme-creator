@@ -8,6 +8,7 @@ export class Form {
   static brightness = document.getElementById("brightness");
   static cacheEnabled = document.getElementById("cache_enabled");
   static colorValueOffset = document.getElementById("color_value_offset");
+  static pageCaptureHeight = document.getElementById("page_capture_height");
   static resetButton = document.getElementById("reset_button");
 
   /**
@@ -32,6 +33,7 @@ export class Form {
     Form.brightness.value = globalOptions.brightness;
     Form.cacheEnabled.checked = globalOptions.cacheEnabled;
     Form.colorValueOffset.value = globalOptions.colorValueOffset;
+    Form.pageCaptureHeight.value = globalOptions.pageCaptureHeight;
   }
 
   setupListeners() {
@@ -43,6 +45,8 @@ export class Form {
     Form.cacheEnabled.onclick = (e) => this.saveChecked(e, "cache_enabled");
     Form.colorValueOffset.onchange = (e) =>
       this.saveValue(e, "color_value_offset");
+    Form.pageCaptureHeight.onchange = (e) =>
+      this.saveValue(e, "page_capture_height");
 
     Form.resetButton.onclick = (e) => this.reset(e);
   }

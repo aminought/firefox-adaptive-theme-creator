@@ -12,6 +12,7 @@ export class Options {
   static DEFAULT_CACHE_ENABLED = true;
   static DEFAULT_PART_ENABLED = false;
   static DEFAULT_PART_CUSTOM_ENABLED = false;
+  static DEFAULT_PAGE_CAPTURE_HEIGHT = 1;
 
   constructor() {
     this.options = Options.makeDefault();
@@ -25,6 +26,7 @@ export class Options {
       brightness: this.DEFAULT_BRIGHTNESS,
       color_value_offset: this.DEFAULT_COLOR_VALUE_OFFSET,
       cache_enabled: this.DEFAULT_CACHE_ENABLED,
+      page_capture_height: this.DEFAULT_PAGE_CAPTURE_HEIGHT,
     };
     Options.addPartOptions(options, "tab_selected", true);
     Options.addPartOptions(options, "sidebar");
@@ -90,6 +92,7 @@ export class Options {
       brightness: this.options.brightness,
       cacheEnabled: this.options.cache_enabled,
       colorValueOffset: this.options.color_value_offset,
+      pageCaptureHeight: this.options.page_capture_height,
     };
   }
 
