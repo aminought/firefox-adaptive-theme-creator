@@ -19,10 +19,10 @@ export class Form {
    */
   constructor(options) {
     this.options = options;
-    addStringOptions("#source", Object.values(Options.SOURCES));
-    addNumberOptions("#saturation_limit", 0.1, 1.0, 0.1);
-    addNumberOptions("#darkness", 0.0, 5.0, 0.5);
-    addNumberOptions("#brightness", 0.0, 5.0, 0.5);
+    addStringOptions(Form.source, Object.values(Options.SOURCES));
+    addNumberOptions(Form.saturationLimit, 0.1, 1.0, 0.1);
+    addNumberOptions(Form.darkness, 0.0, 5.0, 0.5);
+    addNumberOptions(Form.brightness, 0.0, 5.0, 0.5);
     this.loadFromOptions();
     this.setupListeners();
   }

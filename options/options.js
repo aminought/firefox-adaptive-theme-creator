@@ -30,7 +30,9 @@ export class Options {
     );
     Options.makePartOptions(options, "sidebar");
     Options.makePartOptions(options, "toolbar");
+    Options.makePartOptions(options, "toolbar_bottom_separator");
     Options.makePartOptions(options, "toolbar_field");
+    Options.makePartOptions(options, "toolbar_field_focus");
     Options.makePartOptions(options, "frame");
     Options.makePartOptions(options, "popup");
     return options;

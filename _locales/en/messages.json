@@ -1,60 +1,33 @@
 {
-    "extensionName": {
-        "message": "Favicon Color"
-    },
-    "extensionDescription": {
-        "message": "Calculates the most popular color from the favicon and builds the entire theme based on it."
-    },
-    "source": {
-        "message": "Color source"
-    },
-    "favicon": {
-        "message": "Favicon"
-    },
-    "page": {
-        "message": "Page"
-    },
-    "reset": {
-        "message": "Reset"
-    },
-    "sidebar": {
-        "message": "Sidebar"
-    },
-    "toolbar": {
-        "message": "Toolbar"
-    },
-    "toolbar_field": {
-        "message": "Toolbar field"
-    },
-    "tab_selected": {
-        "message": "Selected tab"
-    },
-    "frame": {
-        "message": "Frame"
-    },
-    "popup": {
-        "message": "Popup"
-    },
-    "specialSettings": {
-        "message": "Special settings"
-    },
-    "saturationLimit": {
-        "message": "Saturation limit"
-    },
-    "darkness": {
-        "message": "Darkness"
-    },
-    "brightness": {
-        "message": "Brightness"
-    },
-    "warning": {
-        "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
+    "avoidBlack": {
+        "message": "Avoid black"
     },
     "avoidWhite": {
         "message": "Avoid white"
     },
-    "avoidBlack": {
-        "message": "Avoid black"
+    "brightness": {
+        "message": "Brightness"
+    },
+    "darkness": {
+        "message": "Darkness"
+    },
+    "extensionDescription": {
+        "message": "Calculates the most popular color from the favicon and builds the entire theme based on it."
+    },
+    "extensionName": {
+        "message": "Favicon Color"
+    },
+    "favicon": {
+        "message": "Favicon"
+    },
+    "faviconOptions": {
+        "message": "FAVICON COLOR OPTIONS"
+    },
+    "frame": {
+        "message": "Frame"
+    },
+    "page": {
+        "message": "Page"
     },
     "pageCaptureHeight": {
         "message": "Capture height"
@@ -62,7 +35,40 @@
     "pageOptions": {
         "message": "PAGE COLOR OPTIONS"
     },
-    "faviconOptions": {
-        "message": "FAVICON COLOR OPTIONS"
+    "popup": {
+        "message": "Popup"
+    },
+    "reset": {
+        "message": "Reset"
+    },
+    "saturationLimit": {
+        "message": "Saturation limit"
+    },
+    "sidebar": {
+        "message": "Sidebar"
+    },
+    "source": {
+        "message": "Color source"
+    },
+    "specialSettings": {
+        "message": "Special settings"
+    },
+    "tab_selected": {
+        "message": "Selected Tab"
+    },
+    "toolbar": {
+        "message": "Toolbar"
+    },
+    "toolbar_bottom_separator": {
+        "message": "Bottom Separator"
+    },
+    "toolbar_field": {
+        "message": "Toolbar Field"
+    },
+    "toolbar_field_focus": {
+        "message": "Focus"
+    },
+    "warning": {
+        "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
     }
 }

@@ -26,18 +26,34 @@ export class BrowserParts {
     },
   };
 
+  /**
+   *
+   * @returns {string[]}
+   */
   static getBackgroundParts() {
     return Object.keys(BrowserParts.PARTS);
   }
 
+  /**
+   *
+   * @returns {string[]}
+   */
   static getForegroundParts(part) {
     return BrowserParts.PARTS[part].foreground_parts;
   }
 
+  /**
+   *
+   * @returns {string[]}
+   */
   static getConnectedParts(part) {
     return BrowserParts.PARTS[part].connected_parts;
   }
 
+  /**
+   *
+   * @returns {string[]}
+   */
   static getAllParts() {
     let parts = BrowserParts.getBackgroundParts();
     for (const backgroundPart of BrowserParts.getBackgroundParts()) {

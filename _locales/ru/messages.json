@@ -1,60 +1,33 @@
 {
-    "extensionName": {
-        "message": "Favicon Color"
-    },
-    "extensionDescription": {
-        "message": "Вычисляет самый популярный цвет из иконки сайта и строит всю тему на его основе."
-    },
-    "source": {
-        "message": "Источник цвета"
-    },
-    "favicon": {
-        "message": "Иконка сайта"
-    },
-    "page": {
-        "message": "Страница"
-    },
-    "reset": {
-        "message": "Сбросить"
-    },
-    "sidebar": {
-        "message": "Боковая панель"
-    },
-    "toolbar": {
-        "message": "Панель инструментов"
-    },
-    "toolbar_field": {
-        "message": "Поле панели инструментов"
-    },
-    "tab_selected": {
-        "message": "Активная вкладка"
-    },
-    "frame": {
-        "message": "Рамка браузера"
-    },
-    "popup": {
-        "message": "Всплывающее окно"
-    },
-    "specialSettings": {
-        "message": "Отдельная настройка"
-    },
-    "saturationLimit": {
-        "message": "Насыщенность"
-    },
-    "darkness": {
-        "message": "Затемнение"
-    },
-    "brightness": {
-        "message": "Яркость"
-    },
-    "warning": {
-        "message": "Текущая тема несовместима с данным расширением. Пожалуйста, установите тему, отличную от системной."
+    "avoidBlack": {
+        "message": "Избегать черного"
     },
     "avoidWhite": {
         "message": "Избегать белого"
     },
-    "avoidBlack": {
-        "message": "Избегать черного"
+    "brightness": {
+        "message": "Яркость"
+    },
+    "darkness": {
+        "message": "Затемнение"
+    },
+    "extensionDescription": {
+        "message": "Вычисляет самый популярный цвет из иконки сайта и строит всю тему на его основе."
+    },
+    "extensionName": {
+        "message": "Favicon Color"
+    },
+    "favicon": {
+        "message": "Иконка сайта"
+    },
+    "faviconOptions": {
+        "message": "НАСТРОЙКИ ЦВЕТА СТРАНИЦЫ"
+    },
+    "frame": {
+        "message": "Рамка браузера"
+    },
+    "page": {
+        "message": "Страница"
     },
     "pageCaptureHeight": {
         "message": "Высота снимка"
@@ -62,7 +35,40 @@
     "pageOptions": {
         "message": "НАСТРОЙКИ ЦВЕТА ИКОНКИ"
     },
-    "faviconOptions": {
-        "message": "НАСТРОЙКИ ЦВЕТА СТРАНИЦЫ"
+    "popup": {
+        "message": "Всплывающее окно"
+    },
+    "reset": {
+        "message": "Сбросить"
+    },
+    "saturationLimit": {
+        "message": "Насыщенность"
+    },
+    "sidebar": {
+        "message": "Боковая панель"
+    },
+    "source": {
+        "message": "Источник цвета"
+    },
+    "specialSettings": {
+        "message": "Отдельная настройка"
+    },
+    "tab_selected": {
+        "message": "Активная вкладка"
+    },
+    "toolbar": {
+        "message": "Панель инструментов"
+    },
+    "toolbar_bottom_separator": {
+        "message": "Нижний разделитель"
+    },
+    "toolbar_field": {
+        "message": "Поле панели инструментов"
+    },
+    "toolbar_field_focus": {
+        "message": "Фокус"
+    },
+    "warning": {
+        "message": "Текущая тема несовместима с данным расширением. Пожалуйста, установите тему, отличную от системной."
     }
 }

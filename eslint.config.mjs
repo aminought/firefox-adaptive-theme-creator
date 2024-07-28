@@ -24,6 +24,7 @@ export default [
       "no-await-in-loop": "off",
       "no-continue": "off",
       "no-magic-numbers": "off",
+      "max-lines-per-function": "off",
       "max-params": "off",
       "no-param-reassign": "off",
       "no-plusplus": "off",

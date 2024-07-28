@@ -17,7 +17,6 @@ export class Runtime {
     this.colorExtractor = new ColorExtractor(this.options);
   }
 
-  // eslint-disable-next-line
   async updateTheme(tab) {
     if (!this.defaultTheme.isCompatible()) {
       return;
@@ -72,7 +71,25 @@ export class Runtime {
 
         const connectedParts = BrowserParts.getConnectedParts(backgroundPart);
         for (const connectedPart of connectedParts) {
-          colors[connectedPart] = backgroundColor;
+          let connectedColor = backgroundColor;
+
+          const connectedPartOptions =
+            this.options.getPartOptions(connectedPart);
+
+          if (connectedPartOptions.customEnabled) {
+            let connectedMostPopularColor = null;
+            if (connectedPartOptions.source === Options.SOURCES.FAVICON) {
+              connectedMostPopularColor = faviconMostPopularColor;
+            } else if (connectedPartOptions.source === Options.SOURCES.PAGE) {
+              connectedMostPopularColor = pageMostPopularColor;
+            }
+
+            connectedColor = connectedMostPopularColor
+              .limitSaturation(connectedPartOptions.saturationLimit)
+              .darken(connectedPartOptions.darkness)
+              .brighten(connectedPartOptions.brightness);
+          }
+          colors[connectedPart] = connectedColor;
         }
 
         const foregroundColor = backgroundColor.getForeground();
