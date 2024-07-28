@@ -1,29 +1,29 @@
+import { addNumberOptions, addStringOptions } from "./html.js";
 import { Localizer } from "./localizer.js";
+import { Options } from "./options.js";
 
 export class ContextMenu {
-  constructor() {
-    this.menu = document.getElementById("context_menu");
-    this.title = document.getElementById("context_menu_title");
-    this.customEnabled = document.querySelector(".custom_enabled");
-    this.customSource = document.querySelector(".custom_source");
-    this.saturationLimit = document.querySelector(".custom_saturation_limit");
-    this.darken = document.querySelector(".custom_darken");
-    this.brighten = document.querySelector(".custom_brighten");
+  static menu = document.getElementById("context_menu");
+  static title = document.getElementById("context_menu_title");
+  static customEnabled = document.getElementById("part_custom_enabled");
+  static source = document.getElementById("part_source");
+  static saturationLimit = document.getElementById("part_saturation_limit");
+  static darkness = document.getElementById("part_darkness");
+  static brightness = document.getElementById("part_brightness");
+
+  static isOpened() {
+    return !ContextMenu.menu.classList.contains("hidden");
   }
 
-  isOpened() {
-    return !this.menu.classList.contains("hidden");
+  static open() {
+    ContextMenu.menu.classList.toggle("hidden", false);
   }
 
-  open() {
-    this.menu.classList.toggle("hidden", false);
+  static close() {
+    ContextMenu.menu.classList.toggle("hidden", true);
   }
 
-  close() {
-    this.menu.classList.toggle("hidden", true);
-  }
-
-  positionInside = (parent, clientX, clientY) => {
+  static positionInside = (parent, clientX, clientY) => {
     const menuRect = this.menu.getBoundingClientRect();
     const parentRect = parent.getBoundingClientRect();
     if (clientY + menuRect.height > parentRect.bottom) {
@@ -38,77 +38,73 @@ export class ContextMenu {
     }
   };
 
-  fillTitle(part) {
-    this.title.innerHTML = Localizer.getMessage(part);
+  /**
+   *
+   * @param {Options} options
+   */
+  constructor(options) {
+    this.options = options;
+    addStringOptions("#part_source", Object.values(Options.SOURCES));
+    addNumberOptions("#part_saturation_limit", 0.1, 1.0, 0.1);
+    addNumberOptions("#part_darkness", 0.0, 5.0, 0.5);
+    addNumberOptions("#part_brightness", 0.0, 5.0, 0.5);
   }
 
-  fillCustomEnabled(part, value) {
-    const customEnabled = this.customEnabled.cloneNode(true);
-    const parent = this.customEnabled.parentNode;
-
-    const key = `${part}.custom_enabled`;
-    customEnabled.id = key;
-    customEnabled.name = key;
-    customEnabled.checked = value;
-
-    parent.removeChild(this.customEnabled);
-    parent.appendChild(customEnabled);
-    this.customEnabled = customEnabled;
+  /**
+   *
+   * @param {string} part
+   */
+  setPart(part) {
+    ContextMenu.title.innerHTML = Localizer.getMessage(part);
+    this.loadFromOptions(part);
+    this.setupListeners(part);
   }
 
-  fillSource(part, value) {
-    const customSource = this.customSource.cloneNode(true);
-    const parent = this.customSource.parentNode;
-
-    const key = `${part}.source`;
-    customSource.id = key;
-    customSource.name = key;
-    customSource.value = value;
-
-    parent.removeChild(this.customSource);
-    parent.appendChild(customSource);
-    this.customEnabled = customSource;
+  /**
+   *
+   * @param {string} part
+   */
+  loadFromOptions(part) {
+    const partOptions = this.options.getPartOptions(part);
+    ContextMenu.customEnabled.checked = partOptions.customEnabled;
+    ContextMenu.source.value = partOptions.source;
+    ContextMenu.saturationLimit.value = partOptions.saturationLimit;
+    ContextMenu.darkness.value = partOptions.darkness;
+    ContextMenu.brightness.value = partOptions.brightness;
   }
 
-  fillSaturationLimit(part, value) {
-    const saturationLimit = this.saturationLimit.cloneNode(true);
-    const parent = this.saturationLimit.parentNode;
-
-    const key = `${part}.saturation_limit`;
-    saturationLimit.id = key;
-    saturationLimit.name = key;
-    saturationLimit.value = value;
-
-    parent.removeChild(this.saturationLimit);
-    parent.appendChild(saturationLimit);
-    this.saturationLimit = saturationLimit;
+  /**
+   *
+   * @param {string} part
+   */
+  setupListeners(part) {
+    ContextMenu.customEnabled.onclick = (e) =>
+      this.saveChecked(e, part, "custom_enabled");
+    ContextMenu.source.onchange = (e) => this.saveValue(e, part, "source");
+    ContextMenu.saturationLimit.onchange = (e) =>
+      this.saveValue(e, part, "saturation_limit");
+    ContextMenu.darkness.onchange = (e) => this.saveValue(e, part, "darkness");
+    ContextMenu.brightness.onchange = (e) =>
+      this.saveValue(e, part, "brightness");
   }
 
-  fillDarken(part, value) {
-    const darken = this.darken.cloneNode(true);
-    const parent = this.darken.parentNode;
-
-    const key = `${part}.darken`;
-    darken.id = key;
-    darken.name = key;
-    darken.value = value;
-
-    parent.removeChild(this.darken);
-    parent.appendChild(darken);
-    this.darken = darken;
+  /**
+   *
+   * @param {Event} event
+   * @param {string} part
+   * @param {string} key
+   */
+  async saveChecked(event, part, key) {
+    await this.options.setPartOption(part, key, event.target.checked);
   }
 
-  fillBrighten(part, value) {
-    const brighten = this.brighten.cloneNode(true);
-    const parent = this.brighten.parentNode;
-
-    const key = `${part}.brighten`;
-    brighten.id = key;
-    brighten.name = key;
-    brighten.value = value;
-
-    parent.removeChild(this.brighten);
-    parent.appendChild(brighten);
-    this.brighten = brighten;
+  /**
+   *
+   * @param {Event} event
+   * @param {string} part
+   * @param {string} key
+   */
+  async saveValue(event, part, key) {
+    await this.options.setPartOption(part, key, event.target.value);
   }
 }

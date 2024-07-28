@@ -1,3 +1,4 @@
+import { BrowserParts } from "./browser_parts.js";
 import { BrowserPreview } from "./browser_preview.js";
 import { Color } from "../colors/color.js";
 import { ContextMenu } from "./context_menu.js";
@@ -5,45 +6,12 @@ import { Form } from "./form.js";
 import { Localizer } from "./localizer.js";
 import { Options } from "./options.js";
 import { Theme } from "../theme/theme.js";
+import { setRootColor } from "./html.js";
 
-const onFormChange = async (e, options, form) => {
-  e.preventDefault();
-  form.export(options);
-  await options.save();
-};
-
-const onFormReset = async (e, options, form) => {
-  e.preventDefault();
-  options.reset();
-  await options.save();
-  form.import(options);
-};
-
-// eslint-disable-next-line max-params
-const addNumberOptions = (selector, start, end, step, fixed = 1) => {
-  const select = document.querySelector(selector);
-  for (let i = start; i <= end; i += step) {
-    const option = document.createElement("option");
-    option.value = i.toFixed(fixed);
-    option.label = option.value;
-    select.appendChild(option);
-  }
-};
-
-const addStringOptions = (selector, strings) => {
-  const select = document.querySelector(selector);
-  for (const string of strings) {
-    const option = document.createElement("option");
-    option.value = string;
-    option.label = Localizer.getMessage(string);
-    select.appendChild(option);
-  }
-};
-
-const setRootColor = (property, color) => {
-  document.documentElement.style.setProperty(property, color);
-};
-
+/**
+ *
+ * @param {Options} options
+ */
 const stylePage = async (options) => {
   const theme = await Theme.load();
   const warning = document.getElementById("warning");
@@ -58,45 +26,36 @@ const stylePage = async (options) => {
 
   const [tab] = await browser.tabs.query({ active: true });
 
-  for (const part of Options.getBackgroundParts()) {
+  for (const part of BrowserParts.getBackgroundParts()) {
+    let { saturationLimit, darkness, brightness } = options.getGlobalOptions();
+    const partOptions = options.getPartOptions(part);
     let color = theme.getColor(part);
-    let saturationLimit = options.getGlobalSaturationLimit();
-    let darken = options.getGlobalDarken();
-    let brighten = options.getGlobalBrighten();
-    if (tab.url.startsWith("about:") && options.isEnabled(part)) {
-      if (options.isCustomEnabled(part)) {
-        saturationLimit = options.getCustomSaturationLimit(part);
-        darken = options.getCustomDarken(part);
-        brighten = options.getCustomBrighten(part);
+    if (tab.url.startsWith("about:")) {
+      if (partOptions.enabled) {
+        ({ saturationLimit, darkness, brightness } = partOptions);
       }
       color = new Color("red")
         .limitSaturation(saturationLimit)
-        .darken(darken)
-        .brighten(brighten);
+        .darken(darkness)
+        .brighten(brightness);
     }
     BrowserPreview.colorPart(part, color);
-    BrowserPreview.markChanged(part, options.isEnabled(part));
+    BrowserPreview.markChanged(part, partOptions.enabled);
   }
 };
 
-const loadContent = (options, form) => {
-  Localizer.localizePage();
-  addStringOptions("#source", Object.values(Options.SOURCES));
-  addNumberOptions("#saturation_limit", 0.1, 1.0, 0.1);
-  addNumberOptions("#darken", 0.0, 5.0, 0.5);
-  addNumberOptions("#brighten", 0.0, 5.0, 0.5);
-  addStringOptions(".custom_source", Object.values(Options.SOURCES));
-  addNumberOptions(".custom_saturation_limit", 0.1, 1.0, 0.1);
-  addNumberOptions(".custom_darken", 0.0, 5.0, 0.5);
-  addNumberOptions(".custom_brighten", 0.0, 5.0, 0.5);
-  form.import(options);
-};
-
-// eslint-disable-next-line max-params
-const onBrowserPreviewClick = (e, options, browserPreview, contextMenu) => {
+/**
+ *
+ * @param {Event} e
+ * @param {Options} options
+ * @param {BrowserPreview} browserPreview
+ * @param {ContextMenu} contextMenu
+ * @returns
+ */
+const onBrowserPreviewClick = (e, options, browserPreview) => {
   e.preventDefault();
-  if (contextMenu.isOpened()) {
-    contextMenu.close();
+  if (ContextMenu.isOpened()) {
+    ContextMenu.close();
     return;
   }
 
@@ -107,75 +66,53 @@ const onBrowserPreviewClick = (e, options, browserPreview, contextMenu) => {
     part = "toolbar";
   }
 
-  if (Options.getBackgroundParts().includes(part)) {
-    options.toggleEnabled(part);
-    options.save();
+  if (BrowserParts.getBackgroundParts().includes(part)) {
+    const { enabled } = options.getPartOptions(part);
+    options.setPartOption(part, "enabled", !enabled);
   } else if (part === "appcontent" || part === "rickroll") {
     browserPreview.rickroll();
   }
 };
 
-const onBrowserPreviewContextMenu = (e, options, contextMenu) => {
+/**
+ *
+ * @param {Event} e
+ * @param {ContextMenu} contextMenu
+ * @returns
+ */
+const onBrowserPreviewContextMenu = (e, contextMenu) => {
   e.preventDefault();
   const { classList } = e.target;
   let part = e.target.id;
   if (classList.contains("placeholder")) {
     part = "toolbar";
   }
-  if (!Options.getBackgroundParts().includes(part)) {
+  if (!BrowserParts.getBackgroundParts().includes(part)) {
     return;
   }
-  const customEnabled = options.isCustomEnabled(part);
 
-  let source = options.getCustomSource(part);
-  let saturationLimit = options.getCustomSaturationLimit(part);
-  let darken = options.getCustomDarken(part);
-  let brighten = options.getCustomBrighten(part);
-
-  if (source === null) {
-    source = options.getGlobalSource();
-  }
-  if (saturationLimit === null) {
-    saturationLimit = options.getGlobalSaturationLimit();
-  }
-  if (darken === null) {
-    darken = options.getGlobalDarken();
-  }
-  if (brighten === null) {
-    brighten = options.getGlobalBrighten();
-  }
-
-  contextMenu.fillTitle(part);
-  contextMenu.fillCustomEnabled(part, customEnabled);
-  contextMenu.fillSource(part, source);
-  contextMenu.fillSaturationLimit(part, saturationLimit);
-  contextMenu.fillDarken(part, darken);
-  contextMenu.fillBrighten(part, brighten);
-  contextMenu.open();
+  contextMenu.setPart(part);
+  ContextMenu.open();
 
   const body = document.querySelector("body");
-  contextMenu.positionInside(body, e.clientX, e.clientY);
+  ContextMenu.positionInside(body, e.clientX, e.clientY);
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
   const options = await Options.load();
-  const form = new Form();
+  // eslint-disable-next-line no-unused-vars
+  const form = new Form(options);
   const browserPreview = new BrowserPreview();
-  const contextMenu = new ContextMenu();
-  const resetButton = document.getElementById("reset_button");
+  const contextMenu = new ContextMenu(options);
 
-  loadContent(options, form);
+  Localizer.localizePage();
   stylePage(options);
-
-  form.onChange((e) => onFormChange(e, options, form));
-
-  resetButton.addEventListener("click", (e) => onFormReset(e, options, form));
 
   browserPreview.onClick((e) =>
     onBrowserPreviewClick(e, options, browserPreview, contextMenu)
   );
   browserPreview.onContextMenu((e) =>
-    onBrowserPreviewContextMenu(e, options, contextMenu)
+    onBrowserPreviewContextMenu(e, contextMenu)
   );
 
   browser.runtime.onMessage.addListener((message) => {

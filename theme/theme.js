@@ -90,14 +90,11 @@ export class Theme {
 
   setColor(part, color) {
     this.themeInfo.colors[part] = color?.css();
+    this.themeInfo.properties.source = "favicon-color";
   }
 
   isModified() {
     return this.themeInfo.properties.source === "favicon-color";
-  }
-
-  markModified() {
-    this.themeInfo.properties.source = "favicon-color";
   }
 
   clone() {

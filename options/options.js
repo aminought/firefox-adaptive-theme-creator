@@ -4,50 +4,27 @@ export class Options {
     PAGE: "page",
   };
 
-  static PARTS = {
-    tab_selected: {
-      connected_parts: [],
-      foreground_parts: ["tab_text"],
-    },
-    sidebar: {
-      connected_parts: [],
-      foreground_parts: ["sidebar_text"],
-    },
-    toolbar: {
-      connected_parts: ["toolbar_bottom_separator"],
-      foreground_parts: ["toolbar_text", "bookmark_text", "icons"],
-    },
-    toolbar_field: {
-      connected_parts: ["toolbar_field_focus"],
-      foreground_parts: ["toolbar_field_text"],
-    },
-    frame: {
-      connected_parts: [],
-      foreground_parts: ["tab_background_text"],
-    },
-    popup: {
-      connected_parts: [],
-      foreground_parts: ["popup_text"],
-    },
-  };
+  static DEFAULT_SOURCE = this.SOURCES.FAVICON;
+  static DEFAULT_SATURATION_LIMIT = "0.5";
+  static DEFAULT_DARKNESS = "0.0";
+  static DEFAULT_BRIGHTNESS = "0.0";
+  static DEFAULT_COLOR_VALUE_OFFSET = 15;
+  static DEFAULT_CACHE_ENABLED = true;
+  static DEFAULT_PART_ENABLED = false;
+  static DEFAULT_PART_CUSTOM_ENABLED = false;
 
-  constructor(storage) {
-    this.reset();
-    for (const key in storage) {
-      if (key in this.options) {
-        this.set(key, storage[key]);
-      }
-    }
+  constructor() {
+    this.options = Options.makeDefault();
   }
 
   static makeDefault() {
     const options = {
-      source: this.SOURCES.FAVICON,
-      saturation_limit: "0.5",
-      darken: "0.0",
-      brighten: "0.0",
-      color_value_offset: 15,
-      cache_enabled: true,
+      source: this.DEFAULT_SOURCE,
+      saturation_limit: this.DEFAULT_SATURATION_LIMIT,
+      darkness: this.DEFAULT_DARKNESS,
+      brightness: this.DEFAULT_BRIGHTNESS,
+      color_value_offset: this.DEFAULT_COLOR_VALUE_OFFSET,
+      cache_enabled: this.DEFAULT_CACHE_ENABLED,
     };
     Options.addPartOptions(options, "tab_selected", true);
     Options.addPartOptions(options, "sidebar");
@@ -58,145 +35,108 @@ export class Options {
     return options;
   }
 
-  static addPartOptions(options, part, enabled = false) {
+  /**
+   *
+   * @param {object} options
+   * @param {string} part
+   * @param {boolean} enabled
+   */
+  static addPartOptions(options, part, enabled = this.DEFAULT_PART_ENABLED) {
     options[`${part}.enabled`] = enabled;
-    options[`${part}.custom_enabled`] = false;
-    options[`${part}.source`] = null;
-    options[`${part}.saturation_limit`] = null;
-    options[`${part}.darken`] = null;
-    options[`${part}.brighten`] = null;
+    options[`${part}.custom_enabled`] = this.DEFAULT_PART_CUSTOM_ENABLED;
+    options[`${part}.source`] = this.DEFAULT_SOURCE;
+    options[`${part}.saturation_limit`] = this.DEFAULT_SATURATION_LIMIT;
+    options[`${part}.darkness`] = this.DEFAULT_DARKNESS;
+    options[`${part}.brightness`] = this.DEFAULT_BRIGHTNESS;
   }
 
   static async load() {
     const storage = await browser.storage.sync.get();
-    return new Options(storage);
+    const options = new Options(storage);
+    await options.reload();
+    await options.save();
+    return options;
   }
 
   async reload() {
     const storage = await browser.storage.sync.get();
     for (const key in storage) {
-      if (key in this.options) {
-        this.set(key, storage[key]);
+      if (key in this.options && storage[key] !== null) {
+        this.options[key] = storage[key];
       }
     }
   }
 
-  async save() {
-    await browser.storage.sync.set(this.options).then(() => {
+  /**
+   *
+   * @param {object?} options
+   */
+  async save(options = null) {
+    await browser.storage.sync.set(options || this.options).then(() => {
       browser.runtime.sendMessage({ event: "optionsUpdated" });
     });
   }
 
-  reset() {
+  async reset() {
     this.options = Options.makeDefault();
+    await this.save();
   }
 
-  set(key, value) {
+  getGlobalOptions() {
+    return {
+      source: this.options.source,
+      saturationLimit: this.options.saturation_limit,
+      darkness: this.options.darkness,
+      brightness: this.options.brightness,
+      cacheEnabled: this.options.cache_enabled,
+      colorValueOffset: this.options.color_value_offset,
+    };
+  }
+
+  /**
+   *
+   * @param {string} part
+   */
+  getPartOptions(part) {
+    return {
+      enabled: this.getPartOption(part, "enabled"),
+      customEnabled: this.getPartOption(part, "custom_enabled"),
+      source: this.getPartOption(part, "source"),
+      saturationLimit: this.getPartOption(part, "saturation_limit"),
+      darkness: this.getPartOption(part, "darkness"),
+      brightness: this.getPartOption(part, "brightness"),
+    };
+  }
+
+  /**
+   *
+   * @param {string} part
+   * @param {string} part_key
+   * @returns {any}
+   */
+  getPartOption(part, part_key) {
+    return this.options[`${part}.${part_key}`];
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @param {any} value
+   */
+  async setGlobalOption(key, value) {
     this.options[key] = value;
+    await this.save({ [key]: value });
   }
 
-  get(key) {
-    return this.options[key];
-  }
-
-  keys() {
-    return Object.keys(this.options);
-  }
-
-  getGlobalSource() {
-    return this.options.source;
-  }
-
-  getGlobalSaturationLimit() {
-    return this.options.saturation_limit;
-  }
-
-  getGlobalDarken() {
-    return this.options.darken;
-  }
-
-  getGlobalBrighten() {
-    return this.options.brighten;
-  }
-
-  getColorValueOffset() {
-    return this.options.color_value_offset;
-  }
-
-  getCacheEnabled() {
-    return this.options.cache_enabled;
-  }
-
-  isEnabled(part) {
-    return this.options[`${part}.enabled`];
-  }
-
-  setEnabled(part, value) {
-    this.options[`${part}.enabled`] = value;
-  }
-
-  toggleEnabled(part) {
-    this.setEnabled(part, !this.isEnabled(part));
-  }
-
-  isCustomEnabled(part) {
-    return this.options[`${part}.custom_enabled`];
-  }
-
-  setCustomEnabled(part, value) {
-    this.options[`${part}.custom_enabled`] = value;
-  }
-
-  getCustomSource(part) {
-    return this.options[`${part}.source`];
-  }
-
-  setCustomSource(part, value) {
-    this.options[`${part}.source`] = value;
-  }
-
-  getCustomSaturationLimit(part) {
-    return this.options[`${part}.saturation_limit`];
-  }
-
-  setCustomSaturationLimit(part, value) {
-    this.options[`${part}.saturation_limit`] = value;
-  }
-
-  getCustomDarken(part) {
-    return this.options[`${part}.darken`];
-  }
-
-  setCustomDarken(part, value) {
-    this.options[`${part}.darken`] = value;
-  }
-
-  getCustomBrighten(part) {
-    return this.options[`${part}.brighten`];
-  }
-
-  setCustomBrighten(part, value) {
-    this.options[`${part}.brighten`] = value;
-  }
-
-  static getBackgroundParts() {
-    return Object.keys(Options.PARTS);
-  }
-
-  static getForegroundParts(part) {
-    return Options.PARTS[part].foreground_parts;
-  }
-
-  static getConnectedParts(part) {
-    return Options.PARTS[part].connected_parts;
-  }
-
-  static getAllParts() {
-    let parts = Options.getBackgroundParts();
-    for (const backgroundPart of Options.getBackgroundParts()) {
-      parts = parts.concat(Options.getForegroundParts(backgroundPart));
-      parts = parts.concat(Options.getConnectedParts(backgroundPart));
-    }
-    return parts;
+  /**
+   *
+   * @param {string} part
+   * @param {string} key
+   * @param {any} value
+   */
+  async setPartOption(part, key, value) {
+    const part_key = `${part}.${key}`;
+    this.options[part_key] = value;
+    await this.save({ [part_key]: value });
   }
 }

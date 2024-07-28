@@ -261,7 +261,7 @@ input[type="number"] {
   display: none;
 }
 
-#context_menu:not(:has(.custom_enabled:checked)) > .custom_options {
+#context_menu:not(:has(#part_custom_enabled:checked)) > .custom_option {
   display: none;
 }
 

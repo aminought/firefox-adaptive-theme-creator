@@ -7,11 +7,11 @@
   </head>
 
   <body>
-    <form id="options">
+    <div id="options">
       <div class="options_group">
         <div class="option">
           <label class="option_title" for="source" data-i18n="source"></label>
-          <select id="source" class="option_input" name="source"></select>
+          <select id="source" name="source"></select>
         </div>
       </div>
 
@@ -22,25 +22,25 @@
             for="saturation_limit"
             data-i18n="saturationLimit"
           ></label>
-          <select
-            id="saturation_limit"
-            class="option_input"
-            name="saturation_limit"
-          ></select>
-        </div>
-
-        <div class="option">
-          <label class="option_title" for="darken" data-i18n="darkness"></label>
-          <select class="option_input" id="darken" name="darken"></select>
+          <select id="saturation_limit" name="saturation_limit"></select>
         </div>
 
         <div class="option">
           <label
             class="option_title"
-            for="brighten"
+            for="darkness"
+            data-i18n="darkness"
+          ></label>
+          <select id="darkness" name="darkness"></select>
+        </div>
+
+        <div class="option">
+          <label
+            class="option_title"
+            for="brightness"
             data-i18n="brightness"
           ></label>
-          <select class="option_input" id="brighten" name="brighten"></select>
+          <select id="brightness" name="brightness"></select>
         </div>
       </div>
 
@@ -71,67 +71,46 @@
       <div id="context_menu" class="hidden">
         <label id="context_menu_title"></label>
         <div class="option">
+          <label for="part_custom_enabled" data-i18n="specialSettings"></label>
+          <input id="part_custom_enabled" type="checkbox" />
+        </div>
+        <div class="option custom_option">
+          <label for="part_source" data-i18n="source"></label>
+          <select id="part_source"></select>
+        </div>
+        <div class="option custom_option">
           <label
-            class="option_title"
-            for="custom_enabled"
-            data-i18n="specialSettings"
+            for="part_saturation_limit"
+            data-i18n="saturationLimit"
           ></label>
-          <input class="optoin_value custom_enabled" type="checkbox" />
+          <select id="part_saturation_limit"></select>
         </div>
-        <div class="option custom_options">
-          <label class="option_title" for="source" data-i18n="source"></label>
-          <select class="option_input custom_source"></select>
+        <div class="option custom_option">
+          <label for="part_darkness" data-i18n="darkness"></label>
+          <select id="part_darkness"></select>
         </div>
-        <div class="option custom_options">
-          <label class="option_title" data-i18n="saturationLimit"></label>
-          <select class="option_input custom_saturation_limit"></select>
-        </div>
-        <div class="option custom_options">
-          <label class="option_title" data-i18n="darkness"></label>
-          <select class="option_input custom_darken"></select>
-        </div>
-        <div class="option custom_options">
-          <label class="option_title" data-i18n="brightness"></label>
-          <select class="option_input custom_brighten"></select>
+        <div class="option custom_option">
+          <label for="part_brightness" data-i18n="brightness"></label>
+          <select id="part_brightness"></select>
         </div>
       </div>
 
       <div class="options_group">
         <div class="option">
-          <label
-            class="option_title"
-            for="cache_enabled"
-            data-i18n="enableCache"
-          ></label>
-          <input
-            id="cache_enabled"
-            class="option_input"
-            name="cache_enabled"
-            type="checkbox"
-          />
+          <label for="cache_enabled" data-i18n="enableCache"></label>
+          <input id="cache_enabled" type="checkbox" />
         </div>
 
         <div class="option">
-          <label
-            class="option_title"
-            for="color_value_offset"
-            data-i18n="colorValueOffset"
-          ></label>
-          <input
-            id="color_value_offset"
-            class="option_input"
-            name="color_value_offset"
-            type="number"
-            min="0"
-            max="255"
-          />
+          <label for="color_value_offset" data-i18n="colorValueOffset"></label>
+          <input id="color_value_offset" type="number" min="0" max="255" />
         </div>
       </div>
 
       <div class="button right">
         <button id="reset_button" type="button" data-i18n="reset"></button>
       </div>
-    </form>
+    </div>
 
     <div id="warning">
       <div id="warning_text">

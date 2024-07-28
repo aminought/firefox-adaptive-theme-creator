@@ -1,44 +1,26 @@
 import { Color } from "./color.js";
-
-const blobToBase64 = (blob) => {
-  const blobUrl = URL.createObjectURL(blob);
-
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = (err) => reject(err);
-    img.src = blobUrl;
-  }).then((img) => {
-    URL.revokeObjectURL(blobUrl);
-    const [width, height] = [img.width, img.height];
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(img, 0, 0);
-    return canvas.toDataURL();
-  });
-};
-
-const imageDataToBlob = (imageData) => {
-  const { width, height } = imageData;
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  ctx.putImageData(imageData, 0, 0);
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(resolve);
-  });
-};
+// eslint-disable-next-line no-unused-vars
+import { Options } from "../options/options.js";
 
 export class ColorExtractor {
+  /**
+   *
+   * @param {Options} options
+   */
   constructor(options) {
     this.options = options;
   }
 
+  /**
+   *
+   * @param {number} red
+   * @param {number} green
+   * @param {number} blue
+   * @returns {boolean}
+   */
   isColorInvalid(red, green, blue) {
-    const min = this.options.getColorValueOffset();
+    const { colorValueOffset } = this.options.getGlobalOptions();
+    const min = colorValueOffset;
     const max = 255 - min;
     return (
       isNaN(red) ||
@@ -49,6 +31,13 @@ export class ColorExtractor {
     );
   }
 
+  /**
+   *
+   * @param {ImageData} imageData
+   * @param {number} width
+   * @param {number} height
+   * @returns {object[]}
+   */
   extractPaletteFromImageData(imageData, width, height) {
     const colorPalette = new Map();
     const numPixels = width * height;
@@ -75,6 +64,13 @@ export class ColorExtractor {
     return palette;
   }
 
+  /**
+   *
+   * @param {HTMLImageElement} image
+   * @param {HTMLCanvasElement} canvas
+   * @param {CanvasRenderingContext2D} context
+   * @returns {object[]}
+   */
   extractPaletteFromImage(image, canvas, context) {
     canvas.width = image.width;
     canvas.height = image.height;
@@ -88,6 +84,11 @@ export class ColorExtractor {
     );
   }
 
+  /**
+   *
+   * @param {string} base64Image
+   * @returns {object[]}
+   */
   getColorPalette(base64Image) {
     if (!base64Image) {
       throw new Error("No image provided");
@@ -112,6 +113,11 @@ export class ColorExtractor {
     });
   }
 
+  /**
+   *
+   * @param {string} base64Image
+   * @returns {Color?}
+   */
   async getMostPopularColorFromFavicon(base64Image) {
     const palette = await this.getColorPalette(base64Image);
     return palette.length ? new Color(palette[0]) : null;
@@ -134,15 +140,6 @@ export class ColorExtractor {
           canvas.height = image.height;
           context.drawImage(image, 0, 0);
           const imageData = context.getImageData(0, 0, image.width, 10);
-
-          // console.log("imageData:", imageData);
-
-          // imageDataToBlob(imageData).then((blob) => {
-          //   console.log("blob:", blob);
-          //   blobToBase64(blob).then((base64) => {
-          //     console.log("base64:", base64);
-          //   });
-          // });
 
           const palette = this.extractPaletteFromImageData(
             imageData,
