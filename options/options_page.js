@@ -1,6 +1,5 @@
 import { BrowserParts } from "./browser_parts.js";
 import { BrowserPreview } from "./browser_preview.js";
-import { Color } from "../colors/color.js";
 import { ContextMenu } from "./context_menu.js";
 import { Form } from "./form.js";
 import { Localizer } from "./localizer.js";
@@ -24,21 +23,9 @@ const stylePage = async (options) => {
   setRootColor("--background-color", theme.getColor("popup")?.css());
   setRootColor("--color", theme.getColor("popup_text")?.css());
 
-  const [tab] = await browser.tabs.query({ active: true });
-
   for (const part of BrowserParts.getBackgroundParts()) {
-    let { saturationLimit, darkness, brightness } = options.getGlobalOptions();
     const partOptions = options.getPartOptions(part);
-    let color = theme.getColor(part);
-    if (tab.url.startsWith("about:")) {
-      if (partOptions.enabled) {
-        ({ saturationLimit, darkness, brightness } = partOptions);
-      }
-      color = new Color("red")
-        .limitSaturation(saturationLimit)
-        .darken(darkness)
-        .brighten(brightness);
-    }
+    const color = theme.getColor(part);
     BrowserPreview.colorPart(part, color);
     BrowserPreview.markChanged(part, partOptions.enabled);
   }
