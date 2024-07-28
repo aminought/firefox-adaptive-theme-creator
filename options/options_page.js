@@ -26,8 +26,7 @@ const stylePage = async (options) => {
   for (const part of BrowserParts.getBackgroundParts()) {
     const partOptions = options.getPartOptions(part);
     const color = theme.getColor(part);
-    BrowserPreview.colorPart(part, color);
-    BrowserPreview.markChanged(part, partOptions.enabled);
+    BrowserPreview.colorPart(part, color, partOptions.enabled);
   }
 };
 

@@ -1,5 +1,4 @@
 import { Color } from "./color.js";
-// eslint-disable-next-line no-unused-vars
 import { Options } from "../options/options.js";
 
 const AVOID_WHITE_OFFSET = 15;
