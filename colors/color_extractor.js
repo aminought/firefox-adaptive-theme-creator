@@ -16,10 +16,11 @@ export class ColorExtractor {
    * @param {number} red
    * @param {number} green
    * @param {number} blue
+   * @param {number} colorValueOffset
    * @returns {boolean}
    */
-  isColorInvalid(red, green, blue) {
-    const { colorValueOffset } = this.options.getGlobalOptions();
+  // eslint-disable-next-line max-params
+  static isColorInvalid(red, green, blue, colorValueOffset) {
     const min = colorValueOffset;
     const max = 255 - min;
     return (
@@ -42,13 +43,15 @@ export class ColorExtractor {
     const colorPalette = new Map();
     const numPixels = width * height;
 
+    const { colorValueOffset } = this.options.getGlobalOptions();
+
     for (let i = 0; i < numPixels; i++) {
       const offset = i * 4;
       const red = imageData.data[offset];
       const green = imageData.data[offset + 1];
       const blue = imageData.data[offset + 2];
 
-      if (this.isColorInvalid(red, green, blue)) {
+      if (ColorExtractor.isColorInvalid(red, green, blue, colorValueOffset)) {
         continue;
       }
 
@@ -123,8 +126,15 @@ export class ColorExtractor {
     return palette.length ? new Color(palette[0]) : null;
   }
 
-  async getMostPopularColorFromPage() {
-    const base64Image = await browser.tabs.captureTab();
+  /**
+   *
+   * @param {Tab} tab
+   * @returns {Color?}
+   */
+  async getMostPopularColorFromPage(tab) {
+    const base64Image = await browser.tabs.captureTab(tab.id, {
+      rect: { x: 0, y: 0, width: tab.width, height: 1 },
+    });
     if (!base64Image) {
       throw new Error("No image provided");
     }
@@ -136,15 +146,16 @@ export class ColorExtractor {
     return new Promise((resolve, reject) => {
       image.onload = () => {
         try {
-          canvas.width = image.width;
-          canvas.height = image.height;
+          const { width, height } = image;
+          canvas.width = width;
+          canvas.height = height;
           context.drawImage(image, 0, 0);
-          const imageData = context.getImageData(0, 0, image.width, 10);
+          const imageData = context.getImageData(0, 0, width, height);
 
           const palette = this.extractPaletteFromImageData(
             imageData,
-            image.width,
-            image.height
+            width,
+            height
           );
           resolve(palette.length ? new Color(palette[0]) : null);
         } catch (error) {

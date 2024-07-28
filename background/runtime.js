@@ -40,7 +40,7 @@ export class Runtime {
       const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
         tab.favIconUrl
       );
-      const pageMostPopularColor = await this.getMostPopularColorFromPage();
+      const pageMostPopularColor = await this.getMostPopularColorFromPage(tab);
 
       for (const backgroundPart of BrowserParts.getBackgroundParts()) {
         let { source, saturationLimit, darkness, brightness } =
@@ -107,10 +107,11 @@ export class Runtime {
 
   /**
    *
+   * @param {Tab} tab
    * @returns {Color?}
    */
-  async getMostPopularColorFromPage() {
-    return await this.colorExtractor.getMostPopularColorFromPage();
+  async getMostPopularColorFromPage(tab) {
+    return await this.colorExtractor.getMostPopularColorFromPage(tab);
   }
 
   /**
