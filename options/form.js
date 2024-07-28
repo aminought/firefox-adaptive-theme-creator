@@ -7,8 +7,11 @@ export class Form {
   static darkness = document.getElementById("darkness");
   static brightness = document.getElementById("brightness");
   static cacheEnabled = document.getElementById("cache_enabled");
-  static colorValueOffset = document.getElementById("color_value_offset");
+  static faviconAvoidWhite = document.getElementById("favicon_avoid_white");
+  static faviconAvoidBlack = document.getElementById("favicon_avoid_black");
   static pageCaptureHeight = document.getElementById("page_capture_height");
+  static pageAvoidWhite = document.getElementById("page_avoid_white");
+  static pageAvoidBlack = document.getElementById("page_avoid_black");
   static resetButton = document.getElementById("reset_button");
 
   /**
@@ -32,8 +35,11 @@ export class Form {
     Form.darkness.value = globalOptions.darkness;
     Form.brightness.value = globalOptions.brightness;
     Form.cacheEnabled.checked = globalOptions.cacheEnabled;
-    Form.colorValueOffset.value = globalOptions.colorValueOffset;
-    Form.pageCaptureHeight.value = globalOptions.pageCaptureHeight;
+    Form.faviconAvoidWhite.checked = globalOptions.favicon.avoidWhite;
+    Form.faviconAvoidBlack.checked = globalOptions.favicon.avoidBlack;
+    Form.pageCaptureHeight.value = globalOptions.page.captureHeight;
+    Form.pageAvoidWhite.checked = globalOptions.page.avoidWhite;
+    Form.pageAvoidBlack.checked = globalOptions.page.avoidBlack;
   }
 
   setupListeners() {
@@ -43,10 +49,16 @@ export class Form {
     Form.darkness.onchange = (e) => this.saveValue(e, "darkness");
     Form.brightness.onchange = (e) => this.saveValue(e, "brightness");
     Form.cacheEnabled.onclick = (e) => this.saveChecked(e, "cache_enabled");
-    Form.colorValueOffset.onchange = (e) =>
-      this.saveValue(e, "color_value_offset");
+    Form.faviconAvoidWhite.onchange = (e) =>
+      this.saveChecked(e, "favicon.avoid_white");
+    Form.faviconAvoidBlack.onchange = (e) =>
+      this.saveChecked(e, "favicon.avoid_black");
     Form.pageCaptureHeight.onchange = (e) =>
-      this.saveValue(e, "page_capture_height");
+      this.saveValue(e, "page.capture_height");
+    Form.pageAvoidWhite.onchange = (e) =>
+      this.saveChecked(e, "page.avoid_white");
+    Form.pageAvoidBlack.onchange = (e) =>
+      this.saveChecked(e, "page.avoid_black");
 
     Form.resetButton.onclick = (e) => this.reset(e);
   }

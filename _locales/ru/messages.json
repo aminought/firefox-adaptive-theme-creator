@@ -17,9 +17,6 @@
     "enableCache": {
         "message": "Включить кэш"
     },
-    "colorValueOffset": {
-        "message": "Смещение значения цвета (0-255)"
-    },
     "reset": {
         "message": "Сбросить"
     },
@@ -56,7 +53,19 @@
     "warning": {
         "message": "Текущая тема несовместима с данным расширением. Пожалуйста, установите тему, отличную от системной."
     },
+    "avoidWhite": {
+        "message": "Избегать белого"
+    },
+    "avoidBlack": {
+        "message": "Избегать черного"
+    },
     "pageCaptureHeight": {
-        "message": "Высота захвата страницы"
+        "message": "Высота снимка"
+    },
+    "pageOptions": {
+        "message": "НАСТРОЙКИ ЦВЕТА ИКОНКИ"
+    },
+    "faviconOptions": {
+        "message": "НАСТРОЙКИ ЦВЕТА СТРАНИЦЫ"
     }
 }

@@ -8,14 +8,14 @@
 
   <body>
     <div id="options">
-      <div class="options_group">
+      <div class="options_row">
         <div class="option">
           <label class="option_title" for="source" data-i18n="source"></label>
           <select id="source" name="source"></select>
         </div>
       </div>
 
-      <div class="options_group">
+      <div class="options_row">
         <div class="option">
           <label
             class="option_title"
@@ -95,25 +95,61 @@
         </div>
       </div>
 
-      <div class="options_group">
+      <div class="options_row">
         <div class="option">
           <label for="cache_enabled" data-i18n="enableCache"></label>
           <input id="cache_enabled" type="checkbox" />
         </div>
-
-        <div class="option">
-          <label for="color_value_offset" data-i18n="colorValueOffset"></label>
-          <input id="color_value_offset" type="number" min="0" max="255" />
-        </div>
       </div>
 
-      <div class="options_group">
-        <div class="option">
-          <label
-            for="page_capture_height"
-            data-i18n="pageCaptureHeight"
-          ></label>
-          <input id="page_capture_height" type="number" min="1" max="500" />
+      <div class="options_row">
+        <div class="options_group_wrapper">
+          <p class="options_group_title" data-i18n="faviconOptions"></p>
+          <div class="options_group">
+            <div class="options_row">
+              <div class="option">
+                <label for="favicon_avoid_white" data-i18n="avoidWhite"></label>
+                <input id="favicon_avoid_white" type="checkbox" />
+              </div>
+
+              <div class="option">
+                <label for="favicon_avoid_black" data-i18n="avoidBlack"></label>
+                <input id="favicon_avoid_black" type="checkbox" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="options_group_wrapper">
+          <p class="options_group_title" data-i18n="pageOptions"></p>
+          <div class="options_group">
+            <div class="options_row">
+              <div class="option">
+                <label for="page_avoid_white" data-i18n="avoidWhite"></label>
+                <input id="page_avoid_white" type="checkbox" />
+              </div>
+
+              <div class="option">
+                <label for="page_avoid_black" data-i18n="avoidBlack"></label>
+                <input id="page_avoid_black" type="checkbox" />
+              </div>
+            </div>
+
+            <div class="options_row">
+              <div class="option">
+                <label
+                  for="page_capture_height"
+                  data-i18n="pageCaptureHeight"
+                ></label>
+                <input
+                  id="page_capture_height"
+                  type="number"
+                  min="1"
+                  max="500"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

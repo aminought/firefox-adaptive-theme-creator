@@ -85,6 +85,7 @@ export class Runtime {
       }
       // eslint-disable-next-line no-unused-vars
     } catch (e) {
+      console.log(e);
       /* Empty */
     } finally {
       const theme = this.defaultTheme.clone();

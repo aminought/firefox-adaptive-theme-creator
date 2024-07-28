@@ -176,13 +176,32 @@ body {
   gap: 8px;
 }
 
-.options_group {
+.options_row {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
   gap: 8px;
+}
+
+.options_group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.options_group_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--radius);
+  border: solid 1px;
+  padding: 2px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.options_group_title {
+  align-self: center;
+  margin: 0px;
 }
 
 .option {
@@ -191,7 +210,6 @@ body {
   justify-content: space-between;
   align-items: center;
   gap: 4px;
-  /* background-color: color-mix(in srgb, currentColor 20%, transparent); */
   padding-left: 4px;
   border-radius: var(--radius);
   border: solid 1px;

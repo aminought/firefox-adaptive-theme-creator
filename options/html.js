@@ -8,7 +8,6 @@ import { Localizer } from "./localizer.js";
  * @param {number} step
  * @param {number=} fixed
  */
-// eslint-disable-next-line max-params
 const addNumberOptions = (selector, start, end, step, fixed = 1) => {
   const select = document.querySelector(selector);
   for (let i = start; i <= end; i += step) {

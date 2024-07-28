@@ -4,36 +4,36 @@ export class Options {
     PAGE: "page",
   };
 
-  static DEFAULT_SOURCE = this.SOURCES.FAVICON;
-  static DEFAULT_SATURATION_LIMIT = "0.5";
-  static DEFAULT_DARKNESS = "0.0";
-  static DEFAULT_BRIGHTNESS = "0.0";
-  static DEFAULT_COLOR_VALUE_OFFSET = 15;
-  static DEFAULT_CACHE_ENABLED = true;
-  static DEFAULT_PART_ENABLED = false;
-  static DEFAULT_PART_CUSTOM_ENABLED = false;
-  static DEFAULT_PAGE_CAPTURE_HEIGHT = 1;
-
   constructor() {
     this.options = Options.makeDefault();
   }
 
   static makeDefault() {
     const options = {
-      source: this.DEFAULT_SOURCE,
-      saturation_limit: this.DEFAULT_SATURATION_LIMIT,
-      darkness: this.DEFAULT_DARKNESS,
-      brightness: this.DEFAULT_BRIGHTNESS,
-      color_value_offset: this.DEFAULT_COLOR_VALUE_OFFSET,
-      cache_enabled: this.DEFAULT_CACHE_ENABLED,
-      page_capture_height: this.DEFAULT_PAGE_CAPTURE_HEIGHT,
+      source: this.SOURCES.PAGE,
+      saturation_limit: "1.0",
+      darkness: "0.0",
+      brightness: "0.0",
+      cache_enabled: true,
+      "favicon.avoid_white": true,
+      "favicon.avoid_black": true,
+      "page.capture_height": "1",
+      "page.avoid_white": false,
+      "page.avoid_black": false,
     };
-    Options.addPartOptions(options, "tab_selected", true);
-    Options.addPartOptions(options, "sidebar");
-    Options.addPartOptions(options, "toolbar");
-    Options.addPartOptions(options, "toolbar_field");
-    Options.addPartOptions(options, "frame");
-    Options.addPartOptions(options, "popup");
+    Options.makePartOptions(
+      options,
+      "tab_selected",
+      true,
+      true,
+      Options.SOURCES.FAVICON,
+      "0.5"
+    );
+    Options.makePartOptions(options, "sidebar");
+    Options.makePartOptions(options, "toolbar");
+    Options.makePartOptions(options, "toolbar_field");
+    Options.makePartOptions(options, "frame");
+    Options.makePartOptions(options, "popup");
     return options;
   }
 
@@ -41,15 +41,25 @@ export class Options {
    *
    * @param {object} options
    * @param {string} part
-   * @param {boolean} enabled
+   * @param {boolean=} enabled
+   * @param {boolean=} customEnabled
+   * @param {string=} source
+   * @param {string=} saturationLimit
    */
-  static addPartOptions(options, part, enabled = this.DEFAULT_PART_ENABLED) {
+  static makePartOptions(
+    options,
+    part,
+    enabled = true,
+    customEnabled = false,
+    source = Options.SOURCES.PAGE,
+    saturationLimit = "1.0"
+  ) {
     options[`${part}.enabled`] = enabled;
-    options[`${part}.custom_enabled`] = this.DEFAULT_PART_CUSTOM_ENABLED;
-    options[`${part}.source`] = this.DEFAULT_SOURCE;
-    options[`${part}.saturation_limit`] = this.DEFAULT_SATURATION_LIMIT;
-    options[`${part}.darkness`] = this.DEFAULT_DARKNESS;
-    options[`${part}.brightness`] = this.DEFAULT_BRIGHTNESS;
+    options[`${part}.custom_enabled`] = customEnabled;
+    options[`${part}.source`] = source;
+    options[`${part}.saturation_limit`] = saturationLimit;
+    options[`${part}.darkness`] = "0.0";
+    options[`${part}.brightness`] = "0.0";
   }
 
   static async load() {
@@ -71,9 +81,9 @@ export class Options {
 
   /**
    *
-   * @param {object?} options
+   * @param {object=} options
    */
-  async save(options = null) {
+  async save(options) {
     await browser.storage.sync.set(options || this.options).then(() => {
       browser.runtime.sendMessage({ event: "optionsUpdated" });
     });
@@ -91,8 +101,15 @@ export class Options {
       darkness: this.options.darkness,
       brightness: this.options.brightness,
       cacheEnabled: this.options.cache_enabled,
-      colorValueOffset: this.options.color_value_offset,
-      pageCaptureHeight: this.options.page_capture_height,
+      favicon: {
+        avoidWhite: this.options["favicon.avoid_white"],
+        avoidBlack: this.options["favicon.avoid_black"],
+      },
+      page: {
+        captureHeight: this.options["page.capture_height"],
+        avoidWhite: this.options["page.avoid_white"],
+        avoidBlack: this.options["page.avoid_black"],
+      },
     };
   }
 

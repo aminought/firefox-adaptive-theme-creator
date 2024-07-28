@@ -2,6 +2,9 @@ import { Color } from "./color.js";
 // eslint-disable-next-line no-unused-vars
 import { Options } from "../options/options.js";
 
+const AVOID_WHITE_OFFSET = 15;
+const AVOID_BLACK_OFFSET = 15;
+
 export class ColorExtractor {
   /**
    *
@@ -16,13 +19,19 @@ export class ColorExtractor {
    * @param {number} red
    * @param {number} green
    * @param {number} blue
-   * @param {number} colorValueOffset
+   * @param {object} globalOptions
+   * @param {string} source
    * @returns {boolean}
    */
-  // eslint-disable-next-line max-params
-  static isColorInvalid(red, green, blue, colorValueOffset) {
-    const min = colorValueOffset;
-    const max = 255 - min;
+  static isColorInvalid(red, green, blue, globalOptions, source) {
+    let sourceOptions = null;
+    if (source === Options.SOURCES.FAVICON) {
+      sourceOptions = globalOptions.favicon;
+    } else if (source === Options.SOURCES.PAGE) {
+      sourceOptions = globalOptions.page;
+    }
+    const min = sourceOptions.avoidBlack ? AVOID_BLACK_OFFSET : 0;
+    const max = 255 - (sourceOptions.avoidWhite ? AVOID_WHITE_OFFSET : 0);
     return (
       isNaN(red) ||
       isNaN(green) ||
@@ -37,13 +46,14 @@ export class ColorExtractor {
    * @param {ImageData} imageData
    * @param {number} width
    * @param {number} height
+   * @param {string} source
    * @returns {object[]}
    */
-  extractPaletteFromImageData(imageData, width, height) {
+  extractPaletteFromImageData(imageData, width, height, source) {
     const colorPalette = new Map();
     const numPixels = width * height;
 
-    const { colorValueOffset } = this.options.getGlobalOptions();
+    const globalOptions = this.options.getGlobalOptions();
 
     for (let i = 0; i < numPixels; i++) {
       const offset = i * 4;
@@ -51,7 +61,9 @@ export class ColorExtractor {
       const green = imageData.data[offset + 1];
       const blue = imageData.data[offset + 2];
 
-      if (ColorExtractor.isColorInvalid(red, green, blue, colorValueOffset)) {
+      if (
+        ColorExtractor.isColorInvalid(red, green, blue, globalOptions, source)
+      ) {
         continue;
       }
 
@@ -72,9 +84,10 @@ export class ColorExtractor {
    * @param {HTMLImageElement} image
    * @param {HTMLCanvasElement} canvas
    * @param {CanvasRenderingContext2D} context
+   * @param {string} source
    * @returns {object[]}
    */
-  extractPaletteFromImage(image, canvas, context) {
+  extractPaletteFromImage(image, canvas, context, source) {
     canvas.width = image.width;
     canvas.height = image.height;
     context.drawImage(image, 0, 0);
@@ -83,16 +96,18 @@ export class ColorExtractor {
     return this.extractPaletteFromImageData(
       imageData,
       image.width,
-      image.height
+      image.height,
+      source
     );
   }
 
   /**
    *
    * @param {string} base64Image
+   * @param {string} source
    * @returns {object[]}
    */
-  getColorPalette(base64Image) {
+  getColorPalette(base64Image, source) {
     if (!base64Image) {
       throw new Error("No image provided");
     }
@@ -104,7 +119,12 @@ export class ColorExtractor {
     return new Promise((resolve, reject) => {
       image.onload = () => {
         try {
-          const palette = this.extractPaletteFromImage(image, canvas, context);
+          const palette = this.extractPaletteFromImage(
+            image,
+            canvas,
+            context,
+            source
+          );
           resolve(palette);
         } catch (error) {
           reject(error);
@@ -122,7 +142,10 @@ export class ColorExtractor {
    * @returns {Color?}
    */
   async getMostPopularColorFromFavicon(base64Image) {
-    const palette = await this.getColorPalette(base64Image);
+    const palette = await this.getColorPalette(
+      base64Image,
+      Options.SOURCES.FAVICON
+    );
     return palette.length ? new Color(palette[0]) : null;
   }
 
@@ -132,9 +155,14 @@ export class ColorExtractor {
    * @returns {Color?}
    */
   async getMostPopularColorFromPage(tab) {
-    const { pageCaptureHeight } = this.options.getGlobalOptions();
+    const globalOptions = this.options.getGlobalOptions();
     const base64Image = await browser.tabs.captureTab(tab.id, {
-      rect: { x: 0, y: 0, width: tab.width, height: Number(pageCaptureHeight) },
+      rect: {
+        x: 0,
+        y: 0,
+        width: tab.width,
+        height: Number(globalOptions.page.captureHeight),
+      },
     });
     if (!base64Image) {
       throw new Error("No image provided");
@@ -156,7 +184,8 @@ export class ColorExtractor {
           const palette = this.extractPaletteFromImageData(
             imageData,
             width,
-            height
+            height,
+            Options.SOURCES.PAGE
           );
           resolve(palette.length ? new Color(palette[0]) : null);
         } catch (error) {
