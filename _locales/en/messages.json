@@ -26,6 +26,9 @@
     "frame": {
         "message": "Frame"
     },
+    "frame_inactive": {
+        "message": "Inactive"
+    },
     "page": {
         "message": "Page"
     },
@@ -38,6 +41,9 @@
     "popup": {
         "message": "Popup"
     },
+    "popup_border": {
+        "message": "Border"
+    },
     "reset": {
         "message": "Reset"
     },
@@ -46,6 +52,9 @@
     },
     "sidebar": {
         "message": "Sidebar"
+    },
+    "sidebar_border": {
+        "message": "Border"
     },
     "source": {
         "message": "Color source"

@@ -5,7 +5,7 @@ export class BrowserParts {
       foreground_parts: ["tab_text"],
     },
     sidebar: {
-      connected_parts: [],
+      connected_parts: ["sidebar_border"],
       foreground_parts: ["sidebar_text"],
     },
     toolbar: {
@@ -17,11 +17,11 @@ export class BrowserParts {
       foreground_parts: ["toolbar_field_text"],
     },
     frame: {
-      connected_parts: [],
+      connected_parts: ["frame_inactive"],
       foreground_parts: ["tab_background_text"],
     },
     popup: {
-      connected_parts: [],
+      connected_parts: ["popup_border"],
       foreground_parts: ["popup_text"],
     },
   };

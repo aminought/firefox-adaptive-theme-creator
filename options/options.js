@@ -29,12 +29,15 @@ export class Options {
       "0.5"
     );
     Options.makePartOptions(options, "sidebar");
+    Options.makePartOptions(options, "sidebar_border");
     Options.makePartOptions(options, "toolbar");
     Options.makePartOptions(options, "toolbar_bottom_separator");
     Options.makePartOptions(options, "toolbar_field");
     Options.makePartOptions(options, "toolbar_field_focus");
     Options.makePartOptions(options, "frame");
+    Options.makePartOptions(options, "frame_inactive");
     Options.makePartOptions(options, "popup");
+    Options.makePartOptions(options, "popup_border");
     return options;
   }
 

@@ -24,7 +24,10 @@
         "message": "НАСТРОЙКИ ЦВЕТА СТРАНИЦЫ"
     },
     "frame": {
-        "message": "Рамка браузера"
+        "message": "Рамка"
+    },
+    "frame_inactive": {
+        "message": "Неактивная"
     },
     "page": {
         "message": "Страница"
@@ -38,6 +41,9 @@
     "popup": {
         "message": "Всплывающее окно"
     },
+    "popup_border": {
+        "message": "Рамка"
+    },
     "reset": {
         "message": "Сбросить"
     },
@@ -46,6 +52,9 @@
     },
     "sidebar": {
         "message": "Боковая панель"
+    },
+    "sidebar_border": {
+        "message": "Разделитель"
     },
     "source": {
         "message": "Источник цвета"
