@@ -6,7 +6,6 @@ export class Form {
   static saturationLimit = document.getElementById("saturation_limit");
   static darkness = document.getElementById("darkness");
   static brightness = document.getElementById("brightness");
-  static cacheEnabled = document.getElementById("cache_enabled");
   static faviconAvoidWhite = document.getElementById("favicon_avoid_white");
   static faviconAvoidBlack = document.getElementById("favicon_avoid_black");
   static pageCaptureHeight = document.getElementById("page_capture_height");
@@ -34,7 +33,6 @@ export class Form {
     Form.saturationLimit.value = globalOptions.saturationLimit;
     Form.darkness.value = globalOptions.darkness;
     Form.brightness.value = globalOptions.brightness;
-    Form.cacheEnabled.checked = globalOptions.cacheEnabled;
     Form.faviconAvoidWhite.checked = globalOptions.favicon.avoidWhite;
     Form.faviconAvoidBlack.checked = globalOptions.favicon.avoidBlack;
     Form.pageCaptureHeight.value = globalOptions.page.captureHeight;
@@ -48,7 +46,6 @@ export class Form {
       this.saveValue(e, "saturation_limit");
     Form.darkness.onchange = (e) => this.saveValue(e, "darkness");
     Form.brightness.onchange = (e) => this.saveValue(e, "brightness");
-    Form.cacheEnabled.onclick = (e) => this.saveChecked(e, "cache_enabled");
     Form.faviconAvoidWhite.onchange = (e) =>
       this.saveChecked(e, "favicon.avoid_white");
     Form.faviconAvoidBlack.onchange = (e) =>

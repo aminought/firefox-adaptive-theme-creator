@@ -1,5 +1,4 @@
 import { BrowserParts } from "../options/browser_parts.js";
-import { Cache } from "./cache.js";
 // eslint-disable-next-line no-unused-vars
 import { Color } from "../colors/color.js";
 import { ColorExtractor } from "../colors/color_extractor.js";
@@ -15,7 +14,6 @@ export class Runtime {
     this.options = options;
     this.defaultTheme = theme;
 
-    this.cache = new Cache();
     this.colorExtractor = new ColorExtractor(this.options);
   }
 
@@ -141,7 +139,6 @@ export class Runtime {
 
   async onOptionsUpdated() {
     await this.options.reload();
-    this.cache.clear();
     await this.updateTheme();
   }
 

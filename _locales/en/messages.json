@@ -14,9 +14,6 @@
     "page": {
         "message": "Page"
     },
-    "enableCache": {
-        "message": "Enable cache"
-    },
     "reset": {
         "message": "Reset"
     },

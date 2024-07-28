@@ -14,9 +14,6 @@
     "page": {
         "message": "Страница"
     },
-    "enableCache": {
-        "message": "Включить кэш"
-    },
     "reset": {
         "message": "Сбросить"
     },

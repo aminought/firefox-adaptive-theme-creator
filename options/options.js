@@ -14,7 +14,6 @@ export class Options {
       saturation_limit: "1.0",
       darkness: "0.0",
       brightness: "0.0",
-      cache_enabled: true,
       "favicon.avoid_white": true,
       "favicon.avoid_black": true,
       "page.capture_height": "1",
@@ -100,7 +99,6 @@ export class Options {
       saturationLimit: this.options.saturation_limit,
       darkness: this.options.darkness,
       brightness: this.options.brightness,
-      cacheEnabled: this.options.cache_enabled,
       favicon: {
         avoidWhite: this.options["favicon.avoid_white"],
         avoidBlack: this.options["favicon.avoid_black"],
