@@ -17,6 +17,37 @@ export class Runtime {
     this.colorExtractor = new ColorExtractor(this.options);
   }
 
+  /**
+   *
+   * @param {Color} faviconMostPopularColor
+   * @param {Color} pageMostPopularColor
+   * @param {string} source
+   * @param {number} saturationLimit
+   * @param {number} darkness
+   * @param {number} brightness
+   * @returns {Color}
+   */
+  static computeColor(
+    faviconMostPopularColor,
+    pageMostPopularColor,
+    source,
+    saturationLimit,
+    darkness,
+    brightness
+  ) {
+    let mostPopularColor = null;
+    if (source === Options.SOURCES.FAVICON) {
+      mostPopularColor = faviconMostPopularColor;
+    } else if (source === Options.SOURCES.PAGE) {
+      mostPopularColor = pageMostPopularColor;
+    }
+
+    return mostPopularColor
+      .limitSaturation(saturationLimit)
+      .darken(darkness)
+      .brighten(brightness);
+  }
+
   async updateTheme(tab) {
     if (!this.defaultTheme.isCompatible()) {
       return;
@@ -34,68 +65,92 @@ export class Runtime {
     );
 
     try {
+      const globalOptions = this.options.getGlobalOptions();
+
       const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
         tab.favIconUrl
       );
       const pageMostPopularColor = await this.getMostPopularColorFromPage(tab);
 
+      if (faviconMostPopularColor === null || pageMostPopularColor === null) {
+        return;
+      }
+
+      // Global colors
+      const globalBackgroundColor = Runtime.computeColor(
+        faviconMostPopularColor,
+        pageMostPopularColor,
+        globalOptions.source,
+        globalOptions.saturationLimit,
+        globalOptions.darkness,
+        globalOptions.brightness
+      );
+      const globalForegroundColor = globalBackgroundColor.getForeground();
+
+      // Background parts
       for (const backgroundPart of BrowserParts.getBackgroundParts()) {
-        let { source, saturationLimit, darkness, brightness } =
-          this.options.getGlobalOptions();
         const partOptions = this.options.getPartOptions(backgroundPart);
 
         if (!partOptions.enabled) {
           continue;
         }
 
-        if (partOptions.customEnabled) {
-          ({ source, saturationLimit, darkness, brightness } = partOptions);
+        // Part background color
+        let partBackgroundColor = globalBackgroundColor;
+        let partForegroundColor = globalForegroundColor;
+        if (partOptions.inheritance === BrowserParts.INHERITANCES.off) {
+          partBackgroundColor = Runtime.computeColor(
+            faviconMostPopularColor,
+            pageMostPopularColor,
+            partOptions.source,
+            partOptions.saturationLimit,
+            partOptions.darkness,
+            partOptions.brightness
+          );
+          partForegroundColor = partBackgroundColor.getForeground();
+        }
+        colors[backgroundPart] = partBackgroundColor;
+
+        // Part foreground colors
+        const foregroundParts = BrowserParts.getForegroundParts(backgroundPart);
+        for (const foregroundPart of foregroundParts) {
+          colors[foregroundPart] = partForegroundColor;
         }
 
-        let mostPopularColor = null;
-        if (source === Options.SOURCES.FAVICON) {
-          mostPopularColor = faviconMostPopularColor;
-        } else if (source === Options.SOURCES.PAGE) {
-          mostPopularColor = pageMostPopularColor;
-        }
-
-        if (mostPopularColor === null) {
-          continue;
-        }
-
-        const backgroundColor = mostPopularColor
-          .limitSaturation(saturationLimit)
-          .darken(darkness)
-          .brighten(brightness);
-        colors[backgroundPart] = backgroundColor;
-
-        const connectedParts = BrowserParts.getConnectedParts(backgroundPart);
+        // Connected parts
+        const connectedParts =
+          BrowserParts.getConnectedBackgroundParts(backgroundPart);
         for (const connectedPart of connectedParts) {
-          let connectedColor = backgroundColor;
-
           const connectedPartOptions =
             this.options.getPartOptions(connectedPart);
 
-          if (connectedPartOptions.customEnabled) {
-            let connectedMostPopularColor = null;
-            if (connectedPartOptions.source === Options.SOURCES.FAVICON) {
-              connectedMostPopularColor = faviconMostPopularColor;
-            } else if (connectedPartOptions.source === Options.SOURCES.PAGE) {
-              connectedMostPopularColor = pageMostPopularColor;
-            }
-
-            connectedColor = connectedMostPopularColor
-              .limitSaturation(connectedPartOptions.saturationLimit)
-              .darken(connectedPartOptions.darkness)
-              .brighten(connectedPartOptions.brightness);
+          // Connected part background color
+          let connectedBackgroundColor = globalBackgroundColor;
+          let connectedForegroundColor = globalForegroundColor;
+          if (connectedPartOptions.inheritance === backgroundPart) {
+            connectedBackgroundColor = partBackgroundColor;
+            connectedForegroundColor = partForegroundColor;
+          } else if (
+            connectedPartOptions.inheritance === BrowserParts.INHERITANCES.off
+          ) {
+            connectedBackgroundColor = Runtime.computeColor(
+              faviconMostPopularColor,
+              pageMostPopularColor,
+              connectedPartOptions.source,
+              connectedPartOptions.saturationLimit,
+              connectedPartOptions.darkness,
+              connectedPartOptions.brightness
+            );
+            connectedForegroundColor = connectedBackgroundColor.getForeground();
           }
-          colors[connectedPart] = connectedColor;
-        }
+          colors[connectedPart] = connectedBackgroundColor;
 
-        const foregroundColor = backgroundColor.getForeground();
-        const foregroundParts = BrowserParts.getForegroundParts(backgroundPart);
-        for (const foregroundPart of foregroundParts) {
-          colors[foregroundPart] = foregroundColor;
+          // Connected part foreground colors
+          const connectedForegroundParts =
+            BrowserParts.getForegroundParts(connectedPart);
+          for (const foregroundPart of connectedForegroundParts) {
+            colors[foregroundPart] = connectedForegroundColor;
+          }
         }
       }
       // eslint-disable-next-line no-unused-vars

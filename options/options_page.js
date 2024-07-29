@@ -83,7 +83,7 @@ const onBrowserPreviewContextMenu = (event, options) => {
   const contextMenus = [];
   contextMenus.push(new PartContextMenu(options, part));
 
-  for (const connectedPart of BrowserParts.getConnectedParts(part)) {
+  for (const connectedPart of BrowserParts.getConnectedBackgroundParts(part)) {
     contextMenus.push(new PartContextMenu(options, connectedPart));
   }
 

@@ -272,7 +272,8 @@ input[type="number"] {
   height: fit-content;
 }
 
-.context_menu:not(:has([id$="_custom_enabled"]:checked)) > .custom_option {
+.context_menu:not(:has(select[data-value="inheritance_off"]))
+  > .custom_option {
   display: none;
 }
 

@@ -29,6 +29,15 @@
     "frame_inactive": {
         "message": "Неактивная"
     },
+    "inherit_global": {
+        "message": "Глобальные"
+    },
+    "inheritance_off": {
+        "message": "Выкл"
+    },
+    "inheritFrom": {
+        "message": "Наследовать от"
+    },
     "page": {
         "message": "Страница"
     },

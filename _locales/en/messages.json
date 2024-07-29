@@ -29,6 +29,15 @@
     "frame_inactive": {
         "message": "Inactive"
     },
+    "inherit_global": {
+        "message": "Global"
+    },
+    "inheritance_off": {
+        "message": "Off"
+    },
+    "inheritFrom": {
+        "message": "Inherit from"
+    },
     "page": {
         "message": "Page"
     },

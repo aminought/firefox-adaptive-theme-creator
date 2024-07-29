@@ -1,4 +1,5 @@
 import { addNumberOptions, addStringOptions } from "./html.js";
+import { BrowserParts } from "./browser_parts.js";
 import { Localizer } from "./localizer.js";
 import { Options } from "./options.js";
 
@@ -27,12 +28,13 @@ export class PartContextMenu {
     menuElement.appendChild(titleElement);
 
     const customEnabledElement = this.#createOption(
-      "custom_enabled",
-      "input",
-      "checkbox",
+      "inheritance",
+      "select",
       null,
       null,
-      "specialSettings"
+      (inputElement) =>
+        addStringOptions(inputElement, BrowserParts.getInheritances(this.part)),
+      "inheritFrom"
     );
     menuElement.appendChild(customEnabledElement);
 
@@ -157,17 +159,24 @@ export class PartContextMenu {
     }
     inputElement.id = inputId;
 
+    const value = this.options.getPartOption(this.part, key);
+    inputElement.setAttribute("data-value", value);
+
     if (type === "checkbox") {
-      inputElement.checked = this.options.getPartOption(this.part, key);
-      inputElement.onclick = (e) =>
-        this.options.setPartOption(this.part, key, e.target.checked);
+      inputElement.checked = value;
+      inputElement.onclick = () => {
+        this.options.setPartOption(this.part, key, inputElement.checked);
+        inputElement.setAttribute("data-value", inputElement.checked);
+      };
     } else {
       if (tag === "select" && fillSelect) {
         fillSelect(inputElement);
       }
-      inputElement.value = this.options.getPartOption(this.part, key);
-      inputElement.onchange = (e) =>
-        this.options.setPartOption(this.part, key, e.target.value);
+      inputElement.value = value;
+      inputElement.onchange = () => {
+        this.options.setPartOption(this.part, key, inputElement.value);
+        inputElement.setAttribute("data-value", inputElement.value);
+      };
     }
 
     return inputElement;

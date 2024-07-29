@@ -1,3 +1,5 @@
+import { BrowserParts } from "./browser_parts.js";
+
 export class Options {
   static SOURCES = {
     FAVICON: "favicon",
@@ -20,24 +22,35 @@ export class Options {
       "page.avoid_white": false,
       "page.avoid_black": false,
     };
+
     Options.makePartOptions(
       options,
       "tab_selected",
       true,
-      true,
+      BrowserParts.INHERITANCES.off,
       Options.SOURCES.FAVICON,
       "0.5"
     );
     Options.makePartOptions(options, "sidebar");
-    Options.makePartOptions(options, "sidebar_border");
+    Options.makePartOptions(options, "sidebar_border", true, "sidebar");
     Options.makePartOptions(options, "toolbar");
-    Options.makePartOptions(options, "toolbar_bottom_separator");
+    Options.makePartOptions(
+      options,
+      "toolbar_bottom_separator",
+      true,
+      "toolbar"
+    );
     Options.makePartOptions(options, "toolbar_field");
-    Options.makePartOptions(options, "toolbar_field_focus");
+    Options.makePartOptions(
+      options,
+      "toolbar_field_focus",
+      true,
+      "toolbar_field"
+    );
     Options.makePartOptions(options, "frame");
-    Options.makePartOptions(options, "frame_inactive");
+    Options.makePartOptions(options, "frame_inactive", true, "frame");
     Options.makePartOptions(options, "popup");
-    Options.makePartOptions(options, "popup_border");
+    Options.makePartOptions(options, "popup_border", true, "popup");
     return options;
   }
 
@@ -46,7 +59,7 @@ export class Options {
    * @param {object} options
    * @param {string} part
    * @param {boolean=} enabled
-   * @param {boolean=} customEnabled
+   * @param {string=} inheritance
    * @param {string=} source
    * @param {string=} saturationLimit
    */
@@ -54,12 +67,12 @@ export class Options {
     options,
     part,
     enabled = true,
-    customEnabled = false,
+    inheritance = BrowserParts.INHERITANCES.global,
     source = Options.SOURCES.PAGE,
     saturationLimit = "1.0"
   ) {
     options[`${part}.enabled`] = enabled;
-    options[`${part}.custom_enabled`] = customEnabled;
+    options[`${part}.inheritance`] = inheritance;
     options[`${part}.source`] = source;
     options[`${part}.saturation_limit`] = saturationLimit;
     options[`${part}.darkness`] = "0.0";
@@ -123,7 +136,7 @@ export class Options {
   getPartOptions(part) {
     return {
       enabled: this.getPartOption(part, "enabled"),
-      customEnabled: this.getPartOption(part, "custom_enabled"),
+      inheritance: this.getPartOption(part, "inheritance"),
       source: this.getPartOption(part, "source"),
       saturationLimit: this.getPartOption(part, "saturation_limit"),
       darkness: this.getPartOption(part, "darkness"),
