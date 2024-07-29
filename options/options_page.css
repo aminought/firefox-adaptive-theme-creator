@@ -282,7 +282,6 @@ input[type="number"] {
   font-weight: bold;
   background-color: var(--background-color);
   color: var(--color);
-  padding: 4px;
 }
 
 .context_menu .option {
