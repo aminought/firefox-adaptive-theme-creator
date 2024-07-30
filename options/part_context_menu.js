@@ -1,7 +1,9 @@
 import { addNumberOptions, addStringOptions } from "./html.js";
 import { BrowserParts } from "./browser_parts.js";
+import { ColorPicker } from "./color_picker.js";
 import { Localizer } from "./localizer.js";
 import { Options } from "./options.js";
+import { PopupController } from "./popup_controller.js";
 
 export class PartContextMenu {
   /**
@@ -29,53 +31,68 @@ export class PartContextMenu {
 
     const customEnabledElement = this.#createOption(
       "inheritance",
-      "select",
-      null,
-      null,
-      (inputElement) =>
-        addStringOptions(inputElement, BrowserParts.getInheritances(this.part)),
-      "inheritFrom"
+      ["option"],
+      "inheritFrom",
+      (partKey, inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addStringOptions(
+            inputElement,
+            BrowserParts.getInheritances(this.part)
+          )
+        )
     );
     menuElement.appendChild(customEnabledElement);
 
     const sourceElement = this.#createOption(
       "source",
-      "select",
-      null,
-      "custom_option",
-      (inputElement) =>
-        addStringOptions(inputElement, Object.values(Options.SOURCES)),
-      "source"
+      ["option", "custom_option"],
+      "source",
+      (partKey, inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addStringOptions(inputElement, Object.values(Options.SOURCES))
+        )
     );
     menuElement.appendChild(sourceElement);
 
+    const colorPreviewElement = this.#createOption(
+      "color",
+      ["option", "custom_option"],
+      "own_color",
+      (partKey, inputId, value) =>
+        this.#createColorPreviewElement(partKey, inputId, value)
+    );
+    menuElement.appendChild(colorPreviewElement);
+
     const saturationLimitElement = this.#createOption(
       "saturation_limit",
-      "select",
-      null,
-      "custom_option",
-      (inputElement) => addNumberOptions(inputElement, 0.1, 1.0, 0.1),
-      "saturationLimit"
+      ["option", "custom_option"],
+      "saturationLimit",
+      (partKey, inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.1, 1.0, 0.1)
+        )
     );
     menuElement.appendChild(saturationLimitElement);
 
     const darknessElement = this.#createOption(
       "darkness",
-      "select",
-      null,
-      "custom_option",
-      (inputElement) => addNumberOptions(inputElement, 0.0, 5.0, 0.5),
-      "darkness"
+      ["option", "custom_option"],
+      "darkness",
+      (partKey, inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        )
     );
     menuElement.appendChild(darknessElement);
 
     const brightnessElement = this.#createOption(
       "brightness",
-      "select",
-      null,
-      "custom_option",
-      (inputElement) => addNumberOptions(inputElement, 0.0, 5.0, 0.5),
-      "brightness"
+      ["option", "custom_option"],
+      "brightness",
+      (partKey, inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        )
     );
     menuElement.appendChild(brightnessElement);
 
@@ -95,22 +112,19 @@ export class PartContextMenu {
 
   /**
    *
-   * @param {string} key
-   * @param {string} tag
-   * @param {string} type
-   * @param {string?} additionalClass
-   * @param {function?} fillSelect
+   * @param {string} partKey
+   * @param {string[]} classList
    * @param {string} i18nMessage
+   * @param {function(string, string, any):HTMLElement} createInputElement
    * @returns {HTMLDivElement}
    */
-  #createOption(key, tag, type, additionalClass, fillSelect, i18nMessage) {
+  #createOption(partKey, classList, i18nMessage, createInputElement) {
     const optionElement = document.createElement("div");
-    optionElement.classList.add("option");
-    if (additionalClass) {
-      optionElement.classList.add(additionalClass);
+    for (const token of classList) {
+      optionElement.classList.add(token);
     }
 
-    const inputId = `${this.part}_${key}`;
+    const inputId = `${this.part}_${partKey}`;
 
     const labelElement = PartContextMenu.#createOptionLabel(
       inputId,
@@ -118,13 +132,9 @@ export class PartContextMenu {
     );
     optionElement.appendChild(labelElement);
 
-    const inputElement = this.#createOptionInput(
-      key,
-      inputId,
-      tag,
-      type,
-      fillSelect
-    );
+    const value = this.options.getPartOption(this.part, partKey);
+    const inputElement = createInputElement(partKey, inputId, value);
+
     optionElement.appendChild(inputElement);
 
     return optionElement;
@@ -145,40 +155,77 @@ export class PartContextMenu {
 
   /**
    *
-   * @param {string} key
+   * @param {string} partKey
    * @param {string} inputId
-   * @param {string} tag
-   * @param {string=} type
-   * @param {function=} fillSelect
+   * @param {boolean} value
    * @returns {HTMLElement}
    */
-  #createOptionInput(key, inputId, tag, type, fillSelect) {
-    const inputElement = document.createElement(tag);
-    if (type) {
-      inputElement.type = type;
-    }
-    inputElement.id = inputId;
+  // eslint-disable-next-line no-unused-private-class-members
+  #createCheckboxElement(partKey, inputId, value) {
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = inputId;
+    checkbox.checked = value;
+    checkbox.setAttribute("data-value", value);
 
-    const value = this.options.getPartOption(this.part, key);
-    inputElement.setAttribute("data-value", value);
+    checkbox.onclick = () => {
+      this.options.setPartOption(this.part, partKey, checkbox.checked);
+      checkbox.setAttribute("data-value", checkbox.checked);
+    };
 
-    if (type === "checkbox") {
-      inputElement.checked = value;
-      inputElement.onclick = () => {
-        this.options.setPartOption(this.part, key, inputElement.checked);
-        inputElement.setAttribute("data-value", inputElement.checked);
-      };
-    } else {
-      if (tag === "select" && fillSelect) {
-        fillSelect(inputElement);
-      }
-      inputElement.value = value;
-      inputElement.onchange = () => {
-        this.options.setPartOption(this.part, key, inputElement.value);
-        inputElement.setAttribute("data-value", inputElement.value);
-      };
-    }
+    return checkbox;
+  }
 
-    return inputElement;
+  /**
+   *
+   * @param {string} partKey
+   * @param {string} inputId
+   * @param {any} value
+   * @param {function(HTMLSelectElement):void} fillSelect
+   * @returns {HTMLElement}
+   */
+  #createSelectElement(partKey, inputId, value, fillSelect) {
+    const select = document.createElement("select");
+    fillSelect(select);
+    select.id = inputId;
+    select.value = value;
+    select.setAttribute("data-value", value);
+
+    select.onchange = () => {
+      this.options.setPartOption(this.part, partKey, select.value);
+      select.setAttribute("data-value", select.value);
+    };
+
+    return select;
+  }
+
+  /**
+   *
+   * @param {string} partKey
+   * @param {string} inputId
+   * @param {string} value
+   * @returns {HTMLElement}
+   */
+  #createColorPreviewElement(partKey, inputId, value) {
+    const colorPreview = document.createElement("div");
+    colorPreview.id = inputId;
+    colorPreview.className = "color_preview";
+    colorPreview.style.backgroundColor = value;
+    colorPreview.setAttribute("data-value", value);
+
+    colorPreview.onclick = (event) => {
+      event.stopPropagation();
+      PopupController.popFor(event.target);
+      const colorPicker = new ColorPicker(value, (color) => {
+        colorPreview.style.backgroundColor = color.rgbaString;
+        this.options.setPartOption(this.part, partKey, color.rgbaString);
+        colorPreview.setAttribute("data-value", color.rgbaString);
+      });
+
+      const body = document.querySelector("body");
+      PopupController.push(colorPicker, body, event.clientX, event.clientY);
+    };
+
+    return colorPreview;
   }
 }

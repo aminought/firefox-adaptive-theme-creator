@@ -76,6 +76,7 @@ export class Options {
     options[`${part}.enabled`] = enabled;
     options[`${part}.inheritance`] = inheritance;
     options[`${part}.source`] = source;
+    options[`${part}.color`] = "#f0f";
     options[`${part}.saturation_limit`] = saturationLimit;
     options[`${part}.darkness`] = "0.0";
     options[`${part}.brightness`] = "0.0";
@@ -141,6 +142,7 @@ export class Options {
       enabled: this.getPartOption(part, "enabled"),
       inheritance: this.getPartOption(part, "inheritance"),
       source: this.getPartOption(part, "source"),
+      color: this.getPartOption(part, "color"),
       saturationLimit: this.getPartOption(part, "saturation_limit"),
       darkness: this.getPartOption(part, "darkness"),
       brightness: this.getPartOption(part, "brightness"),
@@ -150,11 +152,11 @@ export class Options {
   /**
    *
    * @param {string} part
-   * @param {string} part_key
+   * @param {string} partKey
    * @returns {any}
    */
-  getPartOption(part, part_key) {
-    return this.options[`${part}.${part_key}`];
+  getPartOption(part, partKey) {
+    return this.options[`${part}.${partKey}`];
   }
 
   /**
@@ -170,11 +172,11 @@ export class Options {
   /**
    *
    * @param {string} part
-   * @param {string} key
+   * @param {string} partKey
    * @param {any} value
    */
-  async setPartOption(part, key, value) {
-    const part_key = `${part}.${key}`;
+  async setPartOption(part, partKey, value) {
+    const part_key = `${part}.${partKey}`;
     this.options[part_key] = value;
     await this.save({ [part_key]: value });
   }

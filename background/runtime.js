@@ -24,7 +24,7 @@ export class Runtime {
    * @param {number} saturationLimit
    * @param {number} darkness
    * @param {number} brightness
-   * @returns {Color}
+   * @returns {Color?}
    */
   static computeColor(
     faviconMostPopularColor,
@@ -102,7 +102,7 @@ export class Runtime {
           faviconMostPopularColor,
           pageMostPopularColor,
           partOptions.source,
-          null,
+          partOptions.color,
           partOptions.saturationLimit,
           partOptions.darkness,
           partOptions.brightness
@@ -140,7 +140,7 @@ export class Runtime {
             faviconMostPopularColor,
             pageMostPopularColor,
             connectedPartOptions.source,
-            null,
+            connectedPartOptions.color,
             connectedPartOptions.saturationLimit,
             connectedPartOptions.darkness,
             connectedPartOptions.brightness
@@ -180,8 +180,9 @@ export class Runtime {
       return await this.colorExtractor.getMostPopularColorFromFavicon(
         favIconUrl
       );
-    } catch (e) {
-      console.log("Failed to calculate favicon color:", e);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log("Failed to calculate favicon color:", error);
       return null;
     }
   }
@@ -194,8 +195,9 @@ export class Runtime {
   async getMostPopularColorFromPage(tab) {
     try {
       return await this.colorExtractor.getMostPopularColorFromPage(tab);
-    } catch (e) {
-      console.log("Failed to calculate page color:", e);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.log("Failed to calculate page color:", error);
       return null;
     }
   }
