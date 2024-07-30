@@ -13,6 +13,11 @@
           <label class="option_title" for="source" data-i18n="source"></label>
           <select id="source" name="source"></select>
         </div>
+
+        <div class="option">
+          <label class="option_title" for="color" data-i18n="ownColor"></label>
+          <div id="color_preview" class="color_preview"></div>
+        </div>
       </div>
 
       <div class="options_row">
@@ -131,6 +136,7 @@
     </div>
 
     <script src="../lib/chroma.min.js"></script>
+    <script src="../lib/vanilla-picker.min.js"></script>
     <script type="module" src="localizer.js"></script>
     <script type="module" src="../colors/color.js"></script>
     <script type="module" src="browser_preview.js"></script>

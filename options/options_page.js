@@ -5,6 +5,7 @@ import { Localizer } from "./localizer.js";
 import { MegaContextMenu } from "./mega_context_menu.js";
 import { Options } from "./options.js";
 import { PartContextMenu } from "./part_context_menu.js";
+import { PopupController } from "./popup_controller.js";
 import { Theme } from "../theme/theme.js";
 import { setRootColor } from "./html.js";
 
@@ -39,8 +40,8 @@ const stylePage = async (options) => {
  */
 const onBrowserPreviewClick = (event, options, browserPreview) => {
   event.preventDefault();
-  if (MegaContextMenu.exists()) {
-    MegaContextMenu.remove();
+
+  if (!PopupController.empty()) {
     return;
   }
 
@@ -64,12 +65,9 @@ const onBrowserPreviewClick = (event, options, browserPreview) => {
  * @param {MouseEvent} event
  * @param {Options} options
  */
-const onBrowserPreviewContextMenu = (event, options) => {
+const onBrowserPreviewContextMenu = (event, options, body) => {
   event.preventDefault();
-
-  if (MegaContextMenu.exists()) {
-    MegaContextMenu.remove();
-  }
+  PopupController.popFor(event.target);
 
   const { classList } = event.target;
   let part = event.target.id;
@@ -87,12 +85,21 @@ const onBrowserPreviewContextMenu = (event, options) => {
     contextMenus.push(new PartContextMenu(options, connectedPart));
   }
 
-  const body = document.querySelector("body");
   const megaContextMenu = new MegaContextMenu(contextMenus);
-  megaContextMenu.draw(body, event.clientX, event.clientY);
+
+  PopupController.push(megaContextMenu, body, event.clientX, event.clientY);
+};
+
+/**
+ *
+ * @param {MouseEvent} event
+ */
+const onBodyClick = (event) => {
+  PopupController.popFor(event.target);
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
+  const body = document.querySelector("body");
   const options = await Options.load();
   // eslint-disable-next-line no-unused-vars
   const form = new Form(options);
@@ -101,10 +108,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   Localizer.localizePage();
   stylePage(options);
 
+  body.onclick = onBodyClick;
+
   browserPreview.onClick((e) =>
     onBrowserPreviewClick(e, options, browserPreview)
   );
-  browserPreview.onContextMenu((e) => onBrowserPreviewContextMenu(e, options));
+  browserPreview.onContextMenu((e) =>
+    onBrowserPreviewContextMenu(e, options, body)
+  );
 
   browser.runtime.onMessage.addListener((message) => {
     if (message.event === "themeUpdated") {

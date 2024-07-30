@@ -4,6 +4,7 @@ export class Options {
   static SOURCES = {
     FAVICON: "favicon",
     PAGE: "page",
+    OWN_COLOR: "own_color",
   };
 
   constructor() {
@@ -13,6 +14,7 @@ export class Options {
   static makeDefault() {
     const options = {
       source: this.SOURCES.PAGE,
+      color: "#f0f",
       saturation_limit: "1.0",
       darkness: "0.0",
       brightness: "0.0",
@@ -114,6 +116,7 @@ export class Options {
   getGlobalOptions() {
     return {
       source: this.options.source,
+      color: this.options.color,
       saturationLimit: this.options.saturation_limit,
       darkness: this.options.darkness,
       brightness: this.options.brightness,

@@ -38,6 +38,12 @@
     "inheritFrom": {
         "message": "Inherit from"
     },
+    "own_color": {
+        "message": "Own color"
+    },
+    "ownColor": {
+        "message": "Color"
+    },
     "page": {
         "message": "Page"
     },

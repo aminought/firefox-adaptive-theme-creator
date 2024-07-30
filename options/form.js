@@ -1,8 +1,13 @@
 import { addNumberOptions, addStringOptions } from "./html.js";
+import { ColorPicker } from "./color_picker.js";
 import { Options } from "./options.js";
+import { PopupController } from "./popup_controller.js";
 
 export class Form {
+  static body = document.querySelector("body");
   static source = document.getElementById("source");
+  static color = document.getElementById("color");
+  static colorPreview = document.getElementById("color_preview");
   static saturationLimit = document.getElementById("saturation_limit");
   static darkness = document.getElementById("darkness");
   static brightness = document.getElementById("brightness");
@@ -30,6 +35,7 @@ export class Form {
   loadFromOptions() {
     const globalOptions = this.options.getGlobalOptions();
     Form.source.value = globalOptions.source;
+    Form.colorPreview.style.backgroundColor = globalOptions.color;
     Form.saturationLimit.value = globalOptions.saturationLimit;
     Form.darkness.value = globalOptions.darkness;
     Form.brightness.value = globalOptions.brightness;
@@ -42,6 +48,7 @@ export class Form {
 
   setupListeners() {
     Form.source.onchange = (e) => this.saveValue(e, "source");
+    Form.colorPreview.onclick = (e) => this.showColorPicker(e, "color");
     Form.saturationLimit.onchange = (e) =>
       this.saveValue(e, "saturation_limit");
     Form.darkness.onchange = (e) => this.saveValue(e, "darkness");
@@ -62,6 +69,26 @@ export class Form {
 
   /**
    *
+   * @param {MouseEvent} event
+   * @param {string} key
+   */
+  showColorPicker(event, key) {
+    event.stopPropagation();
+    PopupController.popFor(event.target);
+    const colorPicker = new ColorPicker(
+      Form.colorPreview.style.backgroundColor,
+      (color) => {
+        Form.colorPreview.style.backgroundColor = color.rgbaString;
+        this.saveBackgroundColor(color, key);
+      }
+    );
+
+    const body = document.querySelector("body");
+    PopupController.push(colorPicker, body, event.clientX, event.clientY);
+  }
+
+  /**
+   *
    * @param {Event} event
    * @param {string} key
    */
@@ -76,6 +103,15 @@ export class Form {
    */
   async saveValue(event, key) {
     await this.options.setGlobalOption(key, event.target.value);
+  }
+
+  /**
+   *
+   * @param {object} color
+   * @param {string} key
+   */
+  async saveBackgroundColor(color, key) {
+    await this.options.setGlobalOption(key, color.rgbaString);
   }
 
   /**

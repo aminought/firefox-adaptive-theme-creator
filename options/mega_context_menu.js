@@ -1,29 +1,29 @@
 // eslint-disable-next-line no-unused-vars
 import { PartContextMenu } from "./part_context_menu.js";
+import { setPosition } from "./html.js";
 
 export class MegaContextMenu {
-  static ID = "mega_context_menu";
   /**
    *
    * @param {PartContextMenu[]} menus
    */
   constructor(menus) {
-    this.menus = menus;
-    this.megaMenuElement = this.#create();
+    this.element = MegaContextMenu.createElement(menus);
   }
 
   /**
    *
-   * @returns {boolean}
+   * @param {PartContextMenu[]} menus
+   * @returns {HTMLDivElement}
    */
-  static exists() {
-    const megaMenuElement = document.getElementById(MegaContextMenu.ID);
-    return Boolean(megaMenuElement);
-  }
-
-  static remove() {
-    const megaMenuElement = document.getElementById(MegaContextMenu.ID);
-    megaMenuElement.parentElement.removeChild(megaMenuElement);
+  static createElement(menus) {
+    const element = document.createElement("div");
+    element.id = "mega_context_menu";
+    for (const menu of menus) {
+      const menuElement = menu.create();
+      element.appendChild(menuElement);
+    }
+    return element;
   }
 
   /**
@@ -33,36 +33,21 @@ export class MegaContextMenu {
    * @param {number} clientY
    */
   draw(parent, clientX, clientY) {
-    parent.appendChild(this.megaMenuElement);
-
-    const rect = this.megaMenuElement.getBoundingClientRect();
-    const parentRect = parent.getBoundingClientRect();
-    if (clientY + rect.height > parentRect.bottom) {
-      this.megaMenuElement.style.top = `${
-        parentRect.bottom - rect.height - 10
-      }px`;
-    } else {
-      this.megaMenuElement.style.top = `${clientY}px`;
-    }
-    if (clientX + rect.width > parentRect.right) {
-      this.megaMenuElement.style.left = `${
-        parentRect.right - rect.width - 10
-      }px`;
-    } else {
-      this.megaMenuElement.style.left = `${clientX}px`;
-    }
+    parent.appendChild(this.element);
+    setPosition(this.element, parent, clientX, clientY);
   }
 
   /**
-   * @returns {HTMLDivElement}
+   *
+   * @returns {boolean}
    */
-  #create() {
-    const megaMenuElement = document.createElement("div");
-    megaMenuElement.id = MegaContextMenu.ID;
-    for (const menu of this.menus) {
-      const menuElement = menu.create();
-      megaMenuElement.appendChild(menuElement);
+  exists() {
+    return Boolean(this.element.parentElement);
+  }
+
+  remove() {
+    if (this.exists()) {
+      this.element.parentElement.removeChild(this.element);
     }
-    return megaMenuElement;
   }
 }

@@ -1,5 +1,4 @@
 import { BrowserParts } from "../options/browser_parts.js";
-// eslint-disable-next-line no-unused-vars
 import { Color } from "../colors/color.js";
 import { ColorExtractor } from "../colors/color_extractor.js";
 import { Options } from "../options/options.js";
@@ -31,6 +30,7 @@ export class Runtime {
     faviconMostPopularColor,
     pageMostPopularColor,
     source,
+    color,
     saturationLimit,
     darkness,
     brightness
@@ -40,12 +40,14 @@ export class Runtime {
       mostPopularColor = faviconMostPopularColor;
     } else if (source === Options.SOURCES.PAGE) {
       mostPopularColor = pageMostPopularColor;
+    } else if (source === Options.SOURCES.OWN_COLOR) {
+      mostPopularColor = new Color(color);
     }
 
     return mostPopularColor
-      .limitSaturation(saturationLimit)
-      .darken(darkness)
-      .brighten(brightness);
+      ?.limitSaturation(saturationLimit)
+      ?.darken(darkness)
+      ?.brighten(brightness);
   }
 
   async updateTheme(tab) {
@@ -64,88 +66,93 @@ export class Runtime {
       ])
     );
 
-    try {
-      const globalOptions = this.options.getGlobalOptions();
+    const globalOptions = this.options.getGlobalOptions();
 
-      const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
-        tab.favIconUrl
-      );
-      const pageMostPopularColor = await this.getMostPopularColorFromPage(tab);
+    const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
+      tab.favIconUrl
+    );
+    const pageMostPopularColor = await this.getMostPopularColorFromPage(tab);
 
-      if (faviconMostPopularColor === null || pageMostPopularColor === null) {
-        return;
+    // Global colors
+    const globalBackgroundColor = Runtime.computeColor(
+      faviconMostPopularColor,
+      pageMostPopularColor,
+      globalOptions.source,
+      globalOptions.color,
+      globalOptions.saturationLimit,
+      globalOptions.darkness,
+      globalOptions.brightness
+    );
+
+    const globalForegroundColor = globalBackgroundColor?.getForeground();
+
+    // Background parts
+    for (const backgroundPart of BrowserParts.getBackgroundParts()) {
+      const partOptions = this.options.getPartOptions(backgroundPart);
+
+      if (!partOptions.enabled) {
+        continue;
       }
 
-      // Global colors
-      const globalBackgroundColor = Runtime.computeColor(
-        faviconMostPopularColor,
-        pageMostPopularColor,
-        globalOptions.source,
-        globalOptions.saturationLimit,
-        globalOptions.darkness,
-        globalOptions.brightness
-      );
-      const globalForegroundColor = globalBackgroundColor.getForeground();
-
-      // Background parts
-      for (const backgroundPart of BrowserParts.getBackgroundParts()) {
-        const partOptions = this.options.getPartOptions(backgroundPart);
-
-        if (!partOptions.enabled) {
-          continue;
-        }
-
-        // Part background color
-        let partBackgroundColor = globalBackgroundColor;
-        let partForegroundColor = globalForegroundColor;
-        if (partOptions.inheritance === BrowserParts.INHERITANCES.off) {
-          partBackgroundColor = Runtime.computeColor(
-            faviconMostPopularColor,
-            pageMostPopularColor,
-            partOptions.source,
-            partOptions.saturationLimit,
-            partOptions.darkness,
-            partOptions.brightness
-          );
-          partForegroundColor = partBackgroundColor.getForeground();
-        }
+      // Part background color
+      let partBackgroundColor = globalBackgroundColor;
+      let partForegroundColor = globalForegroundColor;
+      if (partOptions.inheritance === BrowserParts.INHERITANCES.off) {
+        partBackgroundColor = Runtime.computeColor(
+          faviconMostPopularColor,
+          pageMostPopularColor,
+          partOptions.source,
+          null,
+          partOptions.saturationLimit,
+          partOptions.darkness,
+          partOptions.brightness
+        );
+        partForegroundColor = partBackgroundColor?.getForeground();
+      }
+      if (partBackgroundColor) {
         colors[backgroundPart] = partBackgroundColor;
+      }
 
-        // Part foreground colors
+      // Part foreground colors
+      if (partForegroundColor) {
         const foregroundParts = BrowserParts.getForegroundParts(backgroundPart);
         for (const foregroundPart of foregroundParts) {
           colors[foregroundPart] = partForegroundColor;
         }
+      }
 
-        // Connected parts
-        const connectedParts =
-          BrowserParts.getConnectedBackgroundParts(backgroundPart);
-        for (const connectedPart of connectedParts) {
-          const connectedPartOptions =
-            this.options.getPartOptions(connectedPart);
+      // Connected parts
+      const connectedParts =
+        BrowserParts.getConnectedBackgroundParts(backgroundPart);
+      for (const connectedPart of connectedParts) {
+        const connectedPartOptions = this.options.getPartOptions(connectedPart);
 
-          // Connected part background color
-          let connectedBackgroundColor = globalBackgroundColor;
-          let connectedForegroundColor = globalForegroundColor;
-          if (connectedPartOptions.inheritance === backgroundPart) {
-            connectedBackgroundColor = partBackgroundColor;
-            connectedForegroundColor = partForegroundColor;
-          } else if (
-            connectedPartOptions.inheritance === BrowserParts.INHERITANCES.off
-          ) {
-            connectedBackgroundColor = Runtime.computeColor(
-              faviconMostPopularColor,
-              pageMostPopularColor,
-              connectedPartOptions.source,
-              connectedPartOptions.saturationLimit,
-              connectedPartOptions.darkness,
-              connectedPartOptions.brightness
-            );
-            connectedForegroundColor = connectedBackgroundColor.getForeground();
-          }
+        // Connected part background color
+        let connectedBackgroundColor = globalBackgroundColor;
+        let connectedForegroundColor = globalForegroundColor;
+        if (connectedPartOptions.inheritance === backgroundPart) {
+          connectedBackgroundColor = partBackgroundColor;
+          connectedForegroundColor = partForegroundColor;
+        } else if (
+          connectedPartOptions.inheritance === BrowserParts.INHERITANCES.off
+        ) {
+          connectedBackgroundColor = Runtime.computeColor(
+            faviconMostPopularColor,
+            pageMostPopularColor,
+            connectedPartOptions.source,
+            null,
+            connectedPartOptions.saturationLimit,
+            connectedPartOptions.darkness,
+            connectedPartOptions.brightness
+          );
+          connectedForegroundColor = connectedBackgroundColor?.getForeground();
+        }
+        if (connectedBackgroundColor) {
           colors[connectedPart] = connectedBackgroundColor;
+        }
 
-          // Connected part foreground colors
+        // Connected part foreground colors
+        if (connectedForegroundColor) {
           const connectedForegroundParts =
             BrowserParts.getForegroundParts(connectedPart);
           for (const foregroundPart of connectedForegroundParts) {
@@ -153,19 +160,15 @@ export class Runtime {
           }
         }
       }
-      // eslint-disable-next-line no-unused-vars
-    } catch (e) {
-      console.log(e);
-      /* Empty */
-    } finally {
-      const theme = this.defaultTheme.clone();
-      for (const part in colors) {
-        theme.setColor(part, colors[part]);
-      }
-      await theme.fixImages();
-      await theme.update();
-      browser.runtime.sendMessage({ event: "themeUpdated" });
     }
+
+    const theme = this.defaultTheme.clone();
+    for (const part in colors) {
+      theme.setColor(part, colors[part]);
+    }
+    await theme.fixImages();
+    await theme.update();
+    browser.runtime.sendMessage({ event: "themeUpdated" });
   }
 
   /**
@@ -173,7 +176,14 @@ export class Runtime {
    * @param {string} favIconUrl
    */
   async getMostPopularColorFromFavicon(favIconUrl) {
-    return await this.colorExtractor.getMostPopularColorFromFavicon(favIconUrl);
+    try {
+      return await this.colorExtractor.getMostPopularColorFromFavicon(
+        favIconUrl
+      );
+    } catch (e) {
+      console.log("Failed to calculate favicon color:", e);
+      return null;
+    }
   }
 
   /**
@@ -182,7 +192,12 @@ export class Runtime {
    * @returns {Color?}
    */
   async getMostPopularColorFromPage(tab) {
-    return await this.colorExtractor.getMostPopularColorFromPage(tab);
+    try {
+      return await this.colorExtractor.getMostPopularColorFromPage(tab);
+    } catch (e) {
+      console.log("Failed to calculate page color:", e);
+      return null;
+    }
   }
 
   /**

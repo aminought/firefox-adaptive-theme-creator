@@ -38,6 +38,9 @@
     "inheritFrom": {
         "message": "Наследовать от"
     },
+    "ownColor": {
+        "message": "Цвет"
+    },
     "page": {
         "message": "Страница"
     },

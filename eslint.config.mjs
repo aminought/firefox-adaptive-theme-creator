@@ -9,6 +9,7 @@ export default [
         ...globals.browser,
         ...globals.webextensions,
         chroma: "readonly",
+        Picker: "readonly",
       },
     },
   },
