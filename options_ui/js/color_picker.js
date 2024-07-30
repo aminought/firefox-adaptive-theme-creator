@@ -1,4 +1,4 @@
-import { setPosition } from "./html.js";
+import { setPosition } from "./utils/html.js";
 
 export class ColorPicker {
   /**

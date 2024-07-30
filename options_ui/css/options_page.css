@@ -1,0 +1,109 @@
+html {
+  --background-color: #f0f0f4; /* light 20 */
+  --color: #42414d; /* dark 30 */
+  --radius: 4px;
+  --option-height: 24px;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--color);
+  font: caption;
+  position: relative;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  gap: 8px;
+}
+
+.options_row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.options_group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.options_group_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  padding: 2px;
+  width: fit-content;
+  height: fit-content;
+}
+
+.options_group_title {
+  align-self: center;
+  margin: 0px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  padding-left: 4px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  min-height: var(--option-height);
+}
+
+.button.right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 4px 8px;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+label {
+  white-space: nowrap;
+}
+
+select {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border-width: 0 0 0 1px;
+  padding: 2px 0 2px 8px;
+  overflow: hidden;
+}
+
+select:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+select > option {
+  background-color: var(--background-color);
+  color: var(--color);
+}
+
+.color_preview {
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  height: var(--option-height);
+  aspect-ratio: 1 / 1;
+  background-color: red;
+}

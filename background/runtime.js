@@ -1,7 +1,7 @@
-import { BrowserParts } from "../options/browser_parts.js";
-import { Color } from "../colors/color.js";
-import { ColorExtractor } from "../colors/color_extractor.js";
-import { Options } from "../options/options.js";
+import { BrowserParts } from "../shared/browser_parts.js";
+import { Color } from "../shared/color.js";
+import { ColorExtractor } from "./color_extractor.js";
+import { Options } from "../shared/options.js";
 
 export class Runtime {
   /**

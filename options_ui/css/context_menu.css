@@ -1,0 +1,35 @@
+#mega_context_menu {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  position: absolute;
+  padding: 2px;
+}
+
+.context_menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background-color: var(--background-color);
+  color: var(--color);
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 2px;
+  height: fit-content;
+}
+
+.context_menu:not(:has(select[data-value="inheritance_off"])) > .custom_option {
+  display: none;
+}
+
+.context_menu_title {
+  align-self: center;
+  font-weight: bold;
+  background-color: var(--background-color);
+  color: var(--color);
+}
+
+.context_menu .option {
+  background-color: var(--background-color);
+  color: var(--color);
+}

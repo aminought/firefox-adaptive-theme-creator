@@ -1,0 +1,101 @@
+#browser_preview {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background-color: var(--background-color);
+}
+
+#navigator {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: var(--background-color);
+}
+
+#frame {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  padding: 2px 5px;
+  background-color: var(--background-color);
+}
+
+#tab_selected {
+  border-radius: 2px;
+  width: 10%;
+  height: 90%;
+  background-color: var(--background-color);
+}
+
+#toolbar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  padding: 2px;
+  gap: 5px;
+  background-color: var(--background-color);
+}
+
+.toolbar_button {
+  border-radius: 100%;
+  height: 70%;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color);
+}
+
+.placeholder {
+  height: 90%;
+  aspect-ratio: 1 / 1;
+  background-color: transparent;
+}
+
+#toolbar_field {
+  flex: 1;
+  border-radius: 2px;
+  height: 90%;
+  background-color: var(--background-color);
+}
+
+#popup {
+  position: absolute;
+  width: 15%;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius);
+  right: calc(0% + 1px);
+  top: calc(100% - 1px);
+  background-color: var(--background-color);
+}
+
+#popup.hidden {
+  display: none;
+}
+
+#browser {
+  display: flex;
+  flex-direction: row;
+  flex: 6;
+  background-color: var(--background-color);
+}
+
+#sidebar {
+  display: flex;
+  flex: 1;
+  background-color: var(--background-color);
+}
+
+#appcontent {
+  display: flex;
+  flex: 4;
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+}
+
+#rickroll {
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+}

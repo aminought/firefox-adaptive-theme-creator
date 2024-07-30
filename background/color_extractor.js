@@ -1,5 +1,5 @@
-import { Color } from "./color.js";
-import { Options } from "../options/options.js";
+import { Color } from "../shared/color.js";
+import { Options } from "../shared/options.js";
 
 const AVOID_WHITE_OFFSET = 15;
 const AVOID_BLACK_OFFSET = 15;

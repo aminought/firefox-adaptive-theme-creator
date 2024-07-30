@@ -1,6 +1,6 @@
-import { addNumberOptions, addStringOptions } from "./html.js";
+import { addNumberOptions, addStringOptions } from "./utils/html.js";
 import { ColorPicker } from "./color_picker.js";
-import { Options } from "./options.js";
+import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
 
 export class Form {

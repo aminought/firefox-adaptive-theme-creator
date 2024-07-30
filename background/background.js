@@ -1,6 +1,6 @@
-import { Options } from "../options/options.js";
+import { Options } from "../shared/options.js";
 import { Runtime } from "./runtime.js";
-import { Theme } from "../theme/theme.js";
+import { Theme } from "../shared/theme.js";
 
 Options.load().then(async (options) => {
   const theme = await Theme.load();

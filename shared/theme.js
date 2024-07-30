@@ -1,4 +1,4 @@
-import { Color } from "../colors/color.js";
+import { Color } from "./color.js";
 
 export class Theme {
   constructor(themeInfo) {

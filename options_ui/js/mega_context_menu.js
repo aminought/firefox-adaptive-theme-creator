@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import { PartContextMenu } from "./part_context_menu.js";
-import { setPosition } from "./html.js";
+import { setPosition } from "./utils/html.js";
 
 export class MegaContextMenu {
   /**

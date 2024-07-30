@@ -1,5 +1,5 @@
 // eslint-disable-next-line no-unused-vars
-import { Color } from "../colors/color.js";
+import { Color } from "../../shared/color.js";
 
 const PART_BORDERS = {
   navigator: ["Bottom"],

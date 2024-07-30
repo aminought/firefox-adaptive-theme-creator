@@ -1,8 +1,8 @@
-import { addNumberOptions, addStringOptions } from "./html.js";
-import { BrowserParts } from "./browser_parts.js";
+import { addNumberOptions, addStringOptions } from "./utils/html.js";
+import { BrowserParts } from "../../shared/browser_parts.js";
 import { ColorPicker } from "./color_picker.js";
-import { Localizer } from "./localizer.js";
-import { Options } from "./options.js";
+import { Localizer } from "./utils/localizer.js";
+import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
 
 export class PartContextMenu {
