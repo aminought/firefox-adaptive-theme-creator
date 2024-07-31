@@ -30,7 +30,7 @@
         "message": "Рамка"
     },
     "frame_inactive": {
-        "message": "Неактивная"
+        "message": "Неактивная Рамка"
     },
     "inherit_global": {
         "message": "Глобальные"
@@ -57,7 +57,7 @@
         "message": "Всплывающее окно"
     },
     "popup_border": {
-        "message": "Рамка"
+        "message": "Рамка всплывающего окна"
     },
     "reset": {
         "message": "Сбросить"
@@ -69,7 +69,7 @@
         "message": "Боковая панель"
     },
     "sidebar_border": {
-        "message": "Разделитель"
+        "message": "Разделитель боковой панели"
     },
     "source": {
         "message": "Источник цвета"
@@ -84,16 +84,16 @@
         "message": "Панель инструментов"
     },
     "toolbar_bottom_separator": {
-        "message": "Нижний разделитель"
+        "message": "Нижний разделитель панели инструментов"
     },
     "toolbar_field": {
         "message": "Поле панели инструментов"
     },
     "toolbar_field_border": {
-        "message": "Рамка"
+        "message": "Рамка поля панели инструментов"
     },
     "toolbar_field_focus": {
-        "message": "Фокус"
+        "message": "Фокус поля панели инструментов"
     },
     "warning": {
         "message": "Текущая тема несовместима с данным расширением. Пожалуйста, установите тему, отличную от системной."

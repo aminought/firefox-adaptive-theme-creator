@@ -115,6 +115,7 @@ export class Form {
     event.stopPropagation();
     PopupController.popFor(event.target);
     const colorPicker = new ColorPicker(
+      Form.body,
       Form.colorPreview.style.backgroundColor,
       (color) => {
         Form.colorPreview.style.backgroundColor = color.rgbaString;
@@ -122,8 +123,7 @@ export class Form {
       }
     );
 
-    const body = document.querySelector("body");
-    PopupController.push(colorPicker, body, event.clientX, event.clientY);
+    PopupController.push(colorPicker, event.clientX, event.clientY);
   }
 
   /**

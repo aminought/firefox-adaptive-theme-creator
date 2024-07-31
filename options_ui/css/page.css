@@ -113,7 +113,7 @@ body {
 
 .option .color_preview {
   border-radius: 0 var(--radius) var(--radius) 0;
-  height: var(--option-height);
+  height: 100%;
   aspect-ratio: 1 / 1;
   background-color: red;
 }

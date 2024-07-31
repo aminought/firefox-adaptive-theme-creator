@@ -30,7 +30,7 @@
         "message": "Frame"
     },
     "frame_inactive": {
-        "message": "Inactive"
+        "message": "Frame Inactive"
     },
     "inherit_global": {
         "message": "Global"
@@ -57,7 +57,7 @@
         "message": "Popup"
     },
     "popup_border": {
-        "message": "Border"
+        "message": "Popup Border"
     },
     "reset": {
         "message": "Reset"
@@ -69,7 +69,7 @@
         "message": "Sidebar"
     },
     "sidebar_border": {
-        "message": "Border"
+        "message": "Sidebar Border"
     },
     "source": {
         "message": "Color source"
@@ -84,16 +84,16 @@
         "message": "Toolbar"
     },
     "toolbar_bottom_separator": {
-        "message": "Bottom Separator"
+        "message": "Toolbar Bottom Separator"
     },
     "toolbar_field": {
         "message": "Toolbar Field"
     },
     "toolbar_field_border": {
-        "message": "Border"
+        "message": "Toolbar Field Border"
     },
     "toolbar_field_focus": {
-        "message": "Focus"
+        "message": "Toolbar Field Focus"
     },
     "warning": {
         "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."

@@ -1,10 +1,9 @@
 import { BrowserParts } from "../../shared/browser_parts.js";
 import { BrowserPreview } from "./browser_preview.js";
+import { ContextMenu } from "./context_menu.js";
 import { Form } from "./form.js";
 import { Localizer } from "./utils/localizer.js";
-import { MegaContextMenu } from "./mega_context_menu.js";
 import { Options } from "../../shared/options.js";
-import { PartContextMenu } from "./part_context_menu.js";
 import { PopupController } from "./popup_controller.js";
 import { Theme } from "../../shared/theme.js";
 import { setRootColor } from "./utils/html.js";
@@ -78,16 +77,13 @@ const onBrowserPreviewContextMenu = (event, options, body) => {
     return;
   }
 
-  const contextMenus = [];
-  contextMenus.push(new PartContextMenu(options, part));
-
+  const parts = [part];
   for (const connectedPart of BrowserParts.getConnectedBackgroundParts(part)) {
-    contextMenus.push(new PartContextMenu(options, connectedPart));
+    parts.push(connectedPart);
   }
 
-  const megaContextMenu = new MegaContextMenu(contextMenus);
-
-  PopupController.push(megaContextMenu, body, event.clientX, event.clientY);
+  const contextMenu = new ContextMenu(options, body, parts);
+  PopupController.push(contextMenu, event.clientX, event.clientY);
 };
 
 /**

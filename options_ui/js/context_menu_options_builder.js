@@ -5,35 +5,51 @@ import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
 
-export class PartContextMenu {
+export class ContextMenuOptionsBuilder {
   /**
    *
    * @param {Options} options
+   * @param {HTMLElement} parent
    * @param {string} part
+   * @param {function():void} repositionContextMenu
    */
-  constructor(options, part) {
-    this.id = `${part}_context_menu`;
-    this.part = part;
+  constructor(options, parent, part, repositionContextMenu) {
     this.options = options;
+    this.parent = parent;
+    this.part = part;
+    this.repositionContextMenu = repositionContextMenu;
   }
 
   /**
    *
    * @returns {HTMLDivElement}
    */
-  create() {
-    const menuElement = document.createElement("div");
-    menuElement.id = this.id;
-    menuElement.className = "context_menu";
+  createPartOptionsElement() {
+    const partOptionsElement = document.createElement("div");
+    partOptionsElement.id = this.id;
+    partOptionsElement.className = "context_menu_options";
 
-    const titleElement = this.#createTitle();
-    menuElement.appendChild(titleElement);
+    partOptionsElement.appendChild(this.#createInheritanceOption());
+    partOptionsElement.appendChild(this.#createSourceOption());
+    partOptionsElement.appendChild(this.#createColorOption());
+    partOptionsElement.appendChild(this.#createSaturationLimitOption());
+    partOptionsElement.appendChild(this.#createDarknessOption());
+    partOptionsElement.appendChild(this.#createBrightnessOption());
 
-    const customEnabledElement = this.#createOption(
-      "inheritance",
+    return partOptionsElement;
+  }
+
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  #createInheritanceOption() {
+    const partKey = "inheritance";
+    return this.#createOption(
+      partKey,
       ["option"],
       "inheritFrom",
-      (partKey, inputId, value) =>
+      (inputId, value) =>
         this.#createSelectElement(partKey, inputId, value, (inputElement) =>
           addStringOptions(
             inputElement,
@@ -41,73 +57,89 @@ export class PartContextMenu {
           )
         )
     );
-    menuElement.appendChild(customEnabledElement);
-
-    const sourceElement = this.#createOption(
-      "source",
-      ["option", "option_inherit_from_off"],
-      "source",
-      (partKey, inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addStringOptions(inputElement, Object.values(Options.SOURCES))
-        )
-    );
-    menuElement.appendChild(sourceElement);
-
-    const colorPreviewElement = this.#createOption(
-      "color",
-      ["option", "option_inherit_from_off", "option_source_own_color"],
-      "color",
-      (partKey, inputId, value) =>
-        this.#createColorPreviewElement(partKey, inputId, value)
-    );
-    menuElement.appendChild(colorPreviewElement);
-
-    const saturationLimitElement = this.#createOption(
-      "saturation_limit",
-      ["option", "option_inherit_from_off"],
-      "saturationLimit",
-      (partKey, inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.1, 1.0, 0.1)
-        )
-    );
-    menuElement.appendChild(saturationLimitElement);
-
-    const darknessElement = this.#createOption(
-      "darkness",
-      ["option", "option_inherit_from_off"],
-      "darkness",
-      (partKey, inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
-        )
-    );
-    menuElement.appendChild(darknessElement);
-
-    const brightnessElement = this.#createOption(
-      "brightness",
-      ["option", "option_inherit_from_off"],
-      "brightness",
-      (partKey, inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
-        )
-    );
-    menuElement.appendChild(brightnessElement);
-
-    return menuElement;
   }
 
   /**
    *
-   * @returns {HTMLLabelElement}
+   * @returns {HTMLDivElement}
    */
-  #createTitle() {
-    const titleElement = document.createElement("label");
-    titleElement.className = "context_menu_title";
-    titleElement.innerHTML = Localizer.getMessage(this.part);
-    return titleElement;
+  #createSourceOption() {
+    const partKey = "source";
+    return this.#createOption(
+      partKey,
+      ["option", "option_inherit_from_off"],
+      "source",
+      (inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addStringOptions(inputElement, Object.values(Options.SOURCES))
+        )
+    );
+  }
+
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  #createColorOption() {
+    const partKey = "color";
+    return this.#createOption(
+      "color",
+      ["option", "option_inherit_from_off", "option_source_own_color"],
+      "color",
+      (inputId, value) =>
+        this.#createColorPreviewElement(partKey, inputId, value)
+    );
+  }
+
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  #createSaturationLimitOption() {
+    const partKey = "saturation_limit";
+    return this.#createOption(
+      partKey,
+      ["option", "option_inherit_from_off"],
+      "saturationLimit",
+      (inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.1, 1.0, 0.1)
+        )
+    );
+  }
+
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  #createDarknessOption() {
+    const partKey = "darkness";
+    return this.#createOption(
+      partKey,
+      ["option", "option_inherit_from_off"],
+      "darkness",
+      (inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        )
+    );
+  }
+
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  #createBrightnessOption() {
+    const partKey = "brightness";
+    return this.#createOption(
+      partKey,
+      ["option", "option_inherit_from_off"],
+      "brightness",
+      (inputId, value) =>
+        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
+          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        )
+    );
   }
 
   /**
@@ -115,7 +147,7 @@ export class PartContextMenu {
    * @param {string} partKey
    * @param {string[]} classList
    * @param {string} i18nMessage
-   * @param {function(string, string, any):HTMLElement} createInputElement
+   * @param {function(string, any):HTMLElement} createInputElement
    * @returns {HTMLDivElement}
    */
   #createOption(partKey, classList, i18nMessage, createInputElement) {
@@ -125,20 +157,13 @@ export class PartContextMenu {
     }
 
     const inputId = `${this.part}_${partKey}`;
-
-    const labelElement = PartContextMenu.#createLabelElement(
-      inputId,
-      i18nMessage
-    );
-    optionElement.appendChild(labelElement);
-
-    const separator = PartContextMenu.#createSeparator();
-    optionElement.appendChild(separator);
-
     const value = this.options.getPartOption(this.part, partKey);
-    const inputElement = createInputElement(partKey, inputId, value);
 
-    optionElement.appendChild(inputElement);
+    optionElement.appendChild(
+      ContextMenuOptionsBuilder.#createLabelElement(inputId, i18nMessage)
+    );
+    optionElement.appendChild(ContextMenuOptionsBuilder.#createSeparator());
+    optionElement.appendChild(createInputElement(inputId, value));
 
     return optionElement;
   }
@@ -166,29 +191,6 @@ export class PartContextMenu {
    *
    * @param {string} partKey
    * @param {string} inputId
-   * @param {boolean} value
-   * @returns {HTMLElement}
-   */
-  // eslint-disable-next-line no-unused-private-class-members
-  #createCheckboxElement(partKey, inputId, value) {
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = inputId;
-    checkbox.checked = value;
-    checkbox.setAttribute("data-value", value);
-
-    checkbox.onclick = () => {
-      this.options.setPartOption(this.part, partKey, checkbox.checked);
-      checkbox.setAttribute("data-value", checkbox.checked);
-    };
-
-    return checkbox;
-  }
-
-  /**
-   *
-   * @param {string} partKey
-   * @param {string} inputId
    * @param {any} value
    * @param {function(HTMLSelectElement):void} fillSelect
    * @returns {HTMLElement}
@@ -203,6 +205,7 @@ export class PartContextMenu {
     select.onchange = () => {
       this.options.setPartOption(this.part, partKey, select.value);
       select.setAttribute("data-value", select.value);
+      this.repositionContextMenu();
     };
 
     return select;
@@ -225,14 +228,13 @@ export class PartContextMenu {
     colorPreview.onclick = (event) => {
       event.stopPropagation();
       PopupController.popFor(event.target);
-      const colorPicker = new ColorPicker(value, (color) => {
+      const colorPicker = new ColorPicker(this.parent, value, (color) => {
         colorPreview.style.backgroundColor = color.rgbaString;
         this.options.setPartOption(this.part, partKey, color.rgbaString);
         colorPreview.setAttribute("data-value", color.rgbaString);
       });
 
-      const body = document.querySelector("body");
-      PopupController.push(colorPicker, body, event.clientX, event.clientY);
+      PopupController.push(colorPicker, event.clientX, event.clientY);
     };
 
     return colorPreview;

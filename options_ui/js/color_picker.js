@@ -4,18 +4,20 @@ import { setPosition } from "./utils/html.js";
 export class ColorPicker {
   /**
    *
+   * @param {HTMLElement} parent
    * @param {string} color
    * @param {function(string):void} callback
    */
-  constructor(color, callback) {
-    this.element = ColorPicker.createElement();
-    this.picker = ColorPicker.createPicker(this.element, color, callback);
+  constructor(parent, color, callback) {
+    this.parent = parent;
+    this.wrapper = ColorPicker.createWrapper();
+    this.picker = ColorPicker.createPicker(this.wrapper, color, callback);
   }
 
-  static createElement() {
-    const element = document.createElement("div");
-    element.style.position = "absolute";
-    return element;
+  static createWrapper() {
+    const wrapper = document.createElement("div");
+    wrapper.style.position = "absolute";
+    return wrapper;
   }
 
   /**
@@ -33,13 +35,12 @@ export class ColorPicker {
 
   /**
    *
-   * @param {HTMLElement} parent
    * @param {number} clientX
    * @param {number} clientY
    */
-  draw(parent, clientX, clientY) {
-    parent.appendChild(this.element);
-    setPosition(this.element, parent, clientX, clientY);
+  draw(clientX, clientY) {
+    this.parent.appendChild(this.wrapper);
+    setPosition(this.wrapper, this.parent, clientX, clientY);
   }
 
   /**
@@ -47,12 +48,12 @@ export class ColorPicker {
    * @returns {boolean}
    */
   exists() {
-    return Boolean(this.element.parentElement);
+    return Boolean(this.wrapper.parentElement);
   }
 
   remove() {
     if (this.exists()) {
-      this.element.parentElement.removeChild(this.element);
+      this.wrapper.parentElement.removeChild(this.wrapper);
     }
   }
 
@@ -62,6 +63,6 @@ export class ColorPicker {
    * @returns {boolean}
    */
   contains(element) {
-    return this.element.contains(element);
+    return this.wrapper.contains(element);
   }
 }

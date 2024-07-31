@@ -8,7 +8,13 @@ import { Localizer } from "./localizer.js";
  * @param {number} step
  * @param {number=} fixed
  */
-export const addNumberOptions = (selectElement, start, end, step, fixed = 1) => {
+export const addNumberOptions = (
+  selectElement,
+  start,
+  end,
+  step,
+  fixed = 1
+) => {
   for (let i = start; i <= end; i += step) {
     const option = document.createElement("option");
     option.value = i.toFixed(fixed);
@@ -50,14 +56,18 @@ export const setRootColor = (property, color) => {
 export const setPosition = (child, parent, clientX, clientY) => {
   const parentRect = parent.getBoundingClientRect();
   const childRect = child.getBoundingClientRect();
-  if (clientY + childRect.height > parentRect.bottom) {
+
+  const x = clientX - parentRect.left;
+  const y = clientY - parentRect.top;
+
+  if (y + childRect.height > parentRect.bottom) {
     child.style.top = `${parentRect.bottom - childRect.height}px`;
   } else {
-    child.style.top = `${clientY}px`;
+    child.style.top = `${y}px`;
   }
-  if (clientX + childRect.width > parentRect.right) {
+  if (x + childRect.width > parentRect.right) {
     child.style.left = `${parentRect.right - childRect.width}px`;
   } else {
-    child.style.left = `${clientX}px`;
+    child.style.left = `${x}px`;
   }
 };

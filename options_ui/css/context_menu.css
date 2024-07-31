@@ -1,30 +1,40 @@
-#mega_context_menu {
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
-  position: absolute;
-  padding: 2px;
-}
-
 .context_menu {
+  position: absolute;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 2px;
+  background-color: transparent;
+}
+
+.context_menu_options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.context_menu_parts {
   background-color: var(--background-color);
   color: var(--color);
-  border: 1px solid;
+  height: var(--option-height);
   border-radius: var(--radius);
-  padding: 2px;
-  height: fit-content;
+  border: 1px solid var(--color);
+  font-weight: bold;
+  width: fit-content;
+}
+
+.context_menu_options .option {
+  background-color: var(--background-color);
+  color: var(--color);
 }
 
 .context_menu:not(:has(select[data-value="inheritance_off"]))
-  > .option_inherit_from_off {
+  .option_inherit_from_off {
   display: none;
 }
 
 .context_menu:not(:has(select[data-value="own_color"]))
-  > .option_source_own_color {
+  .option_source_own_color {
   display: none;
 }
 
