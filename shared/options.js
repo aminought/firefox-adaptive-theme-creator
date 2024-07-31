@@ -42,7 +42,16 @@ export class Options {
       true,
       "toolbar"
     );
-    Options.makePartOptions(options, "toolbar_field");
+    Options.makePartOptions(
+      options,
+      "toolbar_field",
+      true,
+      BrowserParts.INHERITANCES.off,
+      Options.SOURCES.PAGE,
+      "1.0",
+      "0.0",
+      "0.5"
+    );
     Options.makePartOptions(
       options,
       "toolbar_field_focus",
@@ -52,7 +61,14 @@ export class Options {
     Options.makePartOptions(options, "frame");
     Options.makePartOptions(options, "frame_inactive", true, "frame");
     Options.makePartOptions(options, "popup");
-    Options.makePartOptions(options, "popup_border", true, "popup");
+    Options.makePartOptions(
+      options,
+      "popup_border",
+      true,
+      BrowserParts.INHERITANCES.off,
+      Options.SOURCES.FAVICON,
+      "0.5"
+    );
     return options;
   }
 
@@ -71,15 +87,17 @@ export class Options {
     enabled = true,
     inheritance = BrowserParts.INHERITANCES.global,
     source = Options.SOURCES.PAGE,
-    saturationLimit = "1.0"
+    saturationLimit = "1.0",
+    darkness = "0.0",
+    brightness = "0.0"
   ) {
     options[`${part}.enabled`] = enabled;
     options[`${part}.inheritance`] = inheritance;
     options[`${part}.source`] = source;
     options[`${part}.color`] = "#f0f";
     options[`${part}.saturation_limit`] = saturationLimit;
-    options[`${part}.darkness`] = "0.0";
-    options[`${part}.brightness`] = "0.0";
+    options[`${part}.darkness`] = darkness;
+    options[`${part}.brightness`] = brightness;
   }
 
   static async load() {
