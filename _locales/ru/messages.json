@@ -8,6 +8,9 @@
     "brightness": {
         "message": "Яркость"
     },
+    "color": {
+        "message": "Цвет"
+    },
     "darkness": {
         "message": "Затемнение"
     },
@@ -38,8 +41,8 @@
     "inheritFrom": {
         "message": "Наследовать от"
     },
-    "ownColor": {
-        "message": "Цвет"
+    "own_color": {
+        "message": "Own color"
     },
     "page": {
         "message": "Страница"

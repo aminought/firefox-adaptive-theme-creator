@@ -18,18 +18,19 @@
   height: fit-content;
 }
 
-.context_menu:not(:has(select[data-value="inheritance_off"])) > .custom_option {
+.context_menu:not(:has(select[data-value="inheritance_off"]))
+  > .option_inherit_from_off {
+  display: none;
+}
+
+.context_menu:not(:has(select[data-value="own_color"]))
+  > .option_source_own_color {
   display: none;
 }
 
 .context_menu_title {
   align-self: center;
   font-weight: bold;
-  background-color: var(--background-color);
-  color: var(--color);
-}
-
-.context_menu .option {
   background-color: var(--background-color);
   color: var(--color);
 }

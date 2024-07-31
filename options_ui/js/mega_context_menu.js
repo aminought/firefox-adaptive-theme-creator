@@ -8,12 +8,12 @@ export class MegaContextMenu {
    * @param {PartContextMenu[]} menus
    */
   constructor(menus) {
+    this.menus = menus;
     this.element = MegaContextMenu.createElement(menus);
   }
 
   /**
    *
-   * @param {PartContextMenu[]} menus
    * @returns {HTMLDivElement}
    */
   static createElement(menus) {
@@ -49,5 +49,16 @@ export class MegaContextMenu {
     if (this.exists()) {
       this.element.parentElement.removeChild(this.element);
     }
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @returns {boolean}
+   */
+  contains(element) {
+    return Array.from(this.element.children).some((child) =>
+      child.contains(element)
+    );
   }
 }

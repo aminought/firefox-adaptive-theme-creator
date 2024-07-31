@@ -27,8 +27,8 @@ export class PopupController {
   static popFor(element) {
     let popped = false;
     while (!this.empty()) {
-      const popupElement = this.peek().element;
-      if (popupElement.contains(element)) {
+      const popup = this.peek();
+      if (popup.contains(element)) {
         return popped;
       }
       this.pop();

@@ -34,16 +34,55 @@ export class Form {
 
   loadFromOptions() {
     const globalOptions = this.options.getGlobalOptions();
-    Form.source.value = globalOptions.source;
-    Form.colorPreview.style.backgroundColor = globalOptions.color;
-    Form.saturationLimit.value = globalOptions.saturationLimit;
-    Form.darkness.value = globalOptions.darkness;
-    Form.brightness.value = globalOptions.brightness;
-    Form.faviconAvoidWhite.checked = globalOptions.favicon.avoidWhite;
-    Form.faviconAvoidBlack.checked = globalOptions.favicon.avoidBlack;
-    Form.pageCaptureHeight.value = globalOptions.page.captureHeight;
-    Form.pageAvoidWhite.checked = globalOptions.page.avoidWhite;
-    Form.pageAvoidBlack.checked = globalOptions.page.avoidBlack;
+    Form.loadValueOption(Form.source, globalOptions.source);
+    Form.loadBackgroundColorOption(Form.colorPreview, globalOptions.color);
+    Form.loadValueOption(Form.saturationLimit, globalOptions.saturationLimit);
+    Form.loadValueOption(Form.darkness, globalOptions.darkness);
+    Form.loadValueOption(Form.brightness, globalOptions.brightness);
+    Form.loadCheckedOption(
+      Form.faviconAvoidWhite,
+      globalOptions.favicon.avoidWhite
+    );
+    Form.loadCheckedOption(
+      Form.faviconAvoidBlack,
+      globalOptions.favicon.avoidBlack
+    );
+    Form.loadValueOption(
+      Form.pageCaptureHeight,
+      globalOptions.page.captureHeight
+    );
+    Form.loadCheckedOption(Form.pageAvoidWhite, globalOptions.page.avoidWhite);
+    Form.loadCheckedOption(Form.pageAvoidBlack, globalOptions.page.avoidBlack);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @param {any} value
+   */
+  static loadValueOption(element, value) {
+    element.value = value;
+    element.setAttribute("data-value", value);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @param {any} value
+   */
+  static loadCheckedOption(element, value) {
+    element.checked = value;
+    element.setAttribute("data-value", value);
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @param {any} value
+   */
+  static loadBackgroundColorOption(element, value) {
+    element.style.backgroundColor = value;
+    element.setAttribute("data-value", value);
   }
 
   setupListeners() {
@@ -93,6 +132,7 @@ export class Form {
    * @param {string} key
    */
   async saveChecked(event, key) {
+    event.target.setAttribute("data-value", event.target.value);
     await this.options.setGlobalOption(key, event.target.checked);
   }
 
@@ -102,6 +142,7 @@ export class Form {
    * @param {string} key
    */
   async saveValue(event, key) {
+    event.target.setAttribute("data-value", event.target.value);
     await this.options.setGlobalOption(key, event.target.value);
   }
 
@@ -111,6 +152,7 @@ export class Form {
    * @param {string} key
    */
   async saveBackgroundColor(color, key) {
+    event.target.setAttribute("data-value", event.target.value);
     await this.options.setGlobalOption(key, color.rgbaString);
   }
 

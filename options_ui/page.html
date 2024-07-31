@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Favicon Color</title>
-    <link rel="stylesheet" href="css/options_page.css" />
+    <link rel="stylesheet" href="css/page.css" />
     <link rel="stylesheet" href="css/warning.css" />
     <link rel="stylesheet" href="css/color_picker.css" />
     <link rel="stylesheet" href="css/browser_preview.css" />
@@ -15,11 +15,13 @@
       <div class="options_row">
         <div class="option">
           <label class="option_title" for="source" data-i18n="source"></label>
+          <div class="separator"></div>
           <select id="source" name="source"></select>
         </div>
 
-        <div class="option">
-          <label class="option_title" for="color" data-i18n="ownColor"></label>
+        <div class="option option_source_own_color">
+          <label class="option_title" for="color" data-i18n="color"></label>
+          <div class="separator"></div>
           <div id="color_preview" class="color_preview"></div>
         </div>
       </div>
@@ -31,6 +33,7 @@
             for="saturation_limit"
             data-i18n="saturationLimit"
           ></label>
+          <div class="separator"></div>
           <select id="saturation_limit" name="saturation_limit"></select>
         </div>
 
@@ -40,6 +43,7 @@
             for="darkness"
             data-i18n="darkness"
           ></label>
+          <div class="separator"></div>
           <select id="darkness" name="darkness"></select>
         </div>
 
@@ -49,6 +53,7 @@
             for="brightness"
             data-i18n="brightness"
           ></label>
+          <div class="separator"></div>
           <select id="brightness" name="brightness"></select>
         </div>
       </div>
@@ -84,11 +89,13 @@
             <div class="options_row">
               <div class="option">
                 <label for="page_avoid_white" data-i18n="avoidWhite"></label>
+                <div class="separator"></div>
                 <input id="page_avoid_white" type="checkbox" />
               </div>
 
               <div class="option">
                 <label for="page_avoid_black" data-i18n="avoidBlack"></label>
+                <div class="separator"></div>
                 <input id="page_avoid_black" type="checkbox" />
               </div>
             </div>
@@ -99,6 +106,7 @@
                   for="page_capture_height"
                   data-i18n="pageCaptureHeight"
                 ></label>
+                <div class="separator"></div>
                 <input
                   id="page_capture_height"
                   type="number"
@@ -116,11 +124,13 @@
             <div class="options_row">
               <div class="option">
                 <label for="favicon_avoid_white" data-i18n="avoidWhite"></label>
+                <div class="separator"></div>
                 <input id="favicon_avoid_white" type="checkbox" />
               </div>
 
               <div class="option">
                 <label for="favicon_avoid_black" data-i18n="avoidBlack"></label>
+                <div class="separator"></div>
                 <input id="favicon_avoid_black" type="checkbox" />
               </div>
             </div>
@@ -128,7 +138,7 @@
         </div>
       </div>
 
-      <div class="button right">
+      <div class="buttons_row">
         <button id="reset_button" type="button" data-i18n="reset"></button>
       </div>
     </div>

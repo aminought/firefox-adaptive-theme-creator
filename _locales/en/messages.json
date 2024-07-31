@@ -8,6 +8,9 @@
     "brightness": {
         "message": "Brightness"
     },
+    "color": {
+        "message": "Color"
+    },
     "darkness": {
         "message": "Darkness"
     },
@@ -40,9 +43,6 @@
     },
     "own_color": {
         "message": "Own color"
-    },
-    "ownColor": {
-        "message": "Color"
     },
     "page": {
         "message": "Page"

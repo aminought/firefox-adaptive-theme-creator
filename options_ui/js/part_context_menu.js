@@ -45,7 +45,7 @@ export class PartContextMenu {
 
     const sourceElement = this.#createOption(
       "source",
-      ["option", "custom_option"],
+      ["option", "option_inherit_from_off"],
       "source",
       (partKey, inputId, value) =>
         this.#createSelectElement(partKey, inputId, value, (inputElement) =>
@@ -56,8 +56,8 @@ export class PartContextMenu {
 
     const colorPreviewElement = this.#createOption(
       "color",
-      ["option", "custom_option"],
-      "own_color",
+      ["option", "option_inherit_from_off", "option_source_own_color"],
+      "color",
       (partKey, inputId, value) =>
         this.#createColorPreviewElement(partKey, inputId, value)
     );
@@ -65,7 +65,7 @@ export class PartContextMenu {
 
     const saturationLimitElement = this.#createOption(
       "saturation_limit",
-      ["option", "custom_option"],
+      ["option", "option_inherit_from_off"],
       "saturationLimit",
       (partKey, inputId, value) =>
         this.#createSelectElement(partKey, inputId, value, (inputElement) =>
@@ -76,7 +76,7 @@ export class PartContextMenu {
 
     const darknessElement = this.#createOption(
       "darkness",
-      ["option", "custom_option"],
+      ["option", "option_inherit_from_off"],
       "darkness",
       (partKey, inputId, value) =>
         this.#createSelectElement(partKey, inputId, value, (inputElement) =>
@@ -87,7 +87,7 @@ export class PartContextMenu {
 
     const brightnessElement = this.#createOption(
       "brightness",
-      ["option", "custom_option"],
+      ["option", "option_inherit_from_off"],
       "brightness",
       (partKey, inputId, value) =>
         this.#createSelectElement(partKey, inputId, value, (inputElement) =>
@@ -126,11 +126,14 @@ export class PartContextMenu {
 
     const inputId = `${this.part}_${partKey}`;
 
-    const labelElement = PartContextMenu.#createOptionLabel(
+    const labelElement = PartContextMenu.#createLabelElement(
       inputId,
       i18nMessage
     );
     optionElement.appendChild(labelElement);
+
+    const separator = PartContextMenu.#createSeparator();
+    optionElement.appendChild(separator);
 
     const value = this.options.getPartOption(this.part, partKey);
     const inputElement = createInputElement(partKey, inputId, value);
@@ -146,11 +149,17 @@ export class PartContextMenu {
    * @param {string} i18nMessage
    * @returns {HTMLLabelElement}
    */
-  static #createOptionLabel(inputId, i18nMessage) {
+  static #createLabelElement(inputId, i18nMessage) {
     const labelElement = document.createElement("label");
     labelElement.setAttribute("for", inputId);
     labelElement.innerText = Localizer.getMessage(i18nMessage);
     return labelElement;
+  }
+
+  static #createSeparator() {
+    const separator = document.createElement("div");
+    separator.className = "separator";
+    return separator;
   }
 
   /**

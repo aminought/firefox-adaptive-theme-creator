@@ -52,19 +52,34 @@ body {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  gap: 4px;
-  padding-left: 4px;
   border-radius: var(--radius);
   border: 1px solid;
-  min-height: var(--option-height);
+  height: var(--option-height);
+  justify-content: flex-end;
 }
 
-.button.right {
+.options_row:not(:has(#source[data-value="own_color"]))
+  > .option_source_own_color {
+  display: none;
+}
+
+.option label {
+  white-space: nowrap;
+  padding: 0 4px 0 4px;
+  margin-right: auto;
+}
+
+.option .separator {
+  height: var(--option-height);
+  border-left: 1px solid color-mix(in srgb, currentColor 50%, transparent);
+}
+
+.buttons_row {
   display: flex;
   justify-content: flex-end;
 }
 
-button {
+.buttons_row button {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
   border: 1px solid;
@@ -73,37 +88,41 @@ button {
   font-weight: bold;
 }
 
-button:hover {
+.buttons_row button:hover {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-label {
-  white-space: nowrap;
-}
-
-select {
+.option select {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
-  border-top-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  border-width: 0 0 0 1px;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: none;
   padding: 2px 0 2px 8px;
+  height: 100%;
   overflow: hidden;
 }
 
-select:hover {
+.option select:hover {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-select > option {
+.option select > option {
   background-color: var(--background-color);
   color: var(--color);
 }
 
-.color_preview {
-  border-top-right-radius: 4px;
-  border-top-left-radius: 4px;
+.option .color_preview {
+  border-radius: 0 var(--radius) var(--radius) 0;
   height: var(--option-height);
   aspect-ratio: 1 / 1;
   background-color: red;
+}
+
+.option input {
+  height: var(--option-height);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: none;
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  padding-left: 4px;
 }

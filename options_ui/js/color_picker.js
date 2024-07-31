@@ -1,3 +1,4 @@
+import { PopupController } from "./popup_controller.js";
 import { setPosition } from "./utils/html.js";
 
 export class ColorPicker {
@@ -24,8 +25,9 @@ export class ColorPicker {
    * @param {function(string):void} callback
    */
   static createPicker(parent, color, callback) {
-    const picker = new Picker({ parent, popup: false, color });
+    const picker = new Picker({ parent, popup: false, alpha: false, color });
     picker.onChange = callback;
+    picker.onDone = () => PopupController.pop();
     return picker;
   }
 
@@ -52,5 +54,14 @@ export class ColorPicker {
     if (this.exists()) {
       this.element.parentElement.removeChild(this.element);
     }
+  }
+
+  /**
+   *
+   * @param {HTMLElement} element
+   * @returns {boolean}
+   */
+  contains(element) {
+    return this.element.contains(element);
   }
 }
