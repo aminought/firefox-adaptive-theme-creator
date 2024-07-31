@@ -89,6 +89,9 @@
     "toolbar_field": {
         "message": "Toolbar Field"
     },
+    "toolbar_field_border": {
+        "message": "Border"
+    },
     "toolbar_field_focus": {
         "message": "Focus"
     },

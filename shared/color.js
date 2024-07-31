@@ -2,7 +2,7 @@ const LUMINANCE_THRESHOLD = 0.4;
 
 export class Color {
   constructor(color) {
-    this.color = chroma(color);
+    this.color = chroma(color === "transparent" ? "#FFF0" : color);
   }
 
   getForeground() {

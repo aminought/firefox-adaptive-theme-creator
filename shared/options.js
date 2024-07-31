@@ -54,6 +54,12 @@ export class Options {
     );
     Options.makePartOptions(
       options,
+      "toolbar_field_border",
+      true,
+      "toolbar_field"
+    );
+    Options.makePartOptions(
+      options,
       "toolbar_field_focus",
       true,
       "toolbar_field"

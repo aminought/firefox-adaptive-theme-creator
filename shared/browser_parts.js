@@ -12,6 +12,7 @@ const CONNECTED_PARTS = {
   popup_border: "popup_border",
   sidebar_border: "sidebar_border",
   toolbar_bottom_separator: "toolbar_bottom_separator",
+  toolbar_field_border: "toolbar_field_border",
   toolbar_field_focus: "toolbar_field_focus",
 };
 
@@ -30,7 +31,10 @@ const FOREGROUND_PARTS = {
 const BACKGROUND_CONNECTIONS = {
   [BACKGROUND_PARTS.sidebar]: [CONNECTED_PARTS.sidebar_border],
   [BACKGROUND_PARTS.toolbar]: [CONNECTED_PARTS.toolbar_bottom_separator],
-  [BACKGROUND_PARTS.toolbar_field]: [CONNECTED_PARTS.toolbar_field_focus],
+  [BACKGROUND_PARTS.toolbar_field]: [
+    CONNECTED_PARTS.toolbar_field_border,
+    CONNECTED_PARTS.toolbar_field_focus,
+  ],
   [BACKGROUND_PARTS.frame]: [CONNECTED_PARTS.frame_inactive],
   [BACKGROUND_PARTS.popup]: [CONNECTED_PARTS.popup_border],
 };
@@ -38,6 +42,7 @@ const BACKGROUND_CONNECTIONS = {
 const BACKGROUND_CONNECTIONS_INVERSED = {
   [CONNECTED_PARTS.sidebar_border]: BACKGROUND_PARTS.sidebar,
   [CONNECTED_PARTS.toolbar_bottom_separator]: BACKGROUND_PARTS.toolbar,
+  [CONNECTED_PARTS.toolbar_field_border]: BACKGROUND_PARTS.toolbar_field,
   [CONNECTED_PARTS.toolbar_field_focus]: BACKGROUND_PARTS.toolbar_field,
   [CONNECTED_PARTS.frame_inactive]: BACKGROUND_PARTS.frame,
   [CONNECTED_PARTS.popup_border]: BACKGROUND_PARTS.popup,
@@ -102,9 +107,9 @@ export class BrowserParts {
    * @returns {string[]}
    */
   static getAllParts() {
-    return Object.values(BACKGROUND_PARTS).concat(
-      Object.values(FOREGROUND_PARTS)
-    );
+    return Object.values(BACKGROUND_PARTS)
+      .concat(Object.values(CONNECTED_PARTS))
+      .concat(Object.values(FOREGROUND_PARTS));
   }
 
   /**

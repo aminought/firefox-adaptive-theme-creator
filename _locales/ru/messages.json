@@ -89,6 +89,9 @@
     "toolbar_field": {
         "message": "Поле панели инструментов"
     },
+    "toolbar_field_border": {
+        "message": "Рамка"
+    },
     "toolbar_field_focus": {
         "message": "Фокус"
     },
