@@ -14,7 +14,7 @@ export class Options {
   static makeDefault() {
     const options = {
       source: this.SOURCES.PAGE,
-      color: "#f0f",
+      color: "#ff80ed",
       saturation_limit: "1.0",
       darkness: "0.0",
       brightness: "0.0",

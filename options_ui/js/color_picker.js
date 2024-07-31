@@ -16,6 +16,7 @@ export class ColorPicker {
 
   static createWrapper() {
     const wrapper = document.createElement("div");
+    wrapper.className = "color_picker_wrapper";
     wrapper.style.position = "absolute";
     return wrapper;
   }

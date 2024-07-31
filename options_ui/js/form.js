@@ -1,5 +1,6 @@
 import { addNumberOptions, addStringOptions } from "./utils/html.js";
 import { ColorPicker } from "./color_picker.js";
+import { HelpPopup } from "./help_popup.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
 
@@ -16,6 +17,7 @@ export class Form {
   static pageCaptureHeight = document.getElementById("page_capture_height");
   static pageAvoidWhite = document.getElementById("page_avoid_white");
   static pageAvoidBlack = document.getElementById("page_avoid_black");
+  static helpButton = document.getElementById("help_button");
   static resetButton = document.getElementById("reset_button");
 
   /**
@@ -104,6 +106,7 @@ export class Form {
       this.saveChecked(e, "page.avoid_black");
 
     Form.resetButton.onclick = (e) => this.reset(e);
+    Form.helpButton.onclick = (e) => Form.showHelp(e);
   }
 
   /**
@@ -117,10 +120,7 @@ export class Form {
     const colorPicker = new ColorPicker(
       Form.body,
       Form.colorPreview.style.backgroundColor,
-      (color) => {
-        Form.colorPreview.style.backgroundColor = color.rgbaString;
-        this.saveBackgroundColor(color, key);
-      }
+      (color) => this.saveBackgroundColor(Form.colorPreview, color, key)
     );
 
     PopupController.push(colorPicker, event.clientX, event.clientY);
@@ -148,11 +148,13 @@ export class Form {
 
   /**
    *
-   * @param {object} color
+   * @param {HTMLElement} element
+   * @param {Event} color
    * @param {string} key
    */
-  async saveBackgroundColor(color, key) {
-    event.target.setAttribute("data-value", event.target.value);
+  async saveBackgroundColor(element, color, key) {
+    element.style.backgroundColor = color.rgbaString;
+    element.setAttribute("data-value", color.rgbaString);
     await this.options.setGlobalOption(key, color.rgbaString);
   }
 
@@ -164,5 +166,16 @@ export class Form {
     event.preventDefault();
     await this.options.reset();
     this.loadFromOptions();
+  }
+
+  /**
+   *
+   * @param {MouseEvent} event
+   */
+  static showHelp(event) {
+    event.stopPropagation();
+    PopupController.clear();
+    const helpPopup = new HelpPopup(this.body);
+    PopupController.push(helpPopup, event.target);
   }
 }

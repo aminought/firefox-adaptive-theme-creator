@@ -77,6 +77,7 @@ body {
 .buttons_row {
   display: flex;
   justify-content: flex-end;
+  gap: 4px;
 }
 
 .buttons_row button {

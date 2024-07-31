@@ -21,11 +21,13 @@
   border: 1px solid var(--color);
   font-weight: bold;
   width: fit-content;
+  box-shadow: 0px 0px 8px 1px var(--color);
 }
 
 .context_menu_options .option {
   background-color: var(--background-color);
   color: var(--color);
+  box-shadow: 0px 0px 8px 1px var(--color);
 }
 
 .context_menu:not(:has(select[data-value="inheritance_off"]))

@@ -7,6 +7,11 @@ export class Localizer {
     }
   }
 
+  /**
+   *
+   * @param {string} messageName
+   * @returns {string}
+   */
   static getMessage(messageName) {
     return browser.i18n.getMessage(messageName);
   }

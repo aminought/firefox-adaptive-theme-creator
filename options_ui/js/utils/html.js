@@ -71,3 +71,25 @@ export const setPosition = (child, parent, clientX, clientY) => {
     child.style.left = `${x}px`;
   }
 };
+
+/**
+ *
+ * @param {HTMLElement} child
+ * @param {HTMLElement} parent
+ * @param {HTMLElement} target
+ */
+export const positionAbove = (child, parent, target) => {
+  const childRect = child.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+
+  let x = targetRect.left - parentRect.left;
+  const y = targetRect.top - parentRect.top - childRect.height - 4;
+
+  if (x + childRect.width > parentRect.right) {
+    x = parentRect.right - childRect.width;
+  }
+
+  child.style.left = `${x}px`;
+  child.style.top = `${y}px`;
+};
