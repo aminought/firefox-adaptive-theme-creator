@@ -1,6 +1,7 @@
 .color_picker_wrapper {
   border: 1px solid var(--color);
   border-radius: var(--radius);
+  overflow: hidden;
   box-shadow: 0px 0px 24px 4px var(--color);
 }
 
@@ -22,15 +23,16 @@
 .picker_editor > input {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color) !important;
-  box-shadow: none;
+  box-shadow: none !important;
+  text-align: center !important;
 }
 
 .picker_sample {
-  height: var(--option-height);
-  border: 1px solid var(--color);
-  border-radius: var(--radius);
-  overflow: hidden;
-  box-shadow: none;
+  height: var(--option-height) !important;
+  border: 1px solid var(--color) !important;
+  border-radius: var(--radius) !important;
+  overflow: hidden !important;
+  box-shadow: none !important;
 }
 
 .picker_done {
