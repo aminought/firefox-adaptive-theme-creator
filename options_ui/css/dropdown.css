@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 8px;
   align-items: center;
+  justify-content: center;
   padding-left: 8px;
   padding-right: 4px;
   height: 100%;
@@ -19,8 +20,14 @@
 }
 
 .dropdown_arrow {
-  height: 60%;
+  height: 10px;
+  width: 10px;
   color: var(--color);
+}
+
+.dropdown_arrow > svg {
+  display: block;
+  margin: auto;
 }
 
 .dropdown_popup {
