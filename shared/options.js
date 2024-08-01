@@ -112,7 +112,7 @@ export class Options {
   }
 
   static async load() {
-    const storage = await browser.storage.sync.get();
+    const storage = await browser.storage.local.get();
     const options = new Options(storage);
     await options.reload();
     await options.save();
@@ -120,7 +120,7 @@ export class Options {
   }
 
   async reload() {
-    const storage = await browser.storage.sync.get();
+    const storage = await browser.storage.local.get();
     for (const key in storage) {
       if (key in this.options && storage[key] !== null) {
         this.options[key] = storage[key];
@@ -133,7 +133,7 @@ export class Options {
    * @param {object=} options
    */
   async save(options) {
-    await browser.storage.sync.set(options || this.options).then(() => {
+    await browser.storage.local.set(options || this.options).then(() => {
       browser.runtime.sendMessage({ event: "optionsUpdated" });
     });
   }
