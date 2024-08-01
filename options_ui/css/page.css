@@ -3,13 +3,14 @@ html {
   --color: #42414d; /* dark 30 */
   --radius: 4px;
   --option-height: 24px;
+  --font-family: monospace;
 }
 
 body {
   background-color: var(--background-color);
   color: var(--color);
-  font: caption;
   position: relative;
+  font-family: var(--font-family);
 }
 
 #options {
@@ -86,6 +87,7 @@ body {
   border: 1px solid;
   border-radius: var(--radius);
   padding: 4px 8px;
+  font-family: var(--font-family);
   font-weight: bold;
 }
 
@@ -101,6 +103,7 @@ body {
   padding: 2px 0 2px 8px;
   height: 100%;
   overflow: hidden;
+  font-family: var(--font-family);
 }
 
 .option select:hover {
@@ -110,13 +113,17 @@ body {
 .option select > option {
   background-color: var(--background-color);
   color: var(--color);
+  font-family: var(--font-family);
+}
+
+.option select > option:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
 .option .color_preview {
   border-radius: 0 var(--radius) var(--radius) 0;
   height: 100%;
   aspect-ratio: 1 / 1;
-  background-color: red;
 }
 
 .option input {
@@ -126,4 +133,9 @@ body {
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
   padding-left: 4px;
+  font-family: var(--font-family);
+}
+
+.option input:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
 }

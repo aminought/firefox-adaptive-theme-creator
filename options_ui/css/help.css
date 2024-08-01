@@ -21,18 +21,6 @@
   padding: 8px;
 }
 
-/* #help {
-  border: 1px solid;
-  border-radius: var(--radius);
-  padding: 16px;
-  background-color: color-mix(
-    in srgb,
-    var(--background-color) 90%,
-    transparent
-  );
-  width: fit-content;
-  height: fit-content;
-  max-width: 70%;
-  font-size: 0.9em;
-  align-self: center;
-} */
+.help_popup > p > a {
+  color: var(--color);
+}

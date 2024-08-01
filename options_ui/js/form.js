@@ -1,4 +1,8 @@
-import { addNumberOptions, addStringOptions } from "./utils/html.js";
+import {
+  addNumberOptions,
+  addStringOptions,
+  setBackgroundColor,
+} from "./utils/html.js";
 import { ColorPicker } from "./color_picker.js";
 import { HelpPopup } from "./help_popup.js";
 import { Options } from "../../shared/options.js";
@@ -83,8 +87,7 @@ export class Form {
    * @param {any} value
    */
   static loadBackgroundColorOption(element, value) {
-    element.style.backgroundColor = value;
-    element.setAttribute("data-value", value);
+    setBackgroundColor(element, value);
   }
 
   setupListeners() {
@@ -149,12 +152,11 @@ export class Form {
   /**
    *
    * @param {HTMLElement} element
-   * @param {Event} color
+   * @param {object} color
    * @param {string} key
    */
   async saveBackgroundColor(element, color, key) {
-    element.style.backgroundColor = color.rgbaString;
-    element.setAttribute("data-value", color.rgbaString);
+    setBackgroundColor(element, color.rgbaString);
     await this.options.setGlobalOption(key, color.rgbaString);
   }
 

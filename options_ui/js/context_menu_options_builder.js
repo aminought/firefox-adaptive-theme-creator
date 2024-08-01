@@ -1,4 +1,8 @@
-import { addNumberOptions, addStringOptions } from "./utils/html.js";
+import {
+  addNumberOptions,
+  addStringOptions,
+  setBackgroundColor,
+} from "./utils/html.js";
 import { BrowserParts } from "../../shared/browser_parts.js";
 import { ColorPicker } from "./color_picker.js";
 import { Localizer } from "./utils/localizer.js";
@@ -222,16 +226,14 @@ export class ContextMenuOptionsBuilder {
     const colorPreview = document.createElement("div");
     colorPreview.id = inputId;
     colorPreview.className = "color_preview";
-    colorPreview.style.backgroundColor = value;
-    colorPreview.setAttribute("data-value", value);
+    setBackgroundColor(colorPreview, value);
 
     colorPreview.onclick = (event) => {
       event.stopPropagation();
       PopupController.popFor(event.target);
       const colorPicker = new ColorPicker(this.parent, value, (color) => {
-        colorPreview.style.backgroundColor = color.rgbaString;
+        setBackgroundColor(colorPreview, color.rgbaString);
         this.options.setPartOption(this.part, partKey, color.rgbaString);
-        colorPreview.setAttribute("data-value", color.rgbaString);
       });
 
       PopupController.push(colorPicker, event.clientX, event.clientY);

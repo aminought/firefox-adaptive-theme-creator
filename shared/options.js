@@ -34,7 +34,12 @@ export class Options {
       "0.5"
     );
     Options.makePartOptions(options, "sidebar");
-    Options.makePartOptions(options, "sidebar_border", true, "sidebar");
+    Options.makePartOptions(
+      options,
+      "sidebar_border",
+      true,
+      BrowserParts.INHERITANCES.global
+    );
     Options.makePartOptions(options, "toolbar");
     Options.makePartOptions(
       options,

@@ -48,7 +48,7 @@
         "message": "Удачи в создании уникальной темы."
     },
     "help5Contacts": {
-        "message": "<a href=\"https://github.com/aminought/firefox-favicon-color\">Github</a>"
+        "message": "<a href=\"https://github.com/aminought/firefox-favicon-color\"><b>Github</b></a><br><a href=\"https://www.donationalerts.com/r/aminought\"><b>Угостить кофе</b></a/"
     },
     "inherit_global": {
         "message": "Глобальные"

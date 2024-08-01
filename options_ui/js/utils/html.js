@@ -1,3 +1,4 @@
+import { Color } from "../../../shared/color.js";
 import { Localizer } from "./localizer.js";
 
 /**
@@ -92,4 +93,21 @@ export const positionAbove = (child, parent, target) => {
 
   child.style.left = `${x}px`;
   child.style.top = `${y}px`;
+};
+
+/**
+ *
+ * @param {HTMLElement} element
+ * @param {string} color
+ */
+export const setBackgroundColor = (element, color) => {
+  element.style.backgroundColor = color;
+  const foregroundColor = new Color(color).getForeground();
+  element.style.backgroundImage = `
+    repeating-linear-gradient(
+      -45deg,
+      color-mix(in srgb, ${foregroundColor.css()} 0%, transparent) 0 5px,
+      color-mix(in srgb, ${foregroundColor.css()} 25%, transparent) 5px 10px
+    )`;
+  element.setAttribute("data-value", color);
 };
