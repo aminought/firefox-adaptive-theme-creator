@@ -1,5 +1,5 @@
 import { PopupController } from "./popup_controller.js";
-import { positionByCoords } from "./utils/html.js";
+import { positionByCoords } from "./utils/positions.js";
 
 export class ColorPicker {
   /**

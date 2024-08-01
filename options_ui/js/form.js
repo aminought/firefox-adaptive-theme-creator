@@ -210,8 +210,9 @@ export class Form {
    */
   static showHelp(event) {
     event.stopPropagation();
-    PopupController.clear();
-    const helpPopup = new HelpPopup(this.body);
-    PopupController.push(helpPopup, event.target);
+    if (!PopupController.popFor(event.target)) {
+      const helpPopup = new HelpPopup(this.body);
+      PopupController.push(helpPopup, event.target);
+    }
   }
 }

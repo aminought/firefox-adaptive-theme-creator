@@ -1,9 +1,8 @@
 import { ContextMenuOptionsBuilder } from "./context_menu_options_builder.js";
-import { DropdownPopup } from "./dropdown/dropdown_popup.js";
 // eslint-disable-next-line no-unused-vars
 import { Options } from "../../shared/options.js";
 import { createStringDropdown } from "./dropdown/dropdown_utils.js";
-import { positionByCoords } from "./utils/html.js";
+import { positionByCoords } from "./utils/positions.js";
 
 export class ContextMenu {
   /**
@@ -48,8 +47,7 @@ export class ContextMenu {
   #createPartsElement() {
     const partsDropdown = createStringDropdown(
       "context_menu_parts",
-      this.parts,
-      DropdownPopup.POSITION.below
+      this.parts
     );
     [partsDropdown.value] = this.parts;
 

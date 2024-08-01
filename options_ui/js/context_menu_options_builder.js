@@ -4,7 +4,6 @@ import {
 } from "./dropdown/dropdown_utils.js";
 import { BrowserParts } from "../../shared/browser_parts.js";
 import { ColorPicker } from "./color_picker.js";
-import { DropdownPopup } from "./dropdown/dropdown_popup.js";
 import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
@@ -219,11 +218,7 @@ export class ContextMenuOptionsBuilder {
    * @returns {HTMLElement}
    */
   #createStringDropdownElement(partKey, inputId, values, value) {
-    const dropdown = createStringDropdown(
-      inputId,
-      values,
-      DropdownPopup.POSITION.below
-    );
+    const dropdown = createStringDropdown(inputId, values);
     dropdown.value = value;
 
     dropdown.onChange = (newValue) => {
@@ -245,13 +240,7 @@ export class ContextMenuOptionsBuilder {
    * @returns {HTMLElement}
    */
   #createNumberDropdownElement(partKey, inputId, start, end, step, value) {
-    const dropdown = createNumberDropdown(
-      inputId,
-      start,
-      end,
-      step,
-      DropdownPopup.POSITION.below
-    );
+    const dropdown = createNumberDropdown(inputId, start, end, step);
     dropdown.value = value;
 
     dropdown.onChange = (newValue) => {

@@ -14,7 +14,7 @@
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-.dropdown_arrow {
+.dropdown_label {
   white-space: nowrap;
 }
 

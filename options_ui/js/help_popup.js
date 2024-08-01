@@ -1,5 +1,5 @@
+import { POSITIONS, positionRelative } from "./utils/positions.js";
 import { Localizer } from "./utils/localizer.js";
-import { positionAbove } from "./utils/html.js";
 
 export class HelpPopup {
   /**
@@ -41,7 +41,7 @@ export class HelpPopup {
    */
   draw(target) {
     this.parent.appendChild(this.wrapper);
-    positionAbove(this.wrapper, this.parent, target, 4);
+    positionRelative(POSITIONS.ABOVE, this.wrapper, this.parent, target, 4);
   }
 
   /**
