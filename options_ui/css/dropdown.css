@@ -34,17 +34,21 @@
   position: absolute;
   display: flex;
   flex-direction: row;
-  gap: 4px;
-}
-
-.dropdown_item {
-  padding: 4px;
-  cursor: default;
   border: 1px solid var(--color);
   border-radius: var(--radius);
   box-shadow: 0px 0px 8px 1px var(--color);
   background-color: var(--background-color);
+}
+
+.dropdown_item {
+  padding: 8px;
+  cursor: default;
   white-space: nowrap;
+}
+
+.dropdown_item + .dropdown_item {
+  border-left: 1px solid;
+  border-color: color-mix(in srgb, currentColor 50%, transparent);
 }
 
 .dropdown_item:hover {
