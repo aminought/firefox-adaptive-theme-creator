@@ -13,8 +13,12 @@ export class Theme {
     this.themeInfo = await browser.theme.getCurrent();
   }
 
-  async update() {
-    await browser.theme.update(this.themeInfo);
+  /**
+   *
+   * @param {integer} windowId
+   */
+  async update(windowId) {
+    await browser.theme.update(windowId, this.themeInfo);
   }
 
   isCompatible() {

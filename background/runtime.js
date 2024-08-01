@@ -167,7 +167,7 @@ export class Runtime {
       theme.setColor(part, colors[part]);
     }
     await theme.fixImages();
-    await theme.update();
+    await theme.update(tab.windowId);
     browser.runtime.sendMessage({ event: "themeUpdated" });
   }
 
