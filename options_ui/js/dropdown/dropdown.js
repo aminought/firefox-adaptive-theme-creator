@@ -12,9 +12,13 @@ const ARROW = `
 `;
 
 export class Dropdown {
-  constructor() {
+  /**
+   *
+   * @param {string=} position
+   */
+  constructor(position) {
     this.values = {};
-    this.popup = new DropdownPopup();
+    this.popup = new DropdownPopup(position);
     this.#createElements();
 
     /**

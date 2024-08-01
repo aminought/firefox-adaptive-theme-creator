@@ -1,13 +1,14 @@
 import {
-  addNumberOptions,
-  addStringOptions,
-  setBackgroundColor,
-} from "./utils/html.js";
+  createNumberDropdown,
+  createStringDropdown,
+} from "./dropdown/dropdown_utils.js";
 import { BrowserParts } from "../../shared/browser_parts.js";
 import { ColorPicker } from "./color_picker.js";
+import { DropdownPopup } from "./dropdown/dropdown_popup.js";
 import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
+import { setBackgroundColor } from "./utils/html.js";
 
 export class ContextMenuOptionsBuilder {
   /**
@@ -54,11 +55,11 @@ export class ContextMenuOptionsBuilder {
       ["option"],
       "inheritFrom",
       (inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addStringOptions(
-            inputElement,
-            BrowserParts.getInheritances(this.part)
-          )
+        this.#createStringDropdownElement(
+          partKey,
+          inputId,
+          BrowserParts.getInheritances(this.part),
+          value
         )
     );
   }
@@ -74,8 +75,11 @@ export class ContextMenuOptionsBuilder {
       ["option", "option_inherit_from_off"],
       "source",
       (inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addStringOptions(inputElement, Object.values(Options.SOURCES))
+        this.#createStringDropdownElement(
+          partKey,
+          inputId,
+          Object.values(Options.SOURCES),
+          value
         )
     );
   }
@@ -106,8 +110,13 @@ export class ContextMenuOptionsBuilder {
       ["option", "option_inherit_from_off"],
       "saturationLimit",
       (inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.1, 1.0, 0.1)
+        this.#createNumberDropdownElement(
+          partKey,
+          inputId,
+          0.1,
+          1.0,
+          0.1,
+          value
         )
     );
   }
@@ -123,8 +132,13 @@ export class ContextMenuOptionsBuilder {
       ["option", "option_inherit_from_off"],
       "darkness",
       (inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        this.#createNumberDropdownElement(
+          partKey,
+          inputId,
+          0.0,
+          5.0,
+          0.5,
+          value
         )
     );
   }
@@ -140,8 +154,13 @@ export class ContextMenuOptionsBuilder {
       ["option", "option_inherit_from_off"],
       "brightness",
       (inputId, value) =>
-        this.#createSelectElement(partKey, inputId, value, (inputElement) =>
-          addNumberOptions(inputElement, 0.0, 5.0, 0.5)
+        this.#createNumberDropdownElement(
+          partKey,
+          inputId,
+          0.0,
+          5.0,
+          0.5,
+          value
         )
     );
   }
@@ -195,24 +214,52 @@ export class ContextMenuOptionsBuilder {
    *
    * @param {string} partKey
    * @param {string} inputId
-   * @param {any} value
-   * @param {function(HTMLSelectElement):void} fillSelect
+   * @param {string[]} values
+   * @param {string} value
    * @returns {HTMLElement}
    */
-  #createSelectElement(partKey, inputId, value, fillSelect) {
-    const select = document.createElement("select");
-    fillSelect(select);
-    select.id = inputId;
-    select.value = value;
-    select.setAttribute("data-value", value);
+  #createStringDropdownElement(partKey, inputId, values, value) {
+    const dropdown = createStringDropdown(
+      inputId,
+      values,
+      DropdownPopup.POSITION.below
+    );
+    dropdown.value = value;
 
-    select.onchange = () => {
-      this.options.setPartOption(this.part, partKey, select.value);
-      select.setAttribute("data-value", select.value);
+    dropdown.onChange = (newValue) => {
+      this.options.setPartOption(this.part, partKey, newValue);
       this.repositionContextMenu();
     };
 
-    return select;
+    return dropdown.element;
+  }
+
+  /**
+   *
+   * @param {string} partKey
+   * @param {string} inputId
+   * @param {number} start
+   * @param {number} end
+   * @param {number} step
+   * @param {string} value
+   * @returns {HTMLElement}
+   */
+  #createNumberDropdownElement(partKey, inputId, start, end, step, value) {
+    const dropdown = createNumberDropdown(
+      inputId,
+      start,
+      end,
+      step,
+      DropdownPopup.POSITION.below
+    );
+    dropdown.value = value;
+
+    dropdown.onChange = (newValue) => {
+      this.options.setPartOption(this.part, partKey, newValue);
+      this.repositionContextMenu();
+    };
+
+    return dropdown.element;
   }
 
   /**

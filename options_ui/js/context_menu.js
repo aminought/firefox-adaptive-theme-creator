@@ -1,7 +1,9 @@
-import { addStringOptions, positionByCoords } from "./utils/html.js";
 import { ContextMenuOptionsBuilder } from "./context_menu_options_builder.js";
+import { DropdownPopup } from "./dropdown/dropdown_popup.js";
 // eslint-disable-next-line no-unused-vars
 import { Options } from "../../shared/options.js";
+import { createStringDropdown } from "./dropdown/dropdown_utils.js";
+import { positionByCoords } from "./utils/html.js";
 
 export class ContextMenu {
   /**
@@ -44,19 +46,19 @@ export class ContextMenu {
    * @returns {HTMLSelectElement}
    */
   #createPartsElement() {
-    const partsElement = document.createElement("select");
-    partsElement.className = "context_menu_parts";
-    addStringOptions(partsElement, this.parts);
+    const partsDropdown = createStringDropdown(
+      "context_menu_parts",
+      this.parts,
+      DropdownPopup.POSITION.below
+    );
+    [partsDropdown.value] = this.parts;
 
-    [partsElement.value] = this.parts;
-
-    partsElement.onchange = (event) => {
-      event.stopPropagation();
+    partsDropdown.onChange = (value) => {
       this.wrapper.removeChild(this.partOptionsElement);
       const optionsBuilder = new ContextMenuOptionsBuilder(
         this.options,
         this.parent,
-        partsElement.value,
+        value,
         () => this.reposition()
       );
       this.partOptionsElement = optionsBuilder.createPartOptionsElement();
@@ -64,7 +66,7 @@ export class ContextMenu {
       this.reposition();
     };
 
-    return partsElement;
+    return partsDropdown.element;
   }
 
   /**

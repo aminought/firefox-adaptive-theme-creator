@@ -6,10 +6,11 @@ import { Localizer } from "../utils/localizer.js";
  *
  * @param {string} key
  * @param {string[]} values
+ * @param {string=} position
  * @returns {Dropdown}
  */
-export const createStringDropdown = (key, values) => {
-  const dropdown = new Dropdown();
+export const createStringDropdown = (key, values, position) => {
+  const dropdown = new Dropdown(position);
   dropdown.id = key;
   for (const value of values) {
     const dropdownItem = new DropdownItem();
@@ -26,15 +27,15 @@ export const createStringDropdown = (key, values) => {
  * @param {number} start
  * @param {number} end
  * @param {number} step
- * @param {number=} fixed
+ * @param {string=} position
  * @returns {Dropdown}
  */
-export const createNumberDropdown = (key, start, end, step, fixed = 1) => {
-  const dropdown = new Dropdown();
+export const createNumberDropdown = (key, start, end, step, position) => {
+  const dropdown = new Dropdown(position);
   dropdown.id = key;
   for (let i = start; i <= end; i += step) {
     const dropdownItem = new DropdownItem();
-    dropdownItem.value = i.toFixed(fixed);
+    dropdownItem.value = i.toFixed(1);
     dropdownItem.label = dropdownItem.value;
     dropdown.appendChild(dropdownItem);
   }

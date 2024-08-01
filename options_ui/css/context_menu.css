@@ -13,7 +13,7 @@
   gap: 4px;
 }
 
-.context_menu_parts {
+#context_menu_parts {
   background-color: var(--background-color);
   color: var(--color);
   height: var(--option-height);
@@ -25,7 +25,7 @@
   font-family: var(--font-family);
 }
 
-.context_menu_parts > option {
+#context_menu_parts > option {
   font-family: var(--font-family);
 }
 
@@ -35,12 +35,12 @@
   box-shadow: 0px 0px 8px 1px var(--color);
 }
 
-.context_menu:not(:has(select[data-value="inheritance_off"]))
+.context_menu:not(:has(div[data-value="inheritance_off"]))
   .option_inherit_from_off {
   display: none;
 }
 
-.context_menu:not(:has(select[data-value="own_color"]))
+.context_menu:not(:has(div[data-value="own_color"]))
   .option_source_own_color {
   display: none;
 }

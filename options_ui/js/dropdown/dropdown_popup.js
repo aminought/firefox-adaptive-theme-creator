@@ -1,9 +1,26 @@
+import {
+  positionAbove,
+  positionBelow,
+  positionInPlace,
+  positionRight,
+} from "../utils/html.js";
 // eslint-disable-next-line no-unused-vars
 import { DropdownItem } from "./dropdown_item.js";
-import { positionBelow } from "../utils/html.js";
 
 export class DropdownPopup {
-  constructor() {
+  static POSITION = {
+    above: "above",
+    below: "below",
+    right: "right",
+    inplace: "inplace",
+  };
+
+  /**
+   *
+   * @param {string=} position
+   */
+  constructor(position = DropdownPopup.POSITION.below) {
+    this.position = position;
     this.element = DropdownPopup.#createElement();
   }
 
@@ -31,7 +48,15 @@ export class DropdownPopup {
   draw(target) {
     const body = document.querySelector("body");
     body.appendChild(this.element);
-    positionBelow(this.element, body, target, 4);
+    if (this.position === DropdownPopup.POSITION.below) {
+      positionBelow(this.element, body, target, 4);
+    } else if (this.position === DropdownPopup.POSITION.above) {
+      positionAbove(this.element, body, target, 4);
+    } else if (this.position === DropdownPopup.POSITION.right) {
+      positionRight(this.element, body, target, 4);
+    } else if (this.position === DropdownPopup.POSITION.inplace) {
+      positionInPlace(this.element, body, target);
+    }
   }
 
   /**

@@ -1,42 +1,4 @@
 import { Color } from "../../../shared/color.js";
-import { Localizer } from "./localizer.js";
-
-/**
- *
- * @param {HTMLSelectElement} selectElement
- * @param {number} start
- * @param {number} end
- * @param {number} step
- * @param {number=} fixed
- */
-export const addNumberOptions = (
-  selectElement,
-  start,
-  end,
-  step,
-  fixed = 1
-) => {
-  for (let i = start; i <= end; i += step) {
-    const option = document.createElement("option");
-    option.value = i.toFixed(fixed);
-    option.label = option.value;
-    selectElement.appendChild(option);
-  }
-};
-
-/**
- *
- * @param {HTMLSelectElement} selectElement
- * @param {string[]} strings
- */
-export const addStringOptions = (selectElement, strings) => {
-  for (const string of strings) {
-    const option = document.createElement("option");
-    option.value = string;
-    option.label = Localizer.getMessage(string);
-    selectElement.appendChild(option);
-  }
-};
 
 /**
  *
@@ -85,11 +47,19 @@ export const positionAbove = (child, parent, target, padding) => {
   const parentRect = parent.getBoundingClientRect();
   const targetRect = target.getBoundingClientRect();
 
-  let x = targetRect.left - parentRect.left;
+  let x =
+    targetRect.left -
+    parentRect.left -
+    childRect.width / 2 +
+    targetRect.width / 2;
   const y = targetRect.top - parentRect.top - childRect.height - padding;
 
   if (x + childRect.width > parentRect.right) {
     x = parentRect.right - childRect.width;
+  }
+
+  if (x < parentRect.left) {
+    x = parentRect.left;
   }
 
   child.style.left = `${x}px`;
@@ -114,6 +84,60 @@ export const positionBelow = (child, parent, target, padding) => {
     childRect.width / 2 +
     targetRect.width / 2;
   const y = targetRect.bottom - parentRect.top + padding;
+
+  if (x + childRect.width > parentRect.right) {
+    x = parentRect.right - childRect.width;
+  }
+
+  if (x < parentRect.left) {
+    x = parentRect.left;
+  }
+
+  child.style.left = `${x}px`;
+  child.style.top = `${y}px`;
+};
+
+/**
+ *
+ * @param {HTMLElement} child
+ * @param {HTMLElement} parent
+ * @param {HTMLElement} target
+ * @param {number} padding
+ */
+export const positionRight = (child, parent, target, padding) => {
+  const childRect = child.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+
+  let x = targetRect.right - parentRect.left + padding;
+  const y = targetRect.top - parentRect.top;
+
+  if (x + childRect.width > parentRect.right) {
+    x = parentRect.right - childRect.width;
+  }
+
+  if (x < parentRect.left) {
+    x = parentRect.left;
+  }
+
+  child.style.left = `${x}px`;
+  child.style.top = `${y}px`;
+};
+
+/**
+ *
+ * @param {HTMLElement} child
+ * @param {HTMLElement} parent
+ * @param {HTMLElement} target
+ * @param {number} padding
+ */
+export const positionInPlace = (child, parent, target) => {
+  const childRect = child.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+
+  let x = targetRect.left - parentRect.left;
+  const y = targetRect.top - parentRect.top;
 
   if (x + childRect.width > parentRect.right) {
     x = parentRect.right - childRect.width;
