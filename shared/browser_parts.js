@@ -80,6 +80,14 @@ export class BrowserParts {
 
   /**
    *
+   * @returns {string[]}
+   */
+  static getConnectedParts() {
+    return Object.values(CONNECTED_PARTS);
+  }
+
+  /**
+   *
    * @param {string} backgroundPart
    * @returns {string[]}
    */

@@ -68,10 +68,12 @@ export class Runtime {
 
     const globalOptions = this.options.getGlobalOptions();
 
-    const faviconMostPopularColor = await this.getMostPopularColorFromFavicon(
-      tab.favIconUrl
-    );
-    const pageMostPopularColor = await this.getMostPopularColorFromPage(tab);
+    const faviconMostPopularColor = this.options.isFaviconColorNeeded()
+      ? await this.getMostPopularColorFromFavicon(tab.favIconUrl)
+      : null;
+    const pageMostPopularColor = this.options.isPageColorNeeded()
+      ? await this.getMostPopularColorFromPage(tab)
+      : null;
 
     // Global colors
     const globalBackgroundColor = Runtime.computeColor(
@@ -162,12 +164,21 @@ export class Runtime {
       }
     }
 
+    this.applyColors(tab.windowId, colors);
+  }
+
+  /**
+   *
+   * @param {integer} windowId
+   * @param {object} colors
+   */
+  async applyColors(windowId, colors) {
     const theme = this.defaultTheme.clone();
     for (const part in colors) {
       theme.setColor(part, colors[part]);
     }
     await theme.fixImages();
-    await theme.update(tab.windowId);
+    await theme.update(windowId);
     browser.runtime.sendMessage({ event: "themeUpdated" });
   }
 

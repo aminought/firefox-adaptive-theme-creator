@@ -54,6 +54,10 @@ const onBrowserPreviewClick = (event, options, browserPreview) => {
   if (BrowserParts.getBackgroundParts().includes(part)) {
     const { enabled } = options.getPartOptions(part);
     options.setPartOption(part, "enabled", !enabled);
+    const connectedParts = BrowserParts.getConnectedBackgroundParts(part);
+    for (const connectedPart of connectedParts) {
+      options.setPartOption(connectedPart, "enabled", !enabled);
+    }
   } else if (part === "appcontent" || part === "rickroll") {
     browserPreview.rickroll();
   }

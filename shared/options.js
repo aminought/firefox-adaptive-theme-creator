@@ -207,4 +207,50 @@ export class Options {
     this.options[part_key] = value;
     await this.save({ [part_key]: value });
   }
+
+  /**
+   *
+   * @param {string} source
+   * @returns {boolean}
+   */
+  isSourceNeeded(source) {
+    const enabledKey = "enabled";
+    const inheritanceKey = "inheritance";
+    const sourceKey = "source";
+    if (this.options[sourceKey] === source) {
+      return true;
+    }
+    const parts = BrowserParts.getBackgroundParts().concat(
+      BrowserParts.getConnectedParts()
+    );
+    for (const part of parts) {
+      const partEnabled = this.getPartOption(part, enabledKey);
+      const partInheritance = this.getPartOption(part, inheritanceKey);
+      const partSource = this.getPartOption(part, sourceKey);
+      if (
+        partEnabled &&
+        partInheritance === BrowserParts.INHERITANCES.off &&
+        partSource === source
+      ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  isPageColorNeeded() {
+    return this.isSourceNeeded(Options.SOURCES.PAGE);
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  isFaviconColorNeeded() {
+    return this.isSourceNeeded(Options.SOURCES.FAVICON);
+  }
 }
