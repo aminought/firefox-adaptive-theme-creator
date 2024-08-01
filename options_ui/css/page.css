@@ -132,8 +132,15 @@ body {
   border: none;
   background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
-  padding-left: 4px;
   font-family: var(--font-family);
+}
+
+.option input[type="number"] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+  width: 3em;
+  margin: 0;
+  text-align: center;
 }
 
 .option input:hover {
