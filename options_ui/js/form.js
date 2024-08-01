@@ -190,7 +190,7 @@ export class Form {
    * @param {boolean} value
    */
   async saveCheckboxValue(key, value) {
-    await this.options.setGlobalOption(key, value === "true");
+    await this.options.setGlobalOption(key, value);
   }
 
   /**

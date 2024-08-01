@@ -28,7 +28,7 @@ export class Checkbox {
     checkbox.insertAdjacentHTML("beforeend", CHECK);
 
     checkbox.onclick = () => {
-      this.value = this.value === "false";
+      this.value = !this.value;
       this.onChange(this.value);
     };
 
@@ -53,7 +53,7 @@ export class Checkbox {
    * @returns {boolean}
    */
   get value() {
-    return this.element.getAttribute("data-value");
+    return this.element.getAttribute("data-value") === "true";
   }
 
   /**
