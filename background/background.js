@@ -16,9 +16,9 @@ Options.load().then(async (options) => {
     runtime.onTabUpdated(tabId, changeInfo, tab);
   });
 
-  browser.runtime.onMessage.addListener((message) => {
-    runtime.onMessage(message);
-  });
+  browser.storage.local.onChanged.addListener(
+    async () => await runtime.onOptionsUpdated()
+  );
 
   browser.theme.onUpdated.addListener((updateInfo) => {
     const updatedTheme = new Theme(updateInfo.theme);

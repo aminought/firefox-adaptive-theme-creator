@@ -233,16 +233,6 @@ export class Runtime {
 
   /**
    *
-   * @param {object} message
-   */
-  async onMessage(message) {
-    if (message.event === "optionsUpdated") {
-      await this.onOptionsUpdated();
-    }
-  }
-
-  /**
-   *
    * @param {Theme} theme
    * @returns
    */

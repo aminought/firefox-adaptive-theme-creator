@@ -133,9 +133,7 @@ export class Options {
    * @param {object=} options
    */
   async save(options) {
-    await browser.storage.local.set(options || this.options).then(() => {
-      browser.runtime.sendMessage({ event: "optionsUpdated" });
-    });
+    await browser.storage.local.set(options || this.options);
   }
 
   async reset() {
