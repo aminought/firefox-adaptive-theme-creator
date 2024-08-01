@@ -41,7 +41,7 @@ export class HelpPopup {
    */
   draw(target) {
     this.parent.appendChild(this.wrapper);
-    positionAbove(this.wrapper, this.parent, target);
+    positionAbove(this.wrapper, this.parent, target, 4);
   }
 
   /**

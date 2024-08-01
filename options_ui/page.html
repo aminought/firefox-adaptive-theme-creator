@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Favicon Color</title>
     <link rel="stylesheet" href="css/page.css" />
+    <link rel="stylesheet" href="css/dropdown.css" />
     <link rel="stylesheet" href="css/help.css" />
     <link rel="stylesheet" href="css/warning.css" />
     <link rel="stylesheet" href="css/color_picker.css" />
@@ -14,10 +15,9 @@
   <body>
     <div id="options">
       <div class="options_row">
-        <div class="option">
+        <div id="source_option" class="option">
           <label class="option_title" for="source" data-i18n="source"></label>
           <div class="separator"></div>
-          <select id="source" name="source"></select>
         </div>
 
         <div class="option option_source_own_color">
@@ -28,34 +28,31 @@
       </div>
 
       <div class="options_row">
-        <div class="option">
+        <div id="saturation_limit_option" class="option">
           <label
             class="option_title"
             for="saturation_limit"
             data-i18n="saturationLimit"
           ></label>
           <div class="separator"></div>
-          <select id="saturation_limit" name="saturation_limit"></select>
         </div>
 
-        <div class="option">
+        <div id="darkness_option" class="option">
           <label
             class="option_title"
             for="darkness"
             data-i18n="darkness"
           ></label>
           <div class="separator"></div>
-          <select id="darkness" name="darkness"></select>
         </div>
 
-        <div class="option">
+        <div id="brightness_option" class="option">
           <label
             class="option_title"
             for="brightness"
             data-i18n="brightness"
           ></label>
           <div class="separator"></div>
-          <select id="brightness" name="brightness"></select>
         </div>
       </div>
 

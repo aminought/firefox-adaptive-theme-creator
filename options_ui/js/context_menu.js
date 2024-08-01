@@ -1,4 +1,4 @@
-import { addStringOptions, setPosition } from "./utils/html.js";
+import { addStringOptions, positionByCoords } from "./utils/html.js";
 import { ContextMenuOptionsBuilder } from "./context_menu_options_builder.js";
 // eslint-disable-next-line no-unused-vars
 import { Options } from "../../shared/options.js";
@@ -74,12 +74,12 @@ export class ContextMenu {
    */
   draw(clientX, clientY) {
     this.parent.appendChild(this.wrapper);
-    setPosition(this.wrapper, this.parent, clientX, clientY);
+    positionByCoords(this.wrapper, this.parent, clientX, clientY);
   }
 
   reposition() {
     const rect = this.wrapper.getBoundingClientRect();
-    setPosition(this.wrapper, this.parent, rect.left, rect.top);
+    positionByCoords(this.wrapper, this.parent, rect.left, rect.top);
   }
 
   /**

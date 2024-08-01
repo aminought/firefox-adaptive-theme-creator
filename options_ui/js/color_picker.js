@@ -1,5 +1,5 @@
 import { PopupController } from "./popup_controller.js";
-import { setPosition } from "./utils/html.js";
+import { positionByCoords } from "./utils/html.js";
 
 export class ColorPicker {
   /**
@@ -41,7 +41,7 @@ export class ColorPicker {
    */
   draw(clientX, clientY) {
     this.parent.appendChild(this.wrapper);
-    setPosition(this.wrapper, this.parent, clientX, clientY);
+    positionByCoords(this.wrapper, this.parent, clientX, clientY);
   }
 
   /**

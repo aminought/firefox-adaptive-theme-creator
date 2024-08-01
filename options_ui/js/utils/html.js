@@ -54,7 +54,7 @@ export const setRootColor = (property, color) => {
  * @param {number} clientX
  * @param {number} clientY
  */
-export const setPosition = (child, parent, clientX, clientY) => {
+export const positionByCoords = (child, parent, clientX, clientY) => {
   const parentRect = parent.getBoundingClientRect();
   const childRect = child.getBoundingClientRect();
 
@@ -78,17 +78,49 @@ export const setPosition = (child, parent, clientX, clientY) => {
  * @param {HTMLElement} child
  * @param {HTMLElement} parent
  * @param {HTMLElement} target
+ * @param {number} padding
  */
-export const positionAbove = (child, parent, target) => {
+export const positionAbove = (child, parent, target, padding) => {
   const childRect = child.getBoundingClientRect();
   const parentRect = parent.getBoundingClientRect();
   const targetRect = target.getBoundingClientRect();
 
   let x = targetRect.left - parentRect.left;
-  const y = targetRect.top - parentRect.top - childRect.height - 4;
+  const y = targetRect.top - parentRect.top - childRect.height - padding;
 
   if (x + childRect.width > parentRect.right) {
     x = parentRect.right - childRect.width;
+  }
+
+  child.style.left = `${x}px`;
+  child.style.top = `${y}px`;
+};
+
+/**
+ *
+ * @param {HTMLElement} child
+ * @param {HTMLElement} parent
+ * @param {HTMLElement} target
+ * @param {number} padding
+ */
+export const positionBelow = (child, parent, target, padding) => {
+  const childRect = child.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  const targetRect = target.getBoundingClientRect();
+
+  let x =
+    targetRect.left -
+    parentRect.left -
+    childRect.width / 2 +
+    targetRect.width / 2;
+  const y = targetRect.bottom - parentRect.top + padding;
+
+  if (x + childRect.width > parentRect.right) {
+    x = parentRect.right - childRect.width;
+  }
+
+  if (x < parentRect.left) {
+    x = parentRect.left;
   }
 
   child.style.left = `${x}px`;

@@ -1,21 +1,25 @@
 import {
-  addNumberOptions,
-  addStringOptions,
-  setBackgroundColor,
-} from "./utils/html.js";
+  createNumberDropdown,
+  createStringDropdown,
+} from "./dropdown/dropdown_utils.js";
 import { ColorPicker } from "./color_picker.js";
 import { HelpPopup } from "./help_popup.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
+import { setBackgroundColor } from "./utils/html.js";
 
 export class Form {
   static body = document.querySelector("body");
-  static source = document.getElementById("source");
+
+  static sourceOption = document.getElementById("source_option");
+  static saturationLimitOption = document.getElementById(
+    "saturation_limit_option"
+  );
+  static darknessOption = document.getElementById("darkness_option");
+  static brightnessOption = document.getElementById("brightness_option");
+
   static color = document.getElementById("color");
   static colorPreview = document.getElementById("color_preview");
-  static saturationLimit = document.getElementById("saturation_limit");
-  static darkness = document.getElementById("darkness");
-  static brightness = document.getElementById("brightness");
   static faviconAvoidWhite = document.getElementById("favicon_avoid_white");
   static faviconAvoidBlack = document.getElementById("favicon_avoid_black");
   static pageCaptureHeight = document.getElementById("page_capture_height");
@@ -30,21 +34,41 @@ export class Form {
    */
   constructor(options) {
     this.options = options;
-    addStringOptions(Form.source, Object.values(Options.SOURCES));
-    addNumberOptions(Form.saturationLimit, 0.1, 1.0, 0.1);
-    addNumberOptions(Form.darkness, 0.0, 5.0, 0.5);
-    addNumberOptions(Form.brightness, 0.0, 5.0, 0.5);
+
+    this.sourceDropdown = createStringDropdown(
+      "source",
+      Object.values(Options.SOURCES)
+    );
+    Form.sourceOption.appendChild(this.sourceDropdown.element);
+
+    this.saturationLimitDropdown = createNumberDropdown(
+      "saturation_limit",
+      0.1,
+      1.0,
+      0.1
+    );
+    Form.saturationLimitOption.appendChild(
+      this.saturationLimitDropdown.element
+    );
+
+    this.darknessDropdown = createNumberDropdown("darkness", 0.0, 5.0, 0.5);
+    Form.darknessOption.appendChild(this.darknessDropdown.element);
+
+    this.brightnessDropdown = createNumberDropdown("brightness", 0.0, 5.0, 0.5);
+    Form.brightnessOption.appendChild(this.brightnessDropdown.element);
+
     this.loadFromOptions();
     this.setupListeners();
   }
 
   loadFromOptions() {
     const globalOptions = this.options.getGlobalOptions();
-    Form.loadValueOption(Form.source, globalOptions.source);
+
+    this.sourceDropdown.value = globalOptions.source;
     Form.loadBackgroundColorOption(Form.colorPreview, globalOptions.color);
-    Form.loadValueOption(Form.saturationLimit, globalOptions.saturationLimit);
-    Form.loadValueOption(Form.darkness, globalOptions.darkness);
-    Form.loadValueOption(Form.brightness, globalOptions.brightness);
+    this.saturationLimitDropdown.value = globalOptions.saturationLimit;
+    this.darknessDropdown.value = globalOptions.darkness;
+    this.brightnessDropdown.value = globalOptions.brightness;
     Form.loadCheckedOption(
       Form.faviconAvoidWhite,
       globalOptions.favicon.avoidWhite
@@ -91,12 +115,15 @@ export class Form {
   }
 
   setupListeners() {
-    Form.source.onchange = (e) => this.saveValue(e, "source");
+    this.sourceDropdown.onChange = (value) =>
+      this.saveDropdownValue("source", value);
     Form.colorPreview.onclick = (e) => this.showColorPicker(e, "color");
-    Form.saturationLimit.onchange = (e) =>
-      this.saveValue(e, "saturation_limit");
-    Form.darkness.onchange = (e) => this.saveValue(e, "darkness");
-    Form.brightness.onchange = (e) => this.saveValue(e, "brightness");
+    this.saturationLimitDropdown.onChange = (value) =>
+      this.saveDropdownValue("saturation_limit", value);
+    this.darknessDropdown.onChange = (value) =>
+      this.saveDropdownValue("darkness", value);
+    this.brightnessDropdown.onChange = (value) =>
+      this.saveDropdownValue("brightness", value);
     Form.faviconAvoidWhite.onchange = (e) =>
       this.saveChecked(e, "favicon.avoid_white");
     Form.faviconAvoidBlack.onchange = (e) =>
@@ -131,11 +158,19 @@ export class Form {
 
   /**
    *
+   * @param {string} key
+   * @param {string} value
+   */
+  async saveDropdownValue(key, value) {
+    await this.options.setGlobalOption(key, value);
+  }
+
+  /**
+   *
    * @param {Event} event
    * @param {string} key
    */
   async saveChecked(event, key) {
-    event.target.setAttribute("data-value", event.target.value);
     await this.options.setGlobalOption(key, event.target.checked);
   }
 
@@ -145,7 +180,6 @@ export class Form {
    * @param {string} key
    */
   async saveValue(event, key) {
-    event.target.setAttribute("data-value", event.target.value);
     await this.options.setGlobalOption(key, event.target.value);
   }
 
