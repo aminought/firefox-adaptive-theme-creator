@@ -6,6 +6,7 @@ import { ColorPicker } from "./color_picker.js";
 import { HelpPopup } from "./help_popup.js";
 import { Options } from "../../shared/options.js";
 import { PopupController } from "./popup_controller.js";
+import { createCheckbox } from "./checkbox/checkbox_utils.js";
 import { setBackgroundColor } from "./utils/html.js";
 
 export class Form {
@@ -17,14 +18,22 @@ export class Form {
   );
   static darknessOption = document.getElementById("darkness_option");
   static brightnessOption = document.getElementById("brightness_option");
+  static faviconAvoidWhiteOption = document.getElementById(
+    "favicon_avoid_white_option"
+  );
+  static faviconAvoidBlackOption = document.getElementById(
+    "favicon_avoid_black_option"
+  );
+  static pageAvoidWhiteOption = document.getElementById(
+    "page_avoid_white_option"
+  );
+  static pageAvoidBlackOption = document.getElementById(
+    "page_avoid_black_option"
+  );
 
   static color = document.getElementById("color");
   static colorPreview = document.getElementById("color_preview");
-  static faviconAvoidWhite = document.getElementById("favicon_avoid_white");
-  static faviconAvoidBlack = document.getElementById("favicon_avoid_black");
   static pageCaptureHeight = document.getElementById("page_capture_height");
-  static pageAvoidWhite = document.getElementById("page_avoid_white");
-  static pageAvoidBlack = document.getElementById("page_avoid_black");
   static helpButton = document.getElementById("help_button");
   static resetButton = document.getElementById("reset_button");
 
@@ -57,6 +66,22 @@ export class Form {
     this.brightnessDropdown = createNumberDropdown("brightness", 0.0, 5.0, 0.5);
     Form.brightnessOption.appendChild(this.brightnessDropdown.element);
 
+    this.faviconAvoidWhiteCheckbox = createCheckbox("favicon_avoid_white");
+    Form.faviconAvoidWhiteOption.appendChild(
+      this.faviconAvoidWhiteCheckbox.element
+    );
+
+    this.faviconAvoidBlackCheckbox = createCheckbox("favicon_avoid_black");
+    Form.faviconAvoidBlackOption.appendChild(
+      this.faviconAvoidBlackCheckbox.element
+    );
+
+    this.pageAvoidWhiteCheckbox = createCheckbox("page_avoid_white");
+    Form.pageAvoidWhiteOption.appendChild(this.pageAvoidWhiteCheckbox.element);
+
+    this.pageAvoidBlackCheckbox = createCheckbox("page_avoid_black");
+    Form.pageAvoidBlackOption.appendChild(this.pageAvoidBlackCheckbox.element);
+
     this.loadFromOptions();
     this.setupListeners();
   }
@@ -69,20 +94,14 @@ export class Form {
     this.saturationLimitDropdown.value = globalOptions.saturationLimit;
     this.darknessDropdown.value = globalOptions.darkness;
     this.brightnessDropdown.value = globalOptions.brightness;
-    Form.loadCheckedOption(
-      Form.faviconAvoidWhite,
-      globalOptions.favicon.avoidWhite
-    );
-    Form.loadCheckedOption(
-      Form.faviconAvoidBlack,
-      globalOptions.favicon.avoidBlack
-    );
+    this.faviconAvoidWhiteCheckbox.value = globalOptions.favicon.avoidWhite;
+    this.faviconAvoidBlackCheckbox.value = globalOptions.favicon.avoidBlack;
     Form.loadValueOption(
       Form.pageCaptureHeight,
       globalOptions.page.captureHeight
     );
-    Form.loadCheckedOption(Form.pageAvoidWhite, globalOptions.page.avoidWhite);
-    Form.loadCheckedOption(Form.pageAvoidBlack, globalOptions.page.avoidBlack);
+    this.pageAvoidWhiteCheckbox.value = globalOptions.page.avoidWhite;
+    this.pageAvoidBlackCheckbox.value = globalOptions.page.avoidBlack;
   }
 
   /**
@@ -124,16 +143,16 @@ export class Form {
       this.saveDropdownValue("darkness", value);
     this.brightnessDropdown.onChange = (value) =>
       this.saveDropdownValue("brightness", value);
-    Form.faviconAvoidWhite.onchange = (e) =>
-      this.saveChecked(e, "favicon.avoid_white");
-    Form.faviconAvoidBlack.onchange = (e) =>
-      this.saveChecked(e, "favicon.avoid_black");
+    this.faviconAvoidWhiteCheckbox.onChange = (value) =>
+      this.saveCheckboxValue("favicon.avoid_white", value);
+    this.faviconAvoidBlackCheckbox.onChange = (value) =>
+      this.saveCheckboxValue("favicon.avoid_black", value);
     Form.pageCaptureHeight.onchange = (e) =>
       this.saveValue(e, "page.capture_height");
-    Form.pageAvoidWhite.onchange = (e) =>
-      this.saveChecked(e, "page.avoid_white");
-    Form.pageAvoidBlack.onchange = (e) =>
-      this.saveChecked(e, "page.avoid_black");
+    this.pageAvoidWhiteCheckbox.onChange = (value) =>
+      this.saveCheckboxValue("page.avoid_white", value);
+    this.pageAvoidBlackCheckbox.onChange = (value) =>
+      this.saveCheckboxValue("page.avoid_black", value);
 
     Form.resetButton.onclick = (e) => this.reset(e);
     Form.helpButton.onclick = (e) => Form.showHelp(e);
@@ -163,6 +182,15 @@ export class Form {
    */
   async saveDropdownValue(key, value) {
     await this.options.setGlobalOption(key, value);
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @param {boolean} value
+   */
+  async saveCheckboxValue(key, value) {
+    await this.options.setGlobalOption(key, value === "true");
   }
 
   /**

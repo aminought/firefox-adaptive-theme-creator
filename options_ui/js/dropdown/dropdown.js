@@ -80,7 +80,7 @@ export class Dropdown {
   }
 
   get value() {
-    return this.element.setAttribute("data-value");
+    return this.element.getAttribute("data-value");
   }
 
   set value(value) {
