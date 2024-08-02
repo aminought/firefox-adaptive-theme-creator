@@ -7,6 +7,12 @@ export class Options {
     OWN_COLOR: "own_color",
   };
 
+  static TRIGGERS = {
+    TAB_COMPLETE: "trigger_tab_complete",
+    FAVICON_DETECTED: "trigger_favicon_detected",
+    TAB_OTHER_UPDATES: "trigger_tab_other_updates",
+  };
+
   constructor() {
     this.options = Options.makeDefault();
   }
@@ -14,6 +20,11 @@ export class Options {
   static makeDefault() {
     const options = {
       source: this.SOURCES.PAGE,
+      triggers: [
+        this.TRIGGERS.TAB_COMPLETE,
+        this.TRIGGERS.FAVICON_DETECTED,
+        this.TRIGGERS.TAB_OTHER_UPDATES,
+      ],
       color: "#ff80ed",
       saturation_limit: "1.0",
       darkness: "0.0",
@@ -145,6 +156,7 @@ export class Options {
     return {
       source: this.options.source,
       color: this.options.color,
+      triggers: new Set(this.options.triggers),
       saturationLimit: this.options.saturation_limit,
       darkness: this.options.darkness,
       brightness: this.options.brightness,
@@ -158,6 +170,24 @@ export class Options {
         avoidBlack: this.options["page.avoid_black"],
       },
     };
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @returns {any}
+   */
+  getGlobalOption(key) {
+    return this.options[key];
+  }
+
+  /**
+   *
+   * @param {string} key
+   * @returns {Set}
+   */
+  getGlobalOptionAsSet(key) {
+    return new Set(this.options[key]);
   }
 
   /**

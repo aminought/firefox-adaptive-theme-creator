@@ -12,203 +12,166 @@ import { setBackgroundColor } from "./utils/html.js";
 export class Form {
   static body = document.querySelector("body");
 
-  static sourceOption = document.getElementById("source_option");
-  static saturationLimitOption = document.getElementById(
-    "saturation_limit_option"
-  );
-  static darknessOption = document.getElementById("darkness_option");
-  static brightnessOption = document.getElementById("brightness_option");
-  static faviconAvoidWhiteOption = document.getElementById(
-    "favicon_avoid_white_option"
-  );
-  static faviconAvoidBlackOption = document.getElementById(
-    "favicon_avoid_black_option"
-  );
-  static pageAvoidWhiteOption = document.getElementById(
-    "page_avoid_white_option"
-  );
-  static pageAvoidBlackOption = document.getElementById(
-    "page_avoid_black_option"
-  );
-
-  static color = document.getElementById("color");
-  static colorPreview = document.getElementById("color_preview");
-  static pageCaptureHeight = document.getElementById("page_capture_height");
-  static helpButton = document.getElementById("help_button");
-  static resetButton = document.getElementById("reset_button");
-
   /**
    *
    * @param {Options} options
    */
   constructor(options) {
     this.options = options;
+    this.resetHandlers = [];
 
-    this.sourceDropdown = createStringDropdown(
-      "source",
-      Object.values(Options.SOURCES)
+    this.#addStringDropdownOption("source", Object.values(Options.SOURCES));
+    this.#configureBackgroundColorOption("color");
+    this.#addNumberDropdownOption("saturation_limit", 0.1, 1.0, 0.1);
+    this.#addNumberDropdownOption("darkness", 0.0, 5.0, 0.5);
+    this.#addNumberDropdownOption("brightness", 0.0, 5.0, 0.5);
+    this.#addCheckboxOptions(
+      [
+        Options.TRIGGERS.TAB_COMPLETE,
+        Options.TRIGGERS.FAVICON_DETECTED,
+        Options.TRIGGERS.TAB_OTHER_UPDATES,
+      ],
+      "triggers"
     );
-    Form.sourceOption.appendChild(this.sourceDropdown.element);
+    this.#addCheckboxOption("favicon.avoid_white");
+    this.#addCheckboxOption("favicon.avoid_black");
+    this.#addCheckboxOption("page.avoid_white");
+    this.#addCheckboxOption("page.avoid_black");
+    this.#configureInputOption("page.capture_height");
 
-    this.saturationLimitDropdown = createNumberDropdown(
-      "saturation_limit",
-      0.1,
-      1.0,
-      0.1
-    );
-    Form.saturationLimitOption.appendChild(
-      this.saturationLimitDropdown.element
-    );
+    const helpButton = document.getElementById("help_button");
+    helpButton.onclick = (e) => Form.#showHelp(e);
 
-    this.darknessDropdown = createNumberDropdown("darkness", 0.0, 5.0, 0.5);
-    Form.darknessOption.appendChild(this.darknessDropdown.element);
-
-    this.brightnessDropdown = createNumberDropdown("brightness", 0.0, 5.0, 0.5);
-    Form.brightnessOption.appendChild(this.brightnessDropdown.element);
-
-    this.faviconAvoidWhiteCheckbox = createCheckbox("favicon_avoid_white");
-    Form.faviconAvoidWhiteOption.appendChild(
-      this.faviconAvoidWhiteCheckbox.element
-    );
-
-    this.faviconAvoidBlackCheckbox = createCheckbox("favicon_avoid_black");
-    Form.faviconAvoidBlackOption.appendChild(
-      this.faviconAvoidBlackCheckbox.element
-    );
-
-    this.pageAvoidWhiteCheckbox = createCheckbox("page_avoid_white");
-    Form.pageAvoidWhiteOption.appendChild(this.pageAvoidWhiteCheckbox.element);
-
-    this.pageAvoidBlackCheckbox = createCheckbox("page_avoid_black");
-    Form.pageAvoidBlackOption.appendChild(this.pageAvoidBlackCheckbox.element);
-
-    this.loadFromOptions();
-    this.setupListeners();
-  }
-
-  loadFromOptions() {
-    const globalOptions = this.options.getGlobalOptions();
-
-    this.sourceDropdown.value = globalOptions.source;
-    Form.loadBackgroundColorOption(Form.colorPreview, globalOptions.color);
-    this.saturationLimitDropdown.value = globalOptions.saturationLimit;
-    this.darknessDropdown.value = globalOptions.darkness;
-    this.brightnessDropdown.value = globalOptions.brightness;
-    this.faviconAvoidWhiteCheckbox.value = globalOptions.favicon.avoidWhite;
-    this.faviconAvoidBlackCheckbox.value = globalOptions.favicon.avoidBlack;
-    Form.loadValueOption(
-      Form.pageCaptureHeight,
-      globalOptions.page.captureHeight
-    );
-    this.pageAvoidWhiteCheckbox.value = globalOptions.page.avoidWhite;
-    this.pageAvoidBlackCheckbox.value = globalOptions.page.avoidBlack;
+    const resetButton = document.getElementById("reset_button");
+    resetButton.onclick = (e) => this.reset(e);
   }
 
   /**
    *
-   * @param {HTMLElement} element
-   * @param {any} value
+   * @param {string} id
+   * @param {string[]} values
    */
-  static loadValueOption(element, value) {
-    element.value = value;
-    element.setAttribute("data-value", value);
+  #addStringDropdownOption(id, values) {
+    const dropdown = createStringDropdown(id, values);
+    dropdown.onChange = async (value) =>
+      await this.options.setGlobalOption(id, value);
+
+    this.#registerResetHandlerAndReset(() => {
+      dropdown.value = this.options.getGlobalOption(id);
+    });
+
+    const parent = document.getElementById(`${id}_option`);
+    parent.appendChild(dropdown.element);
   }
 
   /**
    *
-   * @param {HTMLElement} element
-   * @param {any} value
+   * @param {string} id
+   * @param {number} start
+   * @param {number} end
+   * @param {number} step
    */
-  static loadCheckedOption(element, value) {
-    element.checked = value;
-    element.setAttribute("data-value", value);
+  #addNumberDropdownOption(id, start, end, step) {
+    const dropdown = createNumberDropdown(id, start, end, step);
+    dropdown.onChange = async (value) =>
+      await this.options.setGlobalOption(id, value);
+
+    this.#registerResetHandlerAndReset(() => {
+      dropdown.value = this.options.getGlobalOption(id);
+    });
+
+    const parent = document.getElementById(`${id}_option`);
+    parent.appendChild(dropdown.element);
   }
 
   /**
    *
-   * @param {HTMLElement} element
-   * @param {any} value
+   * @param {string} id
    */
-  static loadBackgroundColorOption(element, value) {
-    setBackgroundColor(element, value);
+  #addCheckboxOption(id) {
+    const checkbox = createCheckbox(id);
+    checkbox.onChange = async (value) =>
+      await this.options.setGlobalOption(id, value);
+
+    this.#registerResetHandlerAndReset(() => {
+      checkbox.value = this.options.getGlobalOption(id);
+    });
+
+    const parent = document.getElementById(`${id}_option`);
+    parent.appendChild(checkbox.element);
   }
 
-  setupListeners() {
-    this.sourceDropdown.onChange = (value) =>
-      this.saveDropdownValue("source", value);
-    Form.colorPreview.onclick = (e) => this.showColorPicker(e, "color");
-    this.saturationLimitDropdown.onChange = (value) =>
-      this.saveDropdownValue("saturation_limit", value);
-    this.darknessDropdown.onChange = (value) =>
-      this.saveDropdownValue("darkness", value);
-    this.brightnessDropdown.onChange = (value) =>
-      this.saveDropdownValue("brightness", value);
-    this.faviconAvoidWhiteCheckbox.onChange = (value) =>
-      this.saveCheckboxValue("favicon.avoid_white", value);
-    this.faviconAvoidBlackCheckbox.onChange = (value) =>
-      this.saveCheckboxValue("favicon.avoid_black", value);
-    Form.pageCaptureHeight.onchange = (e) =>
-      this.saveValue(e, "page.capture_height");
-    this.pageAvoidWhiteCheckbox.onChange = (value) =>
-      this.saveCheckboxValue("page.avoid_white", value);
-    this.pageAvoidBlackCheckbox.onChange = (value) =>
-      this.saveCheckboxValue("page.avoid_black", value);
+  /**
+   *
+   * @param {string[]} ids
+   * @param {string} key
+   */
+  #addCheckboxOptions(ids, key) {
+    for (const id of ids) {
+      const checkbox = createCheckbox(id);
+      checkbox.onChange = async (value) => {
+        const values = this.options.getGlobalOptionAsSet(key);
+        if (value) {
+          values.add(id);
+        } else {
+          values.delete(id);
+        }
+        await this.options.setGlobalOption(key, values);
+      };
 
-    Form.resetButton.onclick = (e) => this.reset(e);
-    Form.helpButton.onclick = (e) => Form.showHelp(e);
+      this.#registerResetHandlerAndReset(() => {
+        checkbox.value = this.options.getGlobalOptionAsSet(key).has(id);
+      });
+
+      const parent = document.getElementById(`${id}_option`);
+      parent.appendChild(checkbox.element);
+    }
+  }
+
+  /**
+   *
+   * @param {string} id
+   */
+  #configureBackgroundColorOption(id) {
+    const element = document.getElementById(id);
+
+    this.#registerResetHandlerAndReset(() =>
+      setBackgroundColor(element, this.options.getGlobalOption(id))
+    );
+
+    element.onclick = (e) => this.#showColorPicker(e, id);
+  }
+
+  /**
+   *
+   * @param {string} id
+   */
+  #configureInputOption(id) {
+    const pageCaptureHeight = document.getElementById(id);
+
+    this.#registerResetHandlerAndReset(() => {
+      pageCaptureHeight.value = this.options.getGlobalOption(id);
+    });
+
+    pageCaptureHeight.onchange = async (e) =>
+      await this.options.setGlobalOption(id, e.target.value);
   }
 
   /**
    *
    * @param {MouseEvent} event
    * @param {string} key
+   * @param {string} color
    */
-  showColorPicker(event, key) {
+  #showColorPicker(event, key, color) {
     event.stopPropagation();
     PopupController.popFor(event.target);
-    const colorPicker = new ColorPicker(
-      Form.body,
-      Form.colorPreview.style.backgroundColor,
-      (color) => this.saveBackgroundColor(Form.colorPreview, color, key)
-    );
+    const colorPicker = new ColorPicker(Form.body, color, (value) => {
+      const colorPreview = document.getElementById(key);
+      this.#saveBackgroundColor(colorPreview, value, key);
+    });
 
     PopupController.push(colorPicker, event.clientX, event.clientY);
-  }
-
-  /**
-   *
-   * @param {string} key
-   * @param {string} value
-   */
-  async saveDropdownValue(key, value) {
-    await this.options.setGlobalOption(key, value);
-  }
-
-  /**
-   *
-   * @param {string} key
-   * @param {boolean} value
-   */
-  async saveCheckboxValue(key, value) {
-    await this.options.setGlobalOption(key, value);
-  }
-
-  /**
-   *
-   * @param {Event} event
-   * @param {string} key
-   */
-  async saveChecked(event, key) {
-    await this.options.setGlobalOption(key, event.target.checked);
-  }
-
-  /**
-   *
-   * @param {Event} event
-   * @param {string} key
-   */
-  async saveValue(event, key) {
-    await this.options.setGlobalOption(key, event.target.value);
   }
 
   /**
@@ -217,9 +180,18 @@ export class Form {
    * @param {object} color
    * @param {string} key
    */
-  async saveBackgroundColor(element, color, key) {
+  async #saveBackgroundColor(element, color, key) {
     setBackgroundColor(element, color.rgbaString);
     await this.options.setGlobalOption(key, color.rgbaString);
+  }
+
+  /**
+   *
+   * @param {function():void} reset
+   */
+  #registerResetHandlerAndReset(reset) {
+    this.resetHandlers.push(reset);
+    reset();
   }
 
   /**
@@ -229,14 +201,16 @@ export class Form {
   async reset(event) {
     event.preventDefault();
     await this.options.reset();
-    this.loadFromOptions();
+    for (const reset of this.resetHandlers) {
+      reset();
+    }
   }
 
   /**
    *
    * @param {MouseEvent} event
    */
-  static showHelp(event) {
+  static #showHelp(event) {
     event.stopPropagation();
     if (!PopupController.popFor(event.target)) {
       const helpPopup = new HelpPopup(this.body);

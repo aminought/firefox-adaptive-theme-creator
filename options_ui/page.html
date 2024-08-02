@@ -24,7 +24,7 @@
         <div class="option option_source_own_color">
           <label class="option_title" for="color" data-i18n="color"></label>
           <div class="separator"></div>
-          <div id="color_preview" class="color_preview"></div>
+          <div id="color" class="color_preview"></div>
         </div>
       </div>
 
@@ -82,28 +82,58 @@
       </div>
 
       <div class="options_row">
-        <div class="options_group_wrapper">
+        <div class="options_group_wrapper group_title_above">
+          <p class="options_group_title" data-i18n="triggers"></p>
+          <div class="options_group">
+            <div class="options_row">
+              <div id="trigger_tab_complete_option" class="option">
+                <label
+                  for="trigger_tab_complete"
+                  data-i18n="trigger_tab_complete"
+                ></label>
+              </div>
+
+              <div id="trigger_favicon_detected_option" class="option">
+                <label
+                  for="trigger_favicon_detected"
+                  data-i18n="trigger_favicon_detected"
+                ></label>
+              </div>
+
+              <div id="trigger_tab_other_updates_option" class="option">
+                <label
+                  for="trigger_tab_other_updates"
+                  data-i18n="trigger_tab_other_updates"
+                ></label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="options_row">
+        <div class="options_group_wrapper group_title_above">
           <p class="options_group_title" data-i18n="pageOptions"></p>
           <div class="options_group">
             <div class="options_row">
-              <div id="page_avoid_white_option" class="option">
-                <label for="page_avoid_white" data-i18n="avoidWhite"></label>
+              <div id="page.avoid_white_option" class="option">
+                <label for="page.avoid_white" data-i18n="avoidWhite"></label>
               </div>
 
-              <div id="page_avoid_black_option" class="option">
-                <label for="page_avoid_black" data-i18n="avoidBlack"></label>
+              <div id="page.avoid_black_option" class="option">
+                <label for="page.avoid_black" data-i18n="avoidBlack"></label>
               </div>
             </div>
 
             <div class="options_row">
               <div class="option">
                 <label
-                  for="page_capture_height"
+                  for="page.capture_height"
                   data-i18n="pageCaptureHeight"
                 ></label>
                 <div class="separator"></div>
                 <input
-                  id="page_capture_height"
+                  id="page.capture_height"
                   type="number"
                   min="1"
                   max="500"
@@ -113,23 +143,23 @@
           </div>
         </div>
 
-        <div class="options_group_wrapper">
+        <div class="options_group_wrapper group_title_above">
           <p class="options_group_title" data-i18n="faviconOptions"></p>
           <div class="options_group">
             <div class="options_row">
-              <div id="favicon_avoid_white_option" class="option">
-                <label for="favicon_avoid_white" data-i18n="avoidWhite"></label>
+              <div id="favicon.avoid_white_option" class="option">
+                <label for="favicon.avoid_white" data-i18n="avoidWhite"></label>
               </div>
 
-              <div id="favicon_avoid_black_option" class="option">
-                <label for="favicon_avoid_black" data-i18n="avoidBlack"></label>
+              <div id="favicon.avoid_black_option" class="option">
+                <label for="favicon.avoid_black" data-i18n="avoidBlack"></label>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="buttons_row">
+      <div class="footer">
         <button id="help_button" type="button" data-i18n="help"></button>
         <button id="reset_button" type="button" data-i18n="reset"></button>
       </div>

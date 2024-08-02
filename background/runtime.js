@@ -229,10 +229,20 @@ export class Runtime {
    * @param {Tab} tab
    */
   async onTabUpdated(tabId, changeInfo, tab) {
-    if (!("favIconUrl" in changeInfo)) {
+    const { triggers } = this.options.getGlobalOptions();
+    if (!tab.active) {
       return;
     }
-    if (tab.active) {
+
+    if (changeInfo.status === "complete") {
+      if (triggers.has(Options.TRIGGERS.TAB_COMPLETE)) {
+        await this.updateTheme(tab);
+      }
+    } else if (changeInfo.favIconUrl) {
+      if (triggers.has(Options.TRIGGERS.FAVICON_DETECTED)) {
+        await this.updateTheme(tab);
+      }
+    } else if (triggers.has(Options.TRIGGERS.TAB_OTHER_UPDATES)) {
       await this.updateTheme(tab);
     }
   }

@@ -1,4 +1,4 @@
-const LUMINANCE_THRESHOLD = 0.4;
+const LUMINANCE_THRESHOLD = 0.3;
 
 export class Color {
   constructor(color) {
