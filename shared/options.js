@@ -116,7 +116,7 @@ export class Options {
     options[`${part}.enabled`] = enabled;
     options[`${part}.inheritance`] = inheritance;
     options[`${part}.source`] = source;
-    options[`${part}.color`] = "#f0f";
+    options[`${part}.color`] = "#ff80ed";
     options[`${part}.saturation_limit`] = saturationLimit;
     options[`${part}.darkness`] = darkness;
     options[`${part}.brightness`] = brightness;
@@ -126,7 +126,6 @@ export class Options {
     const storage = await browser.storage.local.get();
     const options = new Options(storage);
     await options.reload();
-    await options.save();
     return options;
   }
 

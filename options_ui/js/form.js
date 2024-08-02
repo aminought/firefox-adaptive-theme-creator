@@ -139,7 +139,8 @@ export class Form {
       setBackgroundColor(element, this.options.getGlobalOption(id))
     );
 
-    element.onclick = (e) => this.#showColorPicker(e, id);
+    element.onclick = (e) =>
+      this.#showColorPicker(e, id, element.style.backgroundColor);
   }
 
   /**
