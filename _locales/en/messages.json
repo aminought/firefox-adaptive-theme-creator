@@ -75,7 +75,7 @@
         "message": "Page"
     },
     "pageCaptureHeight": {
-        "message": "Capture Height in Pixels"
+        "message": "Capture Height"
     },
     "pageOptions": {
         "message": "PAGE COLOR OPTIONS"
@@ -135,7 +135,7 @@
         "message": "URL Detected"
     },
     "triggers": {
-        "message": "UPDATE TRIGGERS"
+        "message": "THEME UPDATE TRIGGERS"
     },
     "warning": {
         "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
