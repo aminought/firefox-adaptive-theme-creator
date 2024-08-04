@@ -1,8 +1,12 @@
-import { Color } from "../shared/color.js";
+import {
+  extractColorFromPaletteBasic,
+  extractColorFromPaletteKMeans,
+} from "./algorithms.js";
 import { Options } from "../shared/options.js";
+import { Palette } from "./palette.js";
 
-const AVOID_WHITE_OFFSET = 15;
-const AVOID_BLACK_OFFSET = 15;
+const AVOID_WHITE_OFFSET = 225;
+const AVOID_BLACK_OFFSET = 30;
 
 export class ColorExtractor {
   /**
@@ -11,6 +15,41 @@ export class ColorExtractor {
    */
   constructor(options) {
     this.options = options;
+  }
+
+  /**
+   *
+   * @param {number} red
+   * @param {number} green
+   * @param {number} blue
+   * @returns {boolean}
+   */
+  static isNaN(red, green, blue) {
+    return isNaN(red) || isNaN(green) || isNaN(blue);
+  }
+
+  /**
+   *
+   * @param {number} red
+   * @param {number} green
+   * @param {number} blue
+   * @param {number} max
+   * @returns {boolean}
+   */
+  static isWhite(red, green, blue, max) {
+    return red > max && green > max && blue > max;
+  }
+
+  /**
+   *
+   * @param {number} red
+   * @param {number} green
+   * @param {number} blue
+   * @param {number} min
+   * @returns {boolean}
+   */
+  static isBlack(red, green, blue, min) {
+    return red < min && green < min && blue < min;
   }
 
   /**
@@ -30,13 +69,11 @@ export class ColorExtractor {
       sourceOptions = globalOptions.page;
     }
     const min = sourceOptions.avoidBlack ? AVOID_BLACK_OFFSET : 0;
-    const max = 255 - (sourceOptions.avoidWhite ? AVOID_WHITE_OFFSET : 0);
+    const max = sourceOptions.avoidWhite ? AVOID_WHITE_OFFSET : 255;
     return (
-      isNaN(red) ||
-      isNaN(green) ||
-      isNaN(blue) ||
-      (red < min && green < min && blue < min) ||
-      (red > max && green > max && blue > max)
+      ColorExtractor.isNaN(red, green, blue) ||
+      ColorExtractor.isWhite(red, green, blue, max) ||
+      ColorExtractor.isBlack(red, green, blue, min)
     );
   }
 
@@ -46,10 +83,10 @@ export class ColorExtractor {
    * @param {number} width
    * @param {number} height
    * @param {string} source
-   * @returns {object[]}
+   * @returns {Palette}
    */
   extractPaletteFromImageData(imageData, width, height, source) {
-    const colorPalette = new Map();
+    const palette = new Palette();
     const numPixels = width * height;
 
     const globalOptions = this.options.getGlobalOptions();
@@ -66,16 +103,26 @@ export class ColorExtractor {
         continue;
       }
 
-      const color = `${red},${green},${blue}`;
-      colorPalette.set(color, (colorPalette.get(color) || 0) + 1);
+      const rgb = [red, green, blue];
+      palette.set(rgb, (palette.get(rgb) || 0) + 1);
     }
 
-    const palette = Array.from(colorPalette.entries())
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, Math.min(10, colorPalette.size))
-      .map(([color]) => color.split(",").map(Number));
-
     return palette;
+  }
+
+  /**
+   *
+   * @param {Palette} palette
+   * @returns {Color?}
+   */
+  extractColorFromPalette(palette) {
+    const algo = this.options.getGlobalOption("algo");
+    if (algo === Options.ALGORITHMS.BASIC) {
+      return extractColorFromPaletteBasic(palette);
+    } else if (algo === Options.ALGORITHMS.KMEANS) {
+      return extractColorFromPaletteKMeans(palette);
+    }
+    return null;
   }
 
   /**
@@ -84,7 +131,7 @@ export class ColorExtractor {
    * @param {HTMLCanvasElement} canvas
    * @param {CanvasRenderingContext2D} context
    * @param {string} source
-   * @returns {object[]}
+   * @returns {Palette}
    */
   extractPaletteFromImage(image, canvas, context, source) {
     canvas.width = image.width;
@@ -104,7 +151,7 @@ export class ColorExtractor {
    *
    * @param {string} base64Image
    * @param {string} source
-   * @returns {object[]}
+   * @returns {Palette}
    */
   getColorPalette(base64Image, source) {
     if (!base64Image) {
@@ -145,7 +192,7 @@ export class ColorExtractor {
       base64Image,
       Options.SOURCES.FAVICON
     );
-    return palette.length ? new Color(palette[0]) : null;
+    return this.extractColorFromPalette(palette);
   }
 
   /**
@@ -186,7 +233,8 @@ export class ColorExtractor {
             height,
             Options.SOURCES.PAGE
           );
-          resolve(palette.length ? new Color(palette[0]) : null);
+          const color = this.extractColorFromPalette(palette);
+          resolve(color);
         } catch (error) {
           reject(error);
         }

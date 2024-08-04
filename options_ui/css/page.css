@@ -67,6 +67,10 @@ body {
   justify-content: flex-end;
 }
 
+.options_row:has(#source[data-value="own_color"]) > .option_algo_not_own_color {
+  display: none;
+}
+
 .options_row:not(:has(#source[data-value="own_color"]))
   > .option_source_own_color {
   display: none;

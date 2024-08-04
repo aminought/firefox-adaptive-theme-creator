@@ -7,6 +7,11 @@ export class Options {
     OWN_COLOR: "own_color",
   };
 
+  static ALGORITHMS = {
+    BASIC: "algo_basic",
+    KMEANS: "algo_kmeans",
+  };
+
   static TRIGGERS = {
     TAB_COMPLETE: "trigger_tab_complete",
     FAVICON_DETECTED: "trigger_favicon_detected",
@@ -25,6 +30,7 @@ export class Options {
         this.TRIGGERS.FAVICON_DETECTED,
         this.TRIGGERS.TAB_OTHER_UPDATES,
       ],
+      algo: this.ALGORITHMS.KMEANS,
       color: "#ff80ed",
       saturation_limit: "1.0",
       darkness: "0.0",
@@ -154,6 +160,7 @@ export class Options {
   getGlobalOptions() {
     return {
       source: this.options.source,
+      algo: this.options.algo,
       color: this.options.color,
       triggers: new Set(this.options.triggers),
       saturationLimit: this.options.saturation_limit,

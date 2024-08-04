@@ -21,6 +21,7 @@ export class Form {
     this.resetHandlers = [];
 
     this.#addStringDropdownOption("source", Object.values(Options.SOURCES));
+    this.#addStringDropdownOption("algo", Object.values(Options.ALGORITHMS));
     this.#configureBackgroundColorOption("color");
     this.#addNumberDropdownOption("saturation_limit", 0.1, 1.0, 0.1);
     this.#addNumberDropdownOption("darkness", 0.0, 5.0, 0.5);

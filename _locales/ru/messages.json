@@ -1,4 +1,13 @@
 {
+    "algo": {
+        "message": "Алгоритм"
+    },
+    "algo_basic": {
+        "message": "Простой"
+    },
+    "algo_kmeans": {
+        "message": "K-means"
+    },
     "avoidBlack": {
         "message": "Избегать Чёрного"
     },
