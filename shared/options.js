@@ -32,12 +32,7 @@ export class Options {
   static makeDefault() {
     const options = {
       source: this.SOURCES.PAGE,
-      triggers: [
-        this.TRIGGERS.URL_DETECTED,
-        this.TRIGGERS.FAVICON_DETECTED,
-        this.TRIGGERS.TAB_LOADED,
-        this.TRIGGERS.PAGE_SCROLL_END,
-      ],
+      triggers: Object.values(Options.TRIGGERS),
       algo: this.ALGORITHMS.KMEANS,
       color: "#ff80ed",
       saturation_limit: "1.0",
