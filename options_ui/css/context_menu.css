@@ -13,8 +13,14 @@
   gap: 4px;
 }
 
-#context_menu_parts {
+#context_menu_parts_wrapper {
   background-color: var(--background-color);
+  width: fit-content;
+  height: fit-content;
+}
+
+#context_menu_parts {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
   color: var(--color);
   height: var(--option-height);
   border-radius: var(--radius);
@@ -23,6 +29,10 @@
   width: fit-content;
   box-shadow: 0px 0px 8px 1px var(--color);
   font-family: var(--font-family);
+}
+
+#context_menu_parts:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
 #context_menu_parts > option {
@@ -40,8 +50,7 @@
   display: none;
 }
 
-.context_menu:not(:has(div[data-value="own_color"]))
-  .option_source_own_color {
+.context_menu:not(:has(div[data-value="own_color"])) .option_source_own_color {
   display: none;
 }
 

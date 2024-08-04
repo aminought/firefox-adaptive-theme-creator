@@ -64,7 +64,11 @@ export class ContextMenu {
       this.reposition();
     };
 
-    return partsDropdown.element;
+    const partsDropdownWrapper = document.createElement("div");
+    partsDropdownWrapper.id = "context_menu_parts_wrapper";
+    partsDropdownWrapper.appendChild(partsDropdown.element);
+
+    return partsDropdownWrapper;
   }
 
   /**

@@ -52,5 +52,5 @@
 }
 
 .dropdown_item:hover {
-  font-weight: bold;
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
 }
