@@ -26,14 +26,7 @@ export class Form {
     this.#addNumberDropdownOption("saturation_limit", 0.1, 1.0, 0.1);
     this.#addNumberDropdownOption("darkness", 0.0, 5.0, 0.5);
     this.#addNumberDropdownOption("brightness", 0.0, 5.0, 0.5);
-    this.#addCheckboxOptions(
-      [
-        Options.TRIGGERS.TAB_COMPLETE,
-        Options.TRIGGERS.FAVICON_DETECTED,
-        Options.TRIGGERS.TAB_OTHER_UPDATES,
-      ],
-      "triggers"
-    );
+    this.#addCheckboxOptions(Object.values(Options.TRIGGERS), "triggers");
     this.#addCheckboxOption("favicon.avoid_white");
     this.#addCheckboxOption("favicon.avoid_black");
     this.#addCheckboxOption("page.avoid_white");

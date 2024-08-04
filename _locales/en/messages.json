@@ -122,11 +122,17 @@
     "trigger_favicon_detected": {
         "message": "Favicon Detected"
     },
-    "trigger_tab_complete": {
-        "message": "Tab Complete"
+    "trigger_page_click": {
+        "message": "Page Click"
     },
-    "trigger_tab_other_updates": {
-        "message": "Other Tab Updates"
+    "trigger_page_scroll_end": {
+        "message": "Page Scroll End"
+    },
+    "trigger_tab_loaded": {
+        "message": "Tab Loaded"
+    },
+    "trigger_url_detected": {
+        "message": "URL Detected"
     },
     "triggers": {
         "message": "UPDATE TRIGGERS"

@@ -120,13 +120,19 @@
         "message": "Фокус"
     },
     "trigger_favicon_detected": {
-        "message": "Обнаружена Иконка"
+        "message": "Обнаружена иконка"
     },
-    "trigger_tab_complete": {
-        "message": "Загружена Вкладка"
+    "trigger_page_click": {
+        "message": "Клик по странице"
     },
-    "trigger_tab_other_updates": {
-        "message": "Другие Обновления Вкладки"
+    "trigger_page_scroll_end": {
+        "message": "Окончание Скроллинга"
+    },
+    "trigger_tab_loaded": {
+        "message": "Вкладка Загружена"
+    },
+    "trigger_url_detected": {
+        "message": "Обнаружен URL"
     },
     "triggers": {
         "message": "ТРИГГЕРЫ ОБНОВЛЕНИЙ"

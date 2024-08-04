@@ -24,6 +24,13 @@
     ],
     "type": "module"
   },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_scripts/events.js"]
+    }
+  ],
   
   "options_ui": {
     "page": "options_ui/page.html"

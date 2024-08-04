@@ -13,9 +13,16 @@ export class Options {
   };
 
   static TRIGGERS = {
-    TAB_COMPLETE: "trigger_tab_complete",
+    URL_DETECTED: "trigger_url_detected",
     FAVICON_DETECTED: "trigger_favicon_detected",
-    TAB_OTHER_UPDATES: "trigger_tab_other_updates",
+    TAB_LOADED: "trigger_tab_loaded",
+    PAGE_SCROLL_END: "trigger_page_scroll_end",
+    PAGE_CLICK: "trigger_page_click",
+  };
+
+  static CONTENT_EVENTS = {
+    scrollend: Options.TRIGGERS.PAGE_SCROLL_END,
+    click: Options.TRIGGERS.PAGE_CLICK,
   };
 
   constructor() {
@@ -26,9 +33,10 @@ export class Options {
     const options = {
       source: this.SOURCES.PAGE,
       triggers: [
-        this.TRIGGERS.TAB_COMPLETE,
+        this.TRIGGERS.URL_DETECTED,
         this.TRIGGERS.FAVICON_DETECTED,
-        this.TRIGGERS.TAB_OTHER_UPDATES,
+        this.TRIGGERS.TAB_LOADED,
+        this.TRIGGERS.PAGE_SCROLL_END,
       ],
       algo: this.ALGORITHMS.KMEANS,
       color: "#ff80ed",

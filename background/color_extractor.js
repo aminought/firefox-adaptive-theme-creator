@@ -198,14 +198,15 @@ export class ColorExtractor {
   /**
    *
    * @param {Tab} tab
+   * @param {number} pageY
    * @returns {Color?}
    */
-  async getMostPopularColorFromPage(tab) {
+  async getMostPopularColorFromPage(tab, pageY) {
     const globalOptions = this.options.getGlobalOptions();
-    const base64Image = await browser.tabs.captureTab(tab.id, {
+    const base64Image = await browser.tabs.captureVisibleTab(tab.windowId, {
       rect: {
         x: 0,
-        y: 0,
+        y: pageY,
         width: tab.width,
         height: Number(globalOptions.page.captureHeight),
       },

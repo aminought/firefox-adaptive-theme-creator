@@ -24,4 +24,8 @@ Options.load().then(async (options) => {
     const updatedTheme = new Theme(updateInfo.theme);
     runtime.onThemeUpdated(updatedTheme);
   });
+
+  browser.runtime.onMessage.addListener((message) => {
+    runtime.onContentMessage(message);
+  });
 });

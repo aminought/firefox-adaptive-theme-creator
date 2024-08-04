@@ -50,7 +50,12 @@ export class Runtime {
       ?.brighten(brightness);
   }
 
-  async updateTheme(tab) {
+  /**
+   *
+   * @param {Tab} tab
+   * @param {number?} pageY
+   */
+  async updateTheme(tab, pageY) {
     if (!this.defaultTheme.isCompatible()) {
       return;
     }
@@ -72,7 +77,7 @@ export class Runtime {
       ? await this.getMostPopularColorFromFavicon(tab.favIconUrl)
       : null;
     const pageMostPopularColor = this.options.isPageColorNeeded()
-      ? await this.getMostPopularColorFromPage(tab)
+      ? await this.getMostPopularColorFromPage(tab, pageY)
       : null;
 
     // Global colors
@@ -201,11 +206,20 @@ export class Runtime {
   /**
    *
    * @param {Tab} tab
+   * @param {number?} pageY
    * @returns {Color?}
    */
-  async getMostPopularColorFromPage(tab) {
+  async getMostPopularColorFromPage(tab, pageY) {
     try {
-      return await this.colorExtractor.getMostPopularColorFromPage(tab);
+      if (!pageY) {
+        [pageY] = await browser.tabs.executeScript(tab.id, {
+          code: "document.documentElement.scrollTop",
+        });
+      }
+      return await this.colorExtractor.getMostPopularColorFromPage(
+        tab,
+        pageY || 0
+      );
     } catch (error) {
       // eslint-disable-next-line no-console
       console.log("Failed to calculate page color:", error);
@@ -234,15 +248,13 @@ export class Runtime {
       return;
     }
 
-    if (changeInfo.status === "complete") {
-      if (triggers.has(Options.TRIGGERS.TAB_COMPLETE)) {
-        await this.updateTheme(tab);
-      }
-    } else if (changeInfo.favIconUrl) {
-      if (triggers.has(Options.TRIGGERS.FAVICON_DETECTED)) {
-        await this.updateTheme(tab);
-      }
-    } else if (triggers.has(Options.TRIGGERS.TAB_OTHER_UPDATES)) {
+    if (
+      (changeInfo.url && triggers.has(Options.TRIGGERS.URL_DETECTED)) ||
+      (changeInfo.favIconUrl &&
+        triggers.has(Options.TRIGGERS.FAVICON_DETECTED)) ||
+      (changeInfo.status === "complete" &&
+        triggers.has(Options.TRIGGERS.TAB_LOADED))
+    ) {
       await this.updateTheme(tab);
     }
   }
@@ -263,5 +275,13 @@ export class Runtime {
     }
     await this.defaultTheme.reload();
     await this.updateTheme();
+  }
+
+  async onContentMessage(message) {
+    const { triggers } = this.options.getGlobalOptions();
+    const trigger = Options.CONTENT_EVENTS[message.event];
+    if (trigger && triggers.has(trigger)) {
+      await this.updateTheme(null, message.y);
+    }
   }
 }
