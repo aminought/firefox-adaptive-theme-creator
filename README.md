@@ -1,13 +1,13 @@
 ![Icon](https://github.com/aminought/storage/blob/main/Adaptive%20Theme%20Creator/icon.png?raw=true)  
-![Mozilla Add-on Users](https://img.shields.io/amo/users/favicon-color)
-![Mozilla Add-on Rating](https://img.shields.io/amo/stars/favicon-color)
-![Mozilla Add-on](https://img.shields.io/amo/v/favicon-color?color=blue&label=version)
+![Mozilla Add-on Users](https://img.shields.io/amo/users/adaptive-theme-creator)
+![Mozilla Add-on Rating](https://img.shields.io/amo/stars/adaptive-theme-creator)
+![Mozilla Add-on](https://img.shields.io/amo/v/adaptive-theme-creator?color=blue&label=version)
 
 # Adaptive Theme Creator
 
 A Firefox extension that allows you to create a unique adaptive theme for your browser. Like [Adaptive Tab Bar Colour](https://github.com/easonwong-de/Adaptive-Tab-Bar-Colour) or [VivaldiFox](https://github.com/nt1m/vivaldi-fox), but better.
 
-<a href="https://addons.mozilla.org/en-US/firefox/addon/favicon-color" target="_blank">
+<a href="https://addons.mozilla.org/en-US/firefox/addon/adaptive-theme-creator" target="_blank">
 	<img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Firefox_%22Get_the_add-on%22_badge.png?20200707091220">
 </a>
 
