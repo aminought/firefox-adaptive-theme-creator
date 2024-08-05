@@ -70,7 +70,7 @@ export class BrowserPreview {
     this.hidePopup();
     const img = document.createElement("img");
     img.id = "rickroll";
-    img.src = `https://raw.githubusercontent.com/aminought/storage/main/egg.gif`;
+    img.src = `https://github.com/aminought/storage/blob/main/Adaptive%20Theme%20Creator/rickroll.gif?raw=true`;
     this.appcontent.appendChild(img);
   }
 
