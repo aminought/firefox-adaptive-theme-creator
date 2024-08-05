@@ -11,7 +11,7 @@ A Firefox extension that allows you to create a unique adaptive theme for your b
 	<img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Firefox_%22Get_the_add-on%22_badge.png?20200707091220">
 </a>
 
-![popup](https://github.com/user-attachments/assets/79abd53b-225a-4fcc-bd45-091bc1291168)
+![logo_without_title](https://github.com/user-attachments/assets/2f539523-1acd-47f4-8038-de771251806f)
 
 ## Here's what it might look like
 
