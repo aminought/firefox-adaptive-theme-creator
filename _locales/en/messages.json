@@ -1,54 +1,141 @@
 {
-    "extensionName": {
-        "message": "Favicon Color"
+    "algo": {
+        "message": "Algorithm"
     },
-    "extensionDescription": {
-        "message": "Calculates the most popular color from the favicon and builds the entire theme based on it."
+    "algo_basic": {
+        "message": "Basic"
     },
-    "globalOptions": {
-        "message": "Global options"
+    "algo_kmeans": {
+        "message": "K-means"
     },
-    "advancedOptions": {
-        "message": "Advanced options"
+    "avoidBlack": {
+        "message": "Avoid Black"
     },
-    "enableCache": {
-        "message": "Enable cache"
+    "avoidWhite": {
+        "message": "Avoid White"
     },
-    "colorValueOffset": {
-        "message": "Color value offset"
+    "brightness": {
+        "message": "Brightness"
     },
-    "reset": {
-        "message": "Reset"
-    },
-    "sidebar": {
-        "message": "Sidebar"
-    },
-    "toolbar": {
-        "message": "Toolbar"
-    },
-    "toolbar_field": {
-        "message": "Toolbar field"
-    },
-    "tab_selected": {
-        "message": "Selected tab"
-    },
-    "frame": {
-        "message": "Frame"
-    },
-    "popup": {
-        "message": "Popup"
-    },
-    "specialSettings": {
-        "message": "Special settings"
-    },
-    "saturationLimit": {
-        "message": "Saturation limit"
+    "color": {
+        "message": "Color"
     },
     "darkness": {
         "message": "Darkness"
     },
-    "brightness": {
-        "message": "Brightness"
+    "extensionDescription": {
+        "message": "WebExtension that allows you to create your own custom theme based on the color of site's favicon, the background color of a page, or any other color you choose."
+    },
+    "extensionName": {
+        "message": "Adaptive Theme Creator"
+    },
+    "favicon": {
+        "message": "Favicon"
+    },
+    "faviconOptions": {
+        "message": "FAVICON COLOR OPTIONS"
+    },
+    "frame": {
+        "message": "Frame"
+    },
+    "frame_inactive": {
+        "message": "Frame Inactive"
+    },
+    "help": {
+        "message": "Help"
+    },
+    "help1Greetings": {
+        "message": "Welcome to <b>Adaptive Theme Creator</b>."
+    },
+    "help2Intro": {
+        "message": "It all started with a simple extension called <b>Favicon Color</b>, but over time, it has evolved into something much more. Now, it's a full-fledged theme creator that allows you to use the color of website's <b>favicon</b> and <b>page</b>, as well as your <b>own</b> colors and apply them to almost any part of the browser."
+    },
+    "help3Description": {
+        "message": "The settings consist of <b>global</b> options and options for specific <b>parts of the browser</b>. You see a schematic image of the browser in front of you.<br><br>To turn on or off the coloring of a specific <b>part of the browser</b>, just click on it with the <b>left mouse button</b>.<br><br><b>Right-clicking</b> opens the context menu for the selected <b>part of the browser</b>, as well as the <b>connected</b> with it.<br><br>By clicking on the context menu header, you can select the <b>connected part of the browser</b> and configure it by changing <b>inheritance</b> or other options."
+    },
+    "help4Conclusion": {
+        "message": "Good luck in creating a unique theme."
+    },
+    "help5Contacts": {
+        "message": "<a href=\"https://github.com/aminought/firefox-favicon-color\"><b>Github</b></a><br><a href=\"https://www.donationalerts.com/r/aminought\"><b>Buy Me a Cofee</b></a/"
+    },
+    "inherit_global": {
+        "message": "Global"
+    },
+    "inheritance_off": {
+        "message": "Off"
+    },
+    "inheritFrom": {
+        "message": "Inherit From"
+    },
+    "own_color": {
+        "message": "Own Color"
+    },
+    "page": {
+        "message": "Page"
+    },
+    "pageCaptureHeight": {
+        "message": "Capture Height"
+    },
+    "pageOptions": {
+        "message": "PAGE COLOR OPTIONS"
+    },
+    "popup": {
+        "message": "Popup"
+    },
+    "popup_border": {
+        "message": "Popup Border"
+    },
+    "reset": {
+        "message": "Reset"
+    },
+    "saturationLimit": {
+        "message": "Saturation Limit"
+    },
+    "sidebar": {
+        "message": "Sidebar"
+    },
+    "sidebar_border": {
+        "message": "Sidebar Border"
+    },
+    "source": {
+        "message": "Color Source"
+    },
+    "tab_selected": {
+        "message": "Selected Tab"
+    },
+    "toolbar": {
+        "message": "Toolbar"
+    },
+    "toolbar_bottom_separator": {
+        "message": "Toolbar Bottom Separator"
+    },
+    "toolbar_field": {
+        "message": "Toolbar Field"
+    },
+    "toolbar_field_border": {
+        "message": "Toolbar Field Border"
+    },
+    "toolbar_field_focus": {
+        "message": "Toolbar Field Focus"
+    },
+    "trigger_favicon_detected": {
+        "message": "Favicon Detected"
+    },
+    "trigger_page_click": {
+        "message": "Page Click"
+    },
+    "trigger_page_scroll_end": {
+        "message": "Page Scroll End"
+    },
+    "trigger_tab_loaded": {
+        "message": "Tab Loaded"
+    },
+    "trigger_url_detected": {
+        "message": "URL Detected"
+    },
+    "triggers": {
+        "message": "THEME UPDATE TRIGGERS"
     },
     "warning": {
         "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."

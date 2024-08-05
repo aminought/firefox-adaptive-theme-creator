@@ -1,14 +1,15 @@
 {
   "manifest_version": 2,
   "name": "__MSG_extensionName__",
-  "version": "2.0.4",
+  "version": "2.1",
 
   "description": "__MSG_extensionDescription__",
 
   "permissions": [
     "theme",
     "tabs",
-    "storage"
+    "storage",
+    "<all_urls>"
   ],
 
   "icons": {
@@ -23,15 +24,22 @@
     ],
     "type": "module"
   },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content_scripts/events.js"]
+    }
+  ],
   
   "options_ui": {
-    "page": "options/options_page.html"
+    "page": "options_ui/page.html"
   },
 
   "browser_action": {
     "default_icon": "icons/icon.svg",
-    "default_title": "Favicon Color",
-    "default_popup": "options/options_page.html"
+    "default_title": "__MSG_extensionName__",
+    "default_popup": "options_ui/page.html"
   },
 
   "browser_specific_settings": {

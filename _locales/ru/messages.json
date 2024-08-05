@@ -1,54 +1,141 @@
 {
-    "extensionName": {
-        "message": "Favicon Color"
+    "algo": {
+        "message": "Алгоритм"
     },
-    "extensionDescription": {
-        "message": "Вычисляет самый популярный цвет из иконки сайта и строит всю тему на его основе."
+    "algo_basic": {
+        "message": "Простой"
     },
-    "globalOptions": {
-        "message": "Глобальные настройки"
+    "algo_kmeans": {
+        "message": "K-means"
     },
-    "advancedOptions": {
-        "message": "Продвинутые настройки"
+    "avoidBlack": {
+        "message": "Избегать Чёрного"
     },
-    "enableCache": {
-        "message": "Включить кэш"
+    "avoidWhite": {
+        "message": "Избегать Белого"
     },
-    "colorValueOffset": {
-        "message": "Смещение значения цвета (0-255)"
+    "brightness": {
+        "message": "Яркость"
     },
-    "reset": {
-        "message": "Сбросить"
-    },
-    "sidebar": {
-        "message": "Боковая панель"
-    },
-    "toolbar": {
-        "message": "Панель инструментов"
-    },
-    "toolbar_field": {
-        "message": "Поле панели инструментов"
-    },
-    "tab_selected": {
-        "message": "Активная вкладка"
-    },
-    "frame": {
-        "message": "Рамка браузера"
-    },
-    "popup": {
-        "message": "Всплывающее окно"
-    },
-    "specialSettings": {
-        "message": "Отдельная настройка"
-    },
-    "saturationLimit": {
-        "message": "Насыщенность"
+    "color": {
+        "message": "Цвет"
     },
     "darkness": {
         "message": "Затемнение"
     },
-    "brightness": {
-        "message": "Яркость"
+    "extensionDescription": {
+        "message": "Расширение для построения темы на основе цвета иконки сайта, страницы или собственных цветов."
+    },
+    "extensionName": {
+        "message": "Adaptive Theme Creator"
+    },
+    "favicon": {
+        "message": "Иконка Сайта"
+    },
+    "faviconOptions": {
+        "message": "НАСТРОЙКИ ЦВЕТА СТРАНИЦЫ"
+    },
+    "frame": {
+        "message": "Рамка"
+    },
+    "frame_inactive": {
+        "message": "Неактивная Рамка"
+    },
+    "help": {
+        "message": "Помощь"
+    },
+    "help1Greetings": {
+        "message": "Добро пожаловать в <b>Adaptive Theme Creator</b>."
+    },
+    "help2Intro": {
+        "message": "Всё началось с простого расширения под названием <b>Favicon Color</b>, но со временем оно эволюционировало в нечто большее: теперь это настоящий конструктор темы. Можно использовать цвет не только <b>иконки</b> сайта, но и <b>страницы</b>, а также задать <b>собственный</b>, и применить его к практически любой <b>части браузера</b>."
+    },
+    "help3Description": {
+        "message": "Настройки состоят из <b>глобальных</b> опций и опций для конкретной <b>части браузера</b>. Перед собой вы видите схематичное изображение браузера.<br><br>Для включения или выключения окрашивания конкретной <b>части браузера</b> достаточно кликнуть по ней <b>левой кнопкой мыши</b>.<br><br>Нажатие <b>правой кнопкой мыши</b> откроет контекстное меню для выбранной <b>части браузера</b>, а также <b>связанных</b> с ней.<br><br>Кликнув по заголовку контекстного меню, можно выбрать <b>связанную часть браузера</b> и настроить ее, изменив <b>наследование</b> или другие опции."
+    },
+    "help4Conclusion": {
+        "message": "Удачи в создании уникальной темы."
+    },
+    "help5Contacts": {
+        "message": "<a href=\"https://github.com/aminought/firefox-favicon-color\"><b>Github</b></a><br><a href=\"https://www.donationalerts.com/r/aminought\"><b>Угостить кофе</b></a/"
+    },
+    "inherit_global": {
+        "message": "Глобальные"
+    },
+    "inheritance_off": {
+        "message": "Выкл"
+    },
+    "inheritFrom": {
+        "message": "Наследовать От"
+    },
+    "own_color": {
+        "message": "Свой Цвет"
+    },
+    "page": {
+        "message": "Страница"
+    },
+    "pageCaptureHeight": {
+        "message": "Высота Снимка"
+    },
+    "pageOptions": {
+        "message": "НАСТРОЙКИ ЦВЕТА ИКОНКИ"
+    },
+    "popup": {
+        "message": "Всплывающее Окно"
+    },
+    "popup_border": {
+        "message": "Рамка"
+    },
+    "reset": {
+        "message": "Сбросить"
+    },
+    "saturationLimit": {
+        "message": "Насыщенность"
+    },
+    "sidebar": {
+        "message": "Боковая Панель"
+    },
+    "sidebar_border": {
+        "message": "Разделитель"
+    },
+    "source": {
+        "message": "Источник Цвета"
+    },
+    "tab_selected": {
+        "message": "Активная Вкладка"
+    },
+    "toolbar": {
+        "message": "Панель Инструментов"
+    },
+    "toolbar_bottom_separator": {
+        "message": "Нижний Разделитель"
+    },
+    "toolbar_field": {
+        "message": "Поле Ввода"
+    },
+    "toolbar_field_border": {
+        "message": "Рамка"
+    },
+    "toolbar_field_focus": {
+        "message": "Фокус"
+    },
+    "trigger_favicon_detected": {
+        "message": "Обнаружена иконка"
+    },
+    "trigger_page_click": {
+        "message": "Клик по странице"
+    },
+    "trigger_page_scroll_end": {
+        "message": "Окончание Скроллинга"
+    },
+    "trigger_tab_loaded": {
+        "message": "Вкладка Загружена"
+    },
+    "trigger_url_detected": {
+        "message": "Обнаружен URL"
+    },
+    "triggers": {
+        "message": "ТРИГГЕРЫ ОБНОВЛЕНИЙ ТЕМЫ"
     },
     "warning": {
         "message": "Текущая тема несовместима с данным расширением. Пожалуйста, установите тему, отличную от системной."

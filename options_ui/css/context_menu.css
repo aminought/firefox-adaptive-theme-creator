@@ -1,0 +1,62 @@
+.context_menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 2px;
+  background-color: transparent;
+}
+
+.context_menu_options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+#context_menu_parts_wrapper {
+  background-color: var(--background-color);
+  width: fit-content;
+  height: fit-content;
+}
+
+#context_menu_parts {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  height: var(--option-height);
+  border-radius: var(--radius);
+  border: 1px solid var(--color);
+  font-weight: bold;
+  width: fit-content;
+  box-shadow: 0px 0px 8px 1px var(--color);
+  font-family: var(--font-family);
+}
+
+#context_menu_parts:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+#context_menu_parts > option {
+  font-family: var(--font-family);
+}
+
+.context_menu_options .option {
+  background-color: var(--background-color);
+  color: var(--color);
+  box-shadow: 0px 0px 8px 1px var(--color);
+}
+
+.context_menu:not(:has(div[data-value="inheritance_off"]))
+  .option_inherit_from_off {
+  display: none;
+}
+
+.context_menu:not(:has(div[data-value="own_color"])) .option_source_own_color {
+  display: none;
+}
+
+.context_menu_title {
+  align-self: center;
+  font-weight: bold;
+  background-color: var(--background-color);
+  color: var(--color);
+}

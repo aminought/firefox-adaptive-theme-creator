@@ -1,4 +1,4 @@
-import { Color } from "../colors/color.js";
+import { Color } from "./color.js";
 
 export class Theme {
   constructor(themeInfo) {
@@ -13,8 +13,12 @@ export class Theme {
     this.themeInfo = await browser.theme.getCurrent();
   }
 
-  async update() {
-    await browser.theme.update(this.themeInfo);
+  /**
+   *
+   * @param {integer} windowId
+   */
+  async update(windowId) {
+    await browser.theme.update(windowId, this.themeInfo);
   }
 
   isCompatible() {
@@ -90,14 +94,11 @@ export class Theme {
 
   setColor(part, color) {
     this.themeInfo.colors[part] = color?.css();
+    this.themeInfo.properties.source = "favicon-color";
   }
 
   isModified() {
     return this.themeInfo.properties.source === "favicon-color";
-  }
-
-  markModified() {
-    this.themeInfo.properties.source = "favicon-color";
   }
 
   clone() {

@@ -1,0 +1,26 @@
+.help_popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 300px;
+  height: 300px;
+  overflow-y: scroll;
+  background-color: var(--background-color);
+  color: var(--color);
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 4px;
+  box-shadow: 0px 0px 24px 4px var(--color);
+}
+
+.help_popup > p {
+  margin: 0;
+  border: 1px solid;
+  border-radius: var(--radius);
+  padding: 8px;
+}
+
+.help_popup > p > a {
+  color: var(--color);
+}
