@@ -1,9 +1,21 @@
-A Firefox extension that allows you to create a unique adaptive theme for your browser.
-https://addons.mozilla.org/en-US/firefox/addon/favicon-color
+![Icon](https://github.com/aminought/storage/blob/main/Adaptive%20Theme%20Creator/icon.png?raw=true)  
+![Mozilla Add-on Users](https://img.shields.io/amo/users/favicon-color)
+![Mozilla Add-on Rating](https://img.shields.io/amo/stars/favicon-color)
+![Mozilla Add-on](https://img.shields.io/amo/v/favicon-color?color=blue&label=version)
+
+# Adaptive Theme Creator
+
+A Firefox extension that allows you to create a unique adaptive theme for your browser. Like [Adaptive Tab Bar Colour](https://github.com/easonwong-de/Adaptive-Tab-Bar-Colour) or [VivaldiFox](https://github.com/nt1m/vivaldi-fox), but better.
+
+<a href="https://addons.mozilla.org/en-US/firefox/addon/favicon-color" target="_blank">
+	<img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/Firefox_%22Get_the_add-on%22_badge.png?20200707091220">
+</a>
+
+![popup](https://github.com/user-attachments/assets/79abd53b-225a-4fcc-bd45-091bc1291168)
 
 ## Here's what it might look like
 
-https://github.com/user-attachments/assets/4c629efe-bccd-4e0c-be9b-59447f779e5f
+https://github.com/user-attachments/assets/386a7bb7-a1fe-4676-9120-30c5e59fbe6f
 
 There are many features in this extension, so I have decided to create separate videos for each one.
 
