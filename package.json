@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "scripts": {
+    "test": "mocha test/**/*.js",
+    "web-ext": "web-ext run -f firefox"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.3",
+    "sinon": "^19.0.2",
+    "web-ext": "^8.3.0"
+  }
+}

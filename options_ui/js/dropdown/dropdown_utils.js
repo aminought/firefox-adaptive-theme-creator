@@ -8,19 +8,21 @@ import { POSITIONS } from "../utils/positions.js";
  * @param {string} id
  * @param {string[]} values
  * @param {string=} position
+ * @param {CallableFunction} localize
  * @returns {Dropdown}
  */
 export const createStringDropdown = (
   id,
   values,
-  position = POSITIONS.BELOW
+  position = POSITIONS.BELOW,
+  localize = Localizer.getMessage
 ) => {
   const dropdown = new Dropdown(position);
   dropdown.id = id;
   for (const value of values) {
     const dropdownItem = new DropdownItem();
     dropdownItem.value = value;
-    dropdownItem.label = Localizer.getMessage(value);
+    dropdownItem.label = localize(value);
     dropdown.appendChild(dropdownItem);
   }
   return dropdown;

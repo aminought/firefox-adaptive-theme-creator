@@ -2,6 +2,12 @@
     "algo": {
         "message": "Algorithm"
     },
+    "page_color_algo.basic": {
+        "message": "Basic"
+    },
+    "page_color_algo.kmeans": {
+        "message": "K-means"
+    },
     "algo_basic": {
         "message": "Basic"
     },
@@ -13,6 +19,15 @@
     },
     "avoidWhite": {
         "message": "Avoid White"
+    },
+    "auto": {
+        "message": "Auto"
+    },
+    "background_source": {
+        "message": "Background Color Source"
+    },
+    "foreground_source": {
+        "message": "Foreground Color Source"
     },
     "brightness": {
         "message": "Brightness"
@@ -86,6 +101,9 @@
     "popup_border": {
         "message": "Popup Border"
     },
+    "popup_highlight": {
+        "message": "Popup Highlight"
+    },
     "reset": {
         "message": "Reset"
     },
@@ -97,9 +115,6 @@
     },
     "sidebar_border": {
         "message": "Sidebar Border"
-    },
-    "source": {
-        "message": "Color Source"
     },
     "tab_selected": {
         "message": "Selected Tab"

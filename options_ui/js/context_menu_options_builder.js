@@ -1,8 +1,9 @@
+import { BACKGROUND_SOURCE } from "../../shared/constants.js";
 import {
   createNumberDropdown,
   createStringDropdown,
 } from "./dropdown/dropdown_utils.js";
-import { BrowserParts } from "../../shared/browser_parts.js";
+// import { BrowserParts } from "../../shared/browser_parts.js";
 import { ColorPicker } from "./color_picker.js";
 import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
@@ -49,18 +50,18 @@ export class ContextMenuOptionsBuilder {
    */
   #createInheritanceOption() {
     const partKey = "inheritance";
-    return this.#createOption(
-      partKey,
-      ["option"],
-      "inheritFrom",
-      (inputId, value) =>
-        this.#createStringDropdownElement(
-          partKey,
-          inputId,
-          BrowserParts.getInheritances(this.part),
-          value
-        )
-    );
+    // return this.#createOption(
+    //   partKey,
+    //   ["option"],
+    //   "inheritFrom",
+    //   (inputId, value) =>
+    //     this.#createStringDropdownElement(
+    //       partKey,
+    //       inputId,
+    //       BrowserParts.getInheritances(this.part),
+    //       value
+    //     )
+    // );
   }
 
   /**
@@ -77,7 +78,7 @@ export class ContextMenuOptionsBuilder {
         this.#createStringDropdownElement(
           partKey,
           inputId,
-          Object.values(Options.SOURCES),
+          Object.values(BACKGROUND_SOURCE),
           value
         )
     );

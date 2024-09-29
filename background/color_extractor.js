@@ -1,3 +1,4 @@
+import { BACKGROUND_SOURCE } from "../shared/constants.js";
 import {
   extractColorFromPaletteBasic,
   extractColorFromPaletteKMeans,
@@ -63,9 +64,9 @@ export class ColorExtractor {
    */
   static isColorInvalid(red, green, blue, globalOptions, source) {
     let sourceOptions = null;
-    if (source === Options.SOURCES.FAVICON) {
+    if (source === BACKGROUND_SOURCE.favicon) {
       sourceOptions = globalOptions.favicon;
-    } else if (source === Options.SOURCES.PAGE) {
+    } else if (source === BACKGROUND_SOURCE.page) {
       sourceOptions = globalOptions.page;
     }
     const min = sourceOptions.avoidBlack ? AVOID_BLACK_OFFSET : 0;
@@ -117,9 +118,9 @@ export class ColorExtractor {
    */
   extractColorFromPalette(palette) {
     const algo = this.options.getGlobalOption("algo");
-    if (algo === Options.ALGORITHMS.BASIC) {
+    if (algo === Options.ALGORITHMS.basic) {
       return extractColorFromPaletteBasic(palette);
-    } else if (algo === Options.ALGORITHMS.KMEANS) {
+    } else if (algo === Options.ALGORITHMS.kmeans) {
       return extractColorFromPaletteKMeans(palette);
     }
     return null;
@@ -190,7 +191,7 @@ export class ColorExtractor {
   async getMostPopularColorFromFavicon(base64Image) {
     const palette = await this.getColorPalette(
       base64Image,
-      Options.SOURCES.FAVICON
+      BACKGROUND_SOURCE.favicon
     );
     return this.extractColorFromPalette(palette);
   }
@@ -232,7 +233,7 @@ export class ColorExtractor {
             imageData,
             width,
             height,
-            Options.SOURCES.PAGE
+            BACKGROUND_SOURCE.page
           );
           const color = this.extractColorFromPalette(palette);
           resolve(color);

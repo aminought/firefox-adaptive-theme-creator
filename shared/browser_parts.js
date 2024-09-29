@@ -1,135 +1,211 @@
-const BACKGROUND_PARTS = {
-  frame: "frame",
-  popup: "popup",
-  sidebar: "sidebar",
-  tab_selected: "tab_selected",
-  toolbar_field: "toolbar_field",
-  toolbar: "toolbar",
-};
+import { BACKGROUND_SOURCE, INHERITANCE } from './constants.js';
+import {
+    PartDefaults,
+    makeBackgroundDefaults,
+    makeForegroundDefaults,
+} from './browser_part_defaults.js';
 
-const CONNECTED_PARTS = {
-  frame_inactive: "frame_inactive",
-  popup_border: "popup_border",
-  sidebar_border: "sidebar_border",
-  toolbar_bottom_separator: "toolbar_bottom_separator",
-  toolbar_field_border: "toolbar_field_border",
-  toolbar_field_focus: "toolbar_field_focus",
-};
-
-const FOREGROUND_PARTS = {
-  bookmark_text: "bookmark_text",
-  icons: "icons",
-  popup_text: "popup_text",
-  sidebar_text: "sidebar_text",
-  tab_background_text: "tab_background_text",
-  tab_text: "tab_text",
-  toolbar_field_text_focus: "toolbar_field_text_focus",
-  toolbar_field_text: "toolbar_field_text",
-  toolbar_text: "toolbar_text",
-};
-
-const BACKGROUND_CONNECTIONS = {
-  [BACKGROUND_PARTS.sidebar]: [CONNECTED_PARTS.sidebar_border],
-  [BACKGROUND_PARTS.toolbar]: [CONNECTED_PARTS.toolbar_bottom_separator],
-  [BACKGROUND_PARTS.toolbar_field]: [
-    CONNECTED_PARTS.toolbar_field_border,
-    CONNECTED_PARTS.toolbar_field_focus,
-  ],
-  [BACKGROUND_PARTS.frame]: [CONNECTED_PARTS.frame_inactive],
-  [BACKGROUND_PARTS.popup]: [CONNECTED_PARTS.popup_border],
-};
-
-const BACKGROUND_CONNECTIONS_INVERSED = {
-  [CONNECTED_PARTS.sidebar_border]: BACKGROUND_PARTS.sidebar,
-  [CONNECTED_PARTS.toolbar_bottom_separator]: BACKGROUND_PARTS.toolbar,
-  [CONNECTED_PARTS.toolbar_field_border]: BACKGROUND_PARTS.toolbar_field,
-  [CONNECTED_PARTS.toolbar_field_focus]: BACKGROUND_PARTS.toolbar_field,
-  [CONNECTED_PARTS.frame_inactive]: BACKGROUND_PARTS.frame,
-  [CONNECTED_PARTS.popup_border]: BACKGROUND_PARTS.popup,
-};
-
-const FOREGROUND_CONNECTIONS = {
-  [BACKGROUND_PARTS.frame]: [FOREGROUND_PARTS.tab_background_text],
-  [BACKGROUND_PARTS.popup]: [FOREGROUND_PARTS.popup_text],
-  [BACKGROUND_PARTS.sidebar]: [FOREGROUND_PARTS.sidebar_text],
-  [BACKGROUND_PARTS.tab_selected]: [FOREGROUND_PARTS.tab_text],
-  [BACKGROUND_PARTS.toolbar_field]: [FOREGROUND_PARTS.toolbar_field_text],
-  [BACKGROUND_PARTS.toolbar]: [
-    FOREGROUND_PARTS.toolbar_text,
-    FOREGROUND_PARTS.bookmark_text,
-    FOREGROUND_PARTS.icons,
-  ],
-  [CONNECTED_PARTS.toolbar_field_focus]: [
-    FOREGROUND_PARTS.toolbar_field_text_focus,
-  ],
-};
-
-export class BrowserParts {
-  static INHERITANCES = {
-    off: "inheritance_off",
-    global: "inherit_global",
-  };
-
-  /**
-   *
-   * @returns {string[]}
-   */
-  static getBackgroundParts() {
-    return Object.values(BACKGROUND_PARTS);
-  }
-
-  /**
-   *
-   * @returns {string[]}
-   */
-  static getConnectedParts() {
-    return Object.values(CONNECTED_PARTS);
-  }
-
-  /**
-   *
-   * @param {string} backgroundPart
-   * @returns {string[]}
-   */
-  static getForegroundParts(backgroundPart) {
-    if (backgroundPart in FOREGROUND_CONNECTIONS) {
-      return FOREGROUND_CONNECTIONS[backgroundPart];
+export class Part {
+    /**
+     *
+     * @param {string} name
+     * @param {object} params
+     * @param {string} params.parent_name
+     * @param {boolean} params.is_foreground
+     * @param {PartDefaults} params.defaults
+     */
+    constructor(
+        name,
+        { parent_name = null, is_foreground = false, defaults = makeBackgroundDefaults() } = {}
+    ) {
+        this.name = name;
+        this.parent_name = parent_name;
+        this.is_foreground = is_foreground;
+        this.defaults = defaults;
     }
-    return [];
-  }
 
-  /**
-   *
-   * @param {string} backgroundPart
-   * @returns {string[]}
-   */
-  static getConnectedBackgroundParts(backgroundPart) {
-    if (backgroundPart in BACKGROUND_CONNECTIONS) {
-      return BACKGROUND_CONNECTIONS[backgroundPart];
+    /**
+     *
+     * @returns {string[]}
+     */
+    getInheritances() {
+        const inheritances = [INHERITANCE.off, INHERITANCE.global];
+        if (this.parent_name) {
+            inheritances.push(this.parent_name);
+        }
+        return inheritances;
     }
-    return [];
-  }
-
-  /**
-   *
-   * @returns {string[]}
-   */
-  static getAllParts() {
-    return Object.values(BACKGROUND_PARTS)
-      .concat(Object.values(CONNECTED_PARTS))
-      .concat(Object.values(FOREGROUND_PARTS));
-  }
-
-  /**
-   *
-   * @param {string} connectedPart
-   * @returns {string[]}
-   */
-  static getInheritances(connectedPart) {
-    const inheritances = [this.INHERITANCES.off, this.INHERITANCES.global];
-    if (connectedPart in BACKGROUND_CONNECTIONS_INVERSED) {
-      inheritances.push(BACKGROUND_CONNECTIONS_INVERSED[connectedPart]);
-    }
-    return inheritances;
-  }
 }
+
+export const PARTS = {
+    bookmark_text: new Part('bookmark_text', {
+        parent_name: 'toolbar',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    button_background_active: new Part('button_background_active'),
+    button_background_hover: new Part('button_background_hover'),
+    frame: new Part('frame', { defaults: makeBackgroundDefaults({ enabled: true }) }),
+    frame_inactive: new Part('frame_inactive', {
+        parent_name: 'frame',
+        defaults: makeBackgroundDefaults({ enabled: true }),
+    }),
+    icons: new Part('icons', {
+        parent_name: 'toolbar',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    icons_attention: new Part('icons_attention', {
+        parent_name: 'toolbar',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    ntp_background: new Part('ntp_background'),
+    ntp_card_background: new Part('ntp_card_background', { parent_name: 'ntp_background' }),
+    ntp_text: new Part('ntp_text', {
+        parent_name: 'ntp_card_background',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    popup: new Part('popup', { defaults: makeBackgroundDefaults({ enabled: true }) }),
+    popup_border: new Part('popup_border', {
+        parent_name: 'popup',
+        defaults: makeBackgroundDefaults({
+            enabled: true,
+            inheritance: INHERITANCE.off,
+            background_source: BACKGROUND_SOURCE.favicon,
+            saturationLimit: '0.5',
+        }),
+    }),
+    popup_highlight: new Part('popup_highlight'),
+    popup_highlight_text: new Part('popup_highlight_text', {
+        parent_name: 'popup_highlight',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    popup_text: new Part('popup_text', {
+        parent_name: 'popup',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    sidebar: new Part('sidebar', { defaults: makeBackgroundDefaults({ enabled: true }) }),
+    sidebar_border: new Part('sidebar_border', {
+        parent_name: 'sidebar',
+        defaults: makeBackgroundDefaults({ enabled: true }),
+    }),
+    sidebar_highlight: new Part('sidebar_highlight'),
+    sidebar_highlight_text: new Part('sidebar_highlight_text', {
+        parent_name: 'sidebar_highlight',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    sidebar_text: new Part('sidebar_text', {
+        parent_name: 'sidebar',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    tab_background_separator: new Part('tab_background_separator'),
+    tab_background_text: new Part('tab_background_text', {
+        parent_name: 'frame',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    tab_line: new Part('tab_line'),
+    tab_loading: new Part('tab_loading'),
+    tab_selected: new Part('tab_selected', {
+        defaults: makeBackgroundDefaults({
+            enabled: true,
+            inheritance: INHERITANCE.off,
+            background_source: BACKGROUND_SOURCE.favicon,
+            saturationLimit: '0.5',
+        }),
+    }),
+    tab_text: new Part('tab_text', {
+        parent_name: 'tab_selected',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    toolbar: new Part('toolbar', { defaults: makeBackgroundDefaults({ enabled: true }) }),
+    toolbar_bottom_separator: new Part('toolbar_bottom_separator', { parent_name: 'toolbar' }),
+    toolbar_field: new Part('toolbar_field', {
+        parent_name: 'toolbar',
+        defaults: makeBackgroundDefaults({ enabled: true }),
+    }),
+    toolbar_field_border: new Part('toolbar_field_border', { parent_name: 'toolbar_field' }),
+    toolbar_field_border_focus: new Part('toolbar_field_border_focus', {
+        parent_name: 'toolbar_field_border',
+    }),
+    toolbar_field_focus: new Part('toolbar_field_focus', { parent_name: 'toolbar_field' }),
+    toolbar_field_highlight: new Part('toolbar_field_highlight'),
+    toolbar_field_highlight_text: new Part('toolbar_field_highlight_text', {
+        parent_name: 'toolbar_field_highlight',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    toolbar_field_separator: new Part('toolbar_field_separator'),
+    toolbar_field_text: new Part('toolbar_field_text', {
+        parent_name: 'toolbar_field',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    toolbar_field_text_focus: new Part('toolbar_field_text_focus', {
+        parent_name: 'toolbar_field_focus',
+        is_foreground: true,
+        defaults: makeForegroundDefaults(),
+    }),
+    toolbar_text: new Part('toolbar_text', {
+        parent_name: 'toolbar',
+        is_foreground: true,
+        defaults: makeForegroundDefaults({ enabled: true }),
+    }),
+    toolbar_top_separator: new Part('toolbar_top_separator'),
+    toolbar_vertical_separator: new Part('toolbar_vertical_separator'),
+};
+
+export const GROUPS = {
+    frame: [PARTS.frame, PARTS.frame_inactive],
+    popup: [
+        PARTS.popup,
+        PARTS.popup_text,
+        PARTS.popup_highlight,
+        PARTS.popup_highlight_text,
+        PARTS.popup_border,
+    ],
+    sidebar: [
+        PARTS.sidebar,
+        PARTS.sidebar_text,
+        PARTS.sidebar_highlight,
+        PARTS.sidebar_highlight_text,
+        PARTS.sidebar_border,
+    ],
+    tabs: [
+        PARTS.tab_selected,
+        PARTS.tab_text,
+        PARTS.tab_background_text,
+        PARTS.tab_line,
+        PARTS.tab_loading,
+        PARTS.tab_background_separator,
+    ],
+    toolbar: [
+        PARTS.toolbar,
+        PARTS.toolbar_text,
+        PARTS.toolbar_top_separator,
+        PARTS.toolbar_bottom_separator,
+        PARTS.toolbar_vertical_separator,
+    ],
+    buttons: [PARTS.button_background_active, PARTS.button_background_hover],
+    icons: [PARTS.icons, PARTS.icons_attention],
+    bookmarks: [PARTS.bookmark_text],
+    toolbar_field: [
+        PARTS.toolbar_field,
+        PARTS.toolbar_field_text,
+        PARTS.toolbar_field_focus,
+        PARTS.toolbar_field_text_focus,
+        PARTS.toolbar_field_highlight,
+        PARTS.toolbar_field_highlight_text,
+        PARTS.toolbar_field_border,
+        PARTS.toolbar_field_border_focus,
+        PARTS.toolbar_field_separator,
+    ],
+    ntp: [PARTS.ntp_background, PARTS.ntp_card_background, PARTS.ntp_text],
+};

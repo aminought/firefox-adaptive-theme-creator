@@ -86,6 +86,9 @@
     "popup_border": {
         "message": "Рамка"
     },
+    "popup_highlight": {
+        "message": "Выделенный Элемент"
+    },
     "reset": {
         "message": "Сбросить"
     },

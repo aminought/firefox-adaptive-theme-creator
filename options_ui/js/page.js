@@ -1,4 +1,4 @@
-import { BrowserParts } from "../../shared/browser_parts.js";
+import { GROUPS, PARTS } from "../../shared/browser_parts.js";
 import { BrowserPreview } from "./browser_preview.js";
 import { ContextMenu } from "./context_menu.js";
 import { Form } from "./form.js";
@@ -24,10 +24,23 @@ const stylePage = async (options) => {
   setRootColor("--background-color", theme.getColor("popup")?.css());
   setRootColor("--color", theme.getColor("popup_text")?.css());
 
-  for (const part of BrowserParts.getBackgroundParts()) {
-    const partOptions = options.getPartOptions(part);
+  const C = {
+    [GROUPS.frame]: PARTS.frame,
+    [GROUPS.tabs]: PARTS.tab_selected,
+    [GROUPS.toolbar]: PARTS.toolbar,
+    [GROUPS.toolbar_field]: PARTS.toolbar_field,
+    [GROUPS.popup]: PARTS.popup,
+    [GROUPS.sidebar]: PARTS.sidebar
+  }
+
+  for (const group in Object.keys(GROUPS)) {
+    if (!C[group]) {
+      continue;
+    }
+    const part = C[group];
+    const partOptions = options.getPartOptions(part.name);
     const color = theme.getColor(part);
-    BrowserPreview.colorPart(part, color, partOptions.enabled);
+    BrowserPreview.colorPart(part.name, color, partOptions.enabled);
   }
 };
 
@@ -51,16 +64,16 @@ const onBrowserPreviewClick = (event, options, browserPreview) => {
     part = "toolbar";
   }
 
-  if (BrowserParts.getBackgroundParts().includes(part)) {
-    const { enabled } = options.getPartOptions(part);
-    options.setPartOption(part, "enabled", !enabled);
-    const connectedParts = BrowserParts.getConnectedBackgroundParts(part);
-    for (const connectedPart of connectedParts) {
-      options.setPartOption(connectedPart, "enabled", !enabled);
-    }
-  } else if (part === "appcontent" || part === "rickroll") {
-    browserPreview.rickroll();
-  }
+  // if (BrowserParts.getBackgroundParts().includes(part)) {
+  //   const { enabled } = options.getPartOptions(part);
+  //   options.setPartOption(part, "enabled", !enabled);
+  //   const connectedParts = BrowserParts.getConnectedBackgroundParts(part);
+  //   for (const connectedPart of connectedParts) {
+  //     options.setPartOption(connectedPart, "enabled", !enabled);
+  //   }
+  // } else if (part === "appcontent" || part === "rickroll") {
+  //   browserPreview.rickroll();
+  // }
 };
 
 /**
@@ -77,17 +90,17 @@ const onBrowserPreviewContextMenu = (event, options, body) => {
   if (classList.contains("placeholder")) {
     part = "toolbar";
   }
-  if (!BrowserParts.getBackgroundParts().includes(part)) {
-    return;
-  }
+  // if (!BrowserParts.getBackgroundParts().includes(part)) {
+  //   return;
+  // }
 
-  const parts = [part];
-  for (const connectedPart of BrowserParts.getConnectedBackgroundParts(part)) {
-    parts.push(connectedPart);
-  }
+  // const parts = [part];
+  // for (const connectedPart of BrowserParts.getConnectedBackgroundParts(part)) {
+  //   parts.push(connectedPart);
+  // }
 
-  const contextMenu = new ContextMenu(options, body, parts);
-  PopupController.push(contextMenu, event.clientX, event.clientY);
+  // const contextMenu = new ContextMenu(options, body, parts);
+  // PopupController.push(contextMenu, event.clientX, event.clientY);
 };
 
 /**
