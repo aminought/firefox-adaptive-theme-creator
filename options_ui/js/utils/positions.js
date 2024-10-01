@@ -1,9 +1,9 @@
 export const POSITIONS = {
-  ABOVE: "above",
-  BELOW: "below",
-  RIGHT: "right",
-  LEFT: "left",
-  INPLACE: "in_place",
+  ABOVE: "ABOVE",
+  BELOW: "BELOW",
+  RIGHT: "RIGHT",
+  LEFT: "LEFT",
+  INPLACE: "IN_PLACE",
 };
 
 /**

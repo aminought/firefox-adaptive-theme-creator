@@ -1,64 +1,32 @@
-import { POSITIONS, positionRelative } from "../utils/positions.js";
 // eslint-disable-next-line no-unused-vars
-import { DropdownItem } from "./dropdown_item.js";
+import { UIElement } from '../ui_element.js';
 
-export class DropdownPopup {
-  /**
-   *
-   * @param {string=} position
-   */
-  constructor(position = POSITIONS.BELOW) {
-    this.position = position;
-    this.element = DropdownPopup.#createElement();
-  }
-
-  /**
-   * @returns {HTMLDivElement}
-   */
-  static #createElement() {
-    const element = document.createElement("div");
-    element.className = "dropdown_popup";
-    return element;
-  }
-
-  /**
-   *
-   * @param {DropdownItem} dropdownItem
-   */
-  appendChild(dropdownItem) {
-    this.element.appendChild(dropdownItem.element);
-  }
-
-  /**
-   *
-   * @param {HTMLElement} target
-   */
-  draw(target) {
-    const body = document.querySelector("body");
-    body.appendChild(this.element);
-    positionRelative(this.position, this.element, body, target);
-  }
-
-  /**
-   *
-   * @returns {boolean}
-   */
-  exists() {
-    return Boolean(this.element.parentElement);
-  }
-
-  remove() {
-    if (this.exists()) {
-      this.element.parentElement.removeChild(this.element);
+export class DropdownPopup extends UIElement {
+    /**
+     *
+     * @param {object} params
+     * @param {string} params.id
+     * @param {Array<string>} params.classList
+     */
+    constructor({ id = '', classList = [] } = {}) {
+        super({ id, classList: ['dropdown_popup', ...classList] });
     }
-  }
 
-  /**
-   *
-   * @param {HTMLElement} element
-   * @returns {boolean}
-   */
-  contains(element) {
-    return this.element.contains(element);
-  }
+    /**
+     *
+     * @param {HTMLElement} target
+     * @returns {DropdownPopup}
+     */
+    draw = () => {
+        const element = document.createElement('div');
+        element.id = this.id;
+        element.classList.add(...this.classList);
+
+        for (const child of this.children) {
+            element.appendChild(child.draw());
+        }
+
+        this.element = element;
+        return element;
+    };
 }

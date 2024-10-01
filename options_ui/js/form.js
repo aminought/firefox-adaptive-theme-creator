@@ -1,18 +1,19 @@
-import { createNumberDropdown, createStringDropdown } from './dropdown/dropdown_utils.js';
-import { ColorPicker } from './color_picker.js';
-import { HelpPopup } from './help_popup.js';
-import { Options } from '../../shared/options.js';
 import {
     BACKGROUND_SOURCE,
     FOREGROUND_SOURCE,
     PAGE_COLOR_ALGO,
     TRIGGER,
 } from '../../shared/constants.js';
+import { createNumberDropdown, createStringDropdown } from './dropdown/dropdown_utils.js';
+
+import { ColorPicker } from './color_picker.js';
+import { HelpPopup } from './help_popup.js';
+import { Localizer } from './utils/localizer.js';
+import { Options } from '../../shared/options.js';
+import { POSITIONS } from './utils/positions.js';
 import { PopupController } from './popup_controller.js';
 import { createCheckbox } from './checkbox/checkbox_utils.js';
 import { setBackgroundColor } from './utils/html.js';
-import { Localizer } from './utils/localizer.js';
-import { POSITIONS } from './utils/positions.js';
 
 export class Form {
     static body = document.querySelector('body');

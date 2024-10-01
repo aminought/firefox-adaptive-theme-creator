@@ -19,7 +19,6 @@
 
   "background": {
     "scripts": [
-      "lib/chroma.min.js",
       "background/background.js"
     ],
     "type": "module"

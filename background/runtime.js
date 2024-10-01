@@ -1,9 +1,8 @@
-import { BACKGROUND_SOURCE } from '../shared/constants.js';
-import { PARTS } from '../shared/browser_parts.js';
+import { BACKGROUND_SOURCE, FOREGROUND_SOURCE, INHERITANCE, TRIGGER } from '../shared/constants.js';
 import { Color } from '../shared/color.js';
 import { ColorExtractor } from './color_extractor.js';
 import { Options } from '../shared/options.js';
-import { INHERITANCE } from '../shared/constants.js';
+import { PARTS } from '../shared/browser_parts.js';
 
 export class Runtime {
     /**
@@ -20,36 +19,65 @@ export class Runtime {
 
     /**
      *
-     * @param {Color} faviconMostPopularColor
-     * @param {Color} pageMostPopularColor
-     * @param {string} source
-     * @param {number} saturationLimit
-     * @param {number} darkness
-     * @param {number} brightness
+     * @param {Color?} faviconMostPopularColor
+     * @param {Color?} pageMostPopularColor
+     * @param {Object} options
+     * @param {string} options.source
+     * @param {Color} options.color
+     * @param {number} options.saturationLimit
+     * @param {number} options.darkness
+     * @param {number} options.brightness
      * @returns {Color?}
      */
-    static computeColor(
-        faviconMostPopularColor,
-        pageMostPopularColor,
-        source,
-        color,
-        saturationLimit,
-        darkness,
-        brightness
-    ) {
-        let mostPopularColor = null;
-        if (source === BACKGROUND_SOURCE.favicon) {
-            mostPopularColor = faviconMostPopularColor;
-        } else if (source === BACKGROUND_SOURCE.page) {
-            mostPopularColor = pageMostPopularColor;
-        } else if (source === BACKGROUND_SOURCE.own_color) {
-            mostPopularColor = new Color(color);
+    static computeBackgroundColor(faviconMostPopularColor, pageMostPopularColor, options) {
+        let computedColor = null;
+        if (options.source === BACKGROUND_SOURCE.FAVICON) {
+            computedColor = faviconMostPopularColor;
+        } else if (options.source === BACKGROUND_SOURCE.PAGE) {
+            computedColor = pageMostPopularColor;
+        } else if (options.source === BACKGROUND_SOURCE.COLOR) {
+            computedColor = new Color(options.color);
         }
 
-        return mostPopularColor
-            ?.limitSaturation(saturationLimit)
-            ?.darken(darkness)
-            ?.brighten(brightness);
+        return computedColor
+            ?.limitSaturation(options.saturationLimit)
+            ?.darken(options.darkness)
+            ?.brighten(options.brightness);
+    }
+
+    /**
+     *
+     * @param {Color?} faviconMostPopularColor
+     * @param {Color?} pageMostPopularColor
+     * @param {Color?} backgroundColor
+     * @param {Object} options
+     * @param {string} options.source
+     * @param {Color} options.color
+     * @param {number} options.saturationLimit
+     * @param {number} options.darkness
+     * @param {number} options.brightness
+     */
+    static computeForegroundColor(
+        faviconMostPopularColor,
+        pageMostPopularColor,
+        backgroundColor,
+        options
+    ) {
+        let computedColor = null;
+        if (options.source === FOREGROUND_SOURCE.FAVICON) {
+            computedColor = faviconMostPopularColor;
+        } else if (options.source === FOREGROUND_SOURCE.PAGE) {
+            computedColor = pageMostPopularColor;
+        } else if (options.source === FOREGROUND_SOURCE.COLOR) {
+            computedColor = new Color(options.color);
+        } else if (options.source === FOREGROUND_SOURCE.AUTO) {
+            computedColor = backgroundColor?.getForeground();
+        }
+
+        return computedColor
+            ?.limitSaturation(options.saturationLimit)
+            ?.darken(options.darkness)
+            ?.brighten(options.brightness);
     }
 
     /**
@@ -73,12 +101,8 @@ export class Runtime {
             ? await this.getMostPopularColorFromPage(tab, pageY)
             : null;
 
-        // const colors = this.makeColors(
-        //     Object.keys(PARTS),
-        //     faviconMostPopularColor,
-        //     pageMostPopularColor
-        // );
-        const colors = {};
+        const colors = this.makeColors(PARTS, faviconMostPopularColor, pageMostPopularColor);
+        // const colors = {};
 
         this.applyColors(tab.windowId, colors);
     }
@@ -86,71 +110,74 @@ export class Runtime {
     makeColors(parts, faviconMostPopularColor, pageMostPopularColor) {
         const globalOptions = this.options.getGlobalOptions();
 
-        const globalBackgroundColor = Runtime.computeColor(
+        const globalBackgroundColor = Runtime.computeBackgroundColor(
             faviconMostPopularColor,
             pageMostPopularColor,
-            globalOptions.backgroundSource,
-            globalOptions.color,
-            globalOptions.saturationLimit,
-            globalOptions.darkness,
-            globalOptions.brightness
+            globalOptions.background
+        );
+        const globalForegroundColor = Runtime.computeForegroundColor(
+            faviconMostPopularColor,
+            pageMostPopularColor,
+            globalBackgroundColor,
+            globalOptions.foreground
         );
 
-        const globalForegroundColor = globalBackgroundColor?.getForeground();
-
         const colors = {};
-        const part_names = Object.keys(parts);
-        const queue = [part_names.shift()];
+        let partNames = Object.keys(parts);
 
-        while (queue.length > 0) {
-            const part_name = queue.pop();
-
-            if (colors[part_name]) {
-                queue.push(part_names.shift());
-                continue;
-            }
-
-            const part = parts[part_name];
-            const partOptions = this.options.getPartOptions(part_name);
+        while (partNames.length > 0) {
+            const partName = partNames.shift();
+            const part = parts[partName];
+            const partOptions = this.options.getPartOptions(partName);
 
             if (!partOptions.enabled) {
-                colors[part_name] = this.defaultTheme.getColor(part_name);
-                queue.push(part_names.shift());
+                colors[partName] = this.defaultTheme.getColor(partName);
                 continue;
             }
 
-            let partBackgroundColor = null;
-            let partForegroundColor = null;
+            let partColor = null;
+            let backgroundPartColor = null;
 
-            if (partOptions.inheritance === INHERITANCE.global) {
-                partBackgroundColor = globalBackgroundColor;
-                partForegroundColor = globalForegroundColor;
-            } else if (partOptions.inheritance === part.parent_name) {
-                if (!colors[part.parent_name]) {
-                    queue.push(part_name);
-                    queue.push(part.parent_name);
+            if (part.isForeground) {
+                const backgroundPartName = part.backgroundPart;
+                if (!(backgroundPartName in colors)) {
+                    partNames = partNames.filter((e) => e !== backgroundPartName);
+                    partNames.unshift(partName);
+                    partNames.unshift(backgroundPartName);
                     continue;
                 }
-                partBackgroundColor = colors[part.parent_name];
-                partForegroundColor = partBackgroundColor?.getForeground();
-            } else if (partOptions.inheritance === INHERITANCE.off) {
-                partBackgroundColor = Runtime.computeColor(
-                    faviconMostPopularColor,
-                    pageMostPopularColor,
-                    partOptions.background_source,
-                    partOptions.color,
-                    partOptions.saturationLimit,
-                    partOptions.darkness,
-                    partOptions.brightness
-                );
-                partForegroundColor = partBackgroundColor?.getForeground();
+                backgroundPartColor = colors[backgroundPartName];
             }
 
-            colors[part_name] = part.is_foreground ? partForegroundColor : partBackgroundColor;
-
-            if (part_names.length > 0) {
-                queue.push(part_names.shift());
+            if (partOptions.inheritance === INHERITANCE.OFF) {
+                partColor = part.isForeground
+                    ? Runtime.computeForegroundColor(
+                          faviconMostPopularColor,
+                          pageMostPopularColor,
+                          backgroundPartColor,
+                          partOptions
+                      )
+                    : Runtime.computeBackgroundColor(
+                          faviconMostPopularColor,
+                          pageMostPopularColor,
+                          partOptions
+                      );
+            } else if (partOptions.inheritance === INHERITANCE.GLOBAL) {
+                partColor = part.isForeground ? globalForegroundColor : globalBackgroundColor;
+            } else {
+                const parentPartName = partOptions.inheritance;
+                if (!(parentPartName in colors)) {
+                    partNames = partNames.filter((e) => e !== parentPartName);
+                    partNames.unshift(partName);
+                    partNames.unshift(parentPartName);
+                    continue;
+                }
+                partColor = colors[parentPartName];
             }
+
+            partColor ??= this.defaultTheme.getColor(partName);
+
+            colors[partName] = partColor;
         }
 
         return colors;
@@ -228,9 +255,9 @@ export class Runtime {
         }
 
         if (
-            (changeInfo.url && triggers.has(Options.TRIGGERS.url_detected)) ||
-            (changeInfo.favIconUrl && triggers.has(Options.TRIGGERS.favicon_detected)) ||
-            (changeInfo.status === 'complete' && triggers.has(Options.TRIGGERS.tab_loaded))
+            (changeInfo.url && triggers.has(TRIGGER.URL_DETECTED)) ||
+            (changeInfo.favIconUrl && triggers.has(TRIGGER.FAVICON_DETECTED)) ||
+            (changeInfo.status === 'complete' && triggers.has(TRIGGER.TAB_LOADED))
         ) {
             await this.updateTheme(tab);
         }

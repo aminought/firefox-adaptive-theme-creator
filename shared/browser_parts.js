@@ -1,27 +1,19 @@
-import { BACKGROUND_SOURCE, INHERITANCE } from './constants.js';
-import {
-    PartDefaults,
-    makeBackgroundDefaults,
-    makeForegroundDefaults,
-} from './browser_part_defaults.js';
+import { INHERITANCE } from './constants.js';
 
 export class Part {
     /**
      *
      * @param {string} name
      * @param {object} params
-     * @param {string} params.parent_name
-     * @param {boolean} params.is_foreground
-     * @param {PartDefaults} params.defaults
+     * @param {boolean} params.isForeground
+     * @param {string?} params.parentPart
+     * @param {string?} params.backgroundPart
      */
-    constructor(
-        name,
-        { parent_name = null, is_foreground = false, defaults = makeBackgroundDefaults() } = {}
-    ) {
+    constructor(name, { isForeground = false, parentPart = null, backgroundPart = null } = {}) {
         this.name = name;
-        this.parent_name = parent_name;
-        this.is_foreground = is_foreground;
-        this.defaults = defaults;
+        this.isForeground = isForeground;
+        this.parentPart = parentPart;
+        this.backgroundPart = backgroundPart;
     }
 
     /**
@@ -29,135 +21,73 @@ export class Part {
      * @returns {string[]}
      */
     getInheritances() {
-        const inheritances = [INHERITANCE.off, INHERITANCE.global];
-        if (this.parent_name) {
-            inheritances.push(this.parent_name);
+        const inheritances = [INHERITANCE.OFF, INHERITANCE.GLOBAL];
+        if (this.parentPart) {
+            inheritances.push(this.parentPart);
         }
         return inheritances;
     }
 }
 
 export const PARTS = {
-    bookmark_text: new Part('bookmark_text', {
-        parent_name: 'toolbar',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
+    bookmark_text: new Part('bookmark_text', { isForeground: true, backgroundPart: 'toolbar' }),
     button_background_active: new Part('button_background_active'),
     button_background_hover: new Part('button_background_hover'),
-    frame: new Part('frame', { defaults: makeBackgroundDefaults({ enabled: true }) }),
-    frame_inactive: new Part('frame_inactive', {
-        parent_name: 'frame',
-        defaults: makeBackgroundDefaults({ enabled: true }),
-    }),
-    icons: new Part('icons', {
-        parent_name: 'toolbar',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
-    icons_attention: new Part('icons_attention', {
-        parent_name: 'toolbar',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
-    }),
+    frame: new Part('frame'),
+    frame_inactive: new Part('frame_inactive', { parentPart: 'frame' }),
+    icons: new Part('icons', { isForeground: true, backgroundPart: 'toolbar' }),
+    icons_attention: new Part('icons_attention', { isForeground: true, backgroundPart: 'toolbar' }),
     ntp_background: new Part('ntp_background'),
-    ntp_card_background: new Part('ntp_card_background', { parent_name: 'ntp_background' }),
-    ntp_text: new Part('ntp_text', {
-        parent_name: 'ntp_card_background',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
-    }),
-    popup: new Part('popup', { defaults: makeBackgroundDefaults({ enabled: true }) }),
-    popup_border: new Part('popup_border', {
-        parent_name: 'popup',
-        defaults: makeBackgroundDefaults({
-            enabled: true,
-            inheritance: INHERITANCE.off,
-            background_source: BACKGROUND_SOURCE.favicon,
-            saturationLimit: '0.5',
-        }),
-    }),
+    ntp_card_background: new Part('ntp_card_background', { parentPart: 'ntp_background' }),
+    ntp_text: new Part('ntp_text', { isForeground: true, backgroundPart: 'ntp_card_background' }),
+    popup: new Part('popup'),
+    popup_border: new Part('popup_border', { parentPart: 'popup' }),
     popup_highlight: new Part('popup_highlight'),
     popup_highlight_text: new Part('popup_highlight_text', {
-        parent_name: 'popup_highlight',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
+        isForeground: true,
+        backgroundPart: 'popup_highlight',
     }),
-    popup_text: new Part('popup_text', {
-        parent_name: 'popup',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
-    sidebar: new Part('sidebar', { defaults: makeBackgroundDefaults({ enabled: true }) }),
-    sidebar_border: new Part('sidebar_border', {
-        parent_name: 'sidebar',
-        defaults: makeBackgroundDefaults({ enabled: true }),
-    }),
+    popup_text: new Part('popup_text', { isForeground: true, backgroundPart: 'popup' }),
+    sidebar: new Part('sidebar'),
+    sidebar_border: new Part('sidebar_border', { parentPart: 'sidebar' }),
     sidebar_highlight: new Part('sidebar_highlight'),
     sidebar_highlight_text: new Part('sidebar_highlight_text', {
-        parent_name: 'sidebar_highlight',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
+        isForeground: true,
+        backgroundPart: 'sidebar_highlight',
     }),
-    sidebar_text: new Part('sidebar_text', {
-        parent_name: 'sidebar',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
+    sidebar_text: new Part('sidebar_text', { isForeground: true, backgroundPart: 'sidebar' }),
     tab_background_separator: new Part('tab_background_separator'),
     tab_background_text: new Part('tab_background_text', {
-        parent_name: 'frame',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
+        isForeground: true,
+        backgroundPart: 'frame',
     }),
     tab_line: new Part('tab_line'),
     tab_loading: new Part('tab_loading'),
-    tab_selected: new Part('tab_selected', {
-        defaults: makeBackgroundDefaults({
-            enabled: true,
-            inheritance: INHERITANCE.off,
-            background_source: BACKGROUND_SOURCE.favicon,
-            saturationLimit: '0.5',
-        }),
-    }),
-    tab_text: new Part('tab_text', {
-        parent_name: 'tab_selected',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
-    toolbar: new Part('toolbar', { defaults: makeBackgroundDefaults({ enabled: true }) }),
-    toolbar_bottom_separator: new Part('toolbar_bottom_separator', { parent_name: 'toolbar' }),
-    toolbar_field: new Part('toolbar_field', {
-        parent_name: 'toolbar',
-        defaults: makeBackgroundDefaults({ enabled: true }),
-    }),
-    toolbar_field_border: new Part('toolbar_field_border', { parent_name: 'toolbar_field' }),
+    tab_selected: new Part('tab_selected'),
+    tab_text: new Part('tab_text', { isForeground: true, backgroundPart: 'tab_selected' }),
+    toolbar: new Part('toolbar'),
+    toolbar_bottom_separator: new Part('toolbar_bottom_separator'),
+    toolbar_field: new Part('toolbar_field', { parentPart: 'toolbar' }),
+    toolbar_field_border: new Part('toolbar_field_border', { parentPart: 'toolbar_field' }),
     toolbar_field_border_focus: new Part('toolbar_field_border_focus', {
-        parent_name: 'toolbar_field_border',
+        parentPart: 'toolbar_field_border',
     }),
-    toolbar_field_focus: new Part('toolbar_field_focus', { parent_name: 'toolbar_field' }),
+    toolbar_field_focus: new Part('toolbar_field_focus', { parentPart: 'toolbar_field' }),
     toolbar_field_highlight: new Part('toolbar_field_highlight'),
     toolbar_field_highlight_text: new Part('toolbar_field_highlight_text', {
-        parent_name: 'toolbar_field_highlight',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
+        isForeground: true,
+        backgroundPart: 'toolbar_field_highlight',
     }),
     toolbar_field_separator: new Part('toolbar_field_separator'),
     toolbar_field_text: new Part('toolbar_field_text', {
-        parent_name: 'toolbar_field',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
+        isForeground: true,
+        backgroundPart: 'toolbar_field',
     }),
     toolbar_field_text_focus: new Part('toolbar_field_text_focus', {
-        parent_name: 'toolbar_field_focus',
-        is_foreground: true,
-        defaults: makeForegroundDefaults(),
+        isForeground: true,
+        backgroundPart: 'toolbar_field_focus',
     }),
-    toolbar_text: new Part('toolbar_text', {
-        parent_name: 'toolbar',
-        is_foreground: true,
-        defaults: makeForegroundDefaults({ enabled: true }),
-    }),
+    toolbar_text: new Part('toolbar_text', { isForeground: true, backgroundPart: 'toolbar' }),
     toolbar_top_separator: new Part('toolbar_top_separator'),
     toolbar_vertical_separator: new Part('toolbar_vertical_separator'),
 };

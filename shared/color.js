@@ -1,3 +1,5 @@
+import chroma from "../node_modules/chroma-js/index.js";
+
 const LUMINANCE_THRESHOLD = 0.3;
 
 export class Color {

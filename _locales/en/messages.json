@@ -116,6 +116,9 @@
     "sidebar_border": {
         "message": "Sidebar Border"
     },
+    "source": {
+        "message": "Color Source"
+    },
     "tab_selected": {
         "message": "Selected Tab"
     },
@@ -154,5 +157,14 @@
     },
     "warning": {
         "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
+    },
+    "PAGE": {
+        "message": "Page"
+    },
+    "FAVICON": {
+        "message": "Favicon"
+    },
+    "COLOR": {
+        "message": "Color"
     }
 }

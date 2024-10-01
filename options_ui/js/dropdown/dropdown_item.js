@@ -1,52 +1,41 @@
 // eslint-disable-next-line no-unused-vars
-import { Dropdown } from "./dropdown.js";
-import { PopupController } from "../popup_controller.js";
+import { PopupController } from '../popup_controller.js';
+import { UIElement } from '../ui_element.js';
 
-export class DropdownItem {
-  constructor() {
+export class DropdownItem extends UIElement {
     /**
      *
+     * @param {string} label
      * @param {string} value
+     * @param {object} params
+     * @param {string} params.id
+     * @param {Array<string>} params.classList
      */
-    // eslint-disable-next-line no-unused-vars, no-empty-function
-    this.onClick = (value) => {};
-    this.element = this.#createElement();
+    constructor(label, value, { id = '', classList = [] } = {}) {
+        super({ id, classList: ['dropdown_item', ...classList] });
+        this.label = label;
+        this.value = value;
+        this.onClick = null;
+    }
+
     /**
-     * @type {Dropdown}
+     *
+     * @returns {HTMLDivElement}
      */
-  }
+    draw() {
+        const element = document.createElement('div');
+        element.id = this.id;
+        element.classList.add(...this.classList);
 
-  /**
-   *
-   * @returns {HTMLDivElement}
-   */
-  #createElement() {
-    const element = document.createElement("div");
-    element.className = "dropdown_item";
+        element.innerText = this.label;
 
-    element.onclick = (event) => {
-      event.stopPropagation();
-      PopupController.pop();
-      this.onClick(this.value);
-    };
+        element.onclick = (event) => {
+            event.stopPropagation();
+            PopupController.pop();
+            this.onClick?.(this.value);
+        };
 
-    return element;
-  }
-
-  get value() {
-    return this.element.getAttribute("data-value");
-  }
-
-  set value(value) {
-    this.element.setAttribute("data-value", value);
-  }
-
-  get label() {
-    return this.element.getAttribute("data-label");
-  }
-
-  set label(label) {
-    this.element.setAttribute("data-label", label);
-    this.element.innerText = label;
-  }
+        this.element = element;
+        return element;
+    }
 }
