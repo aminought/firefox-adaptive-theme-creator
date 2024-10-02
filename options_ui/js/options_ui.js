@@ -238,7 +238,6 @@ const makeTriggersOptions = (options) => {
   }
   return new OptionsRow({
     id: "global_triggers_options",
-    classList: ["for_global_enabled"],
   }).appendChild(
     new OptionsGroup(Localizer.getMessage("triggers")).appendChild(row)
   );
@@ -250,7 +249,7 @@ const makeTriggersOptions = (options) => {
  * @returns {UIElement}
  */
 const makeGlobalSourceOptions = (options) =>
-  new OptionsRow({ classList: ["for_global_enabled"] })
+  new OptionsRow()
     .appendChild(makeFaviconOptionsGroup(options))
     .appendChild(makePageOptionsGroup(options));
 
