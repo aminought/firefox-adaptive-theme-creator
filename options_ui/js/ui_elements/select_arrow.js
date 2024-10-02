@@ -1,4 +1,4 @@
-import { UIElement } from "../ui_element.js";
+import { UIElement } from "./ui_element.js";
 
 const ARROW = `
 <svg viewBox="0 0 140 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -8,7 +8,7 @@ const ARROW = `
 </svg>
 `;
 
-export class DropdownArrow extends UIElement {
+export class SelectArrow extends UIElement {
   /**
    *
    * @param {object} params
@@ -16,7 +16,7 @@ export class DropdownArrow extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["dropdown_arrow", ...classList] });
+    super({ id, classList: ["select_arrow", ...classList] });
   }
 
   /**

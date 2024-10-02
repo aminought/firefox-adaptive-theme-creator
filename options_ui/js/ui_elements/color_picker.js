@@ -1,6 +1,6 @@
-import { PopupController } from "./popup_controller.js";
+import { POSITIONS } from "../utils/positions.js";
+import { PopupController } from "../popup_controller.js";
 import { UIElement } from "./ui_element.js";
-import { POSITIONS } from "./utils/positions.js";
 
 export class ColorPicker extends UIElement {
   /**

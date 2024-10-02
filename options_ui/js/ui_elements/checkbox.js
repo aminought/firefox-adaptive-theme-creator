@@ -1,4 +1,4 @@
-import { UIElement } from "../ui_element.js";
+import { UIElement } from "./ui_element.js";
 
 const EMPTY = `
   <svg  width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><path d="M20 21H4a1 1 0 01-1-1V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>

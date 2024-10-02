@@ -1,0 +1,14 @@
+.select_item {
+  padding: 8px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.select_item + .select_item {
+  border-left: 1px solid;
+  border-color: color-mix(in srgb, currentColor 50%, transparent);
+}
+
+.select_item:hover {
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+}

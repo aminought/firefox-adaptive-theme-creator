@@ -1,6 +1,6 @@
-import { Div } from "./ui_elements/div.js";
+import { Div } from "./div.js";
 
-export class OptionsRow extends Div {
+export class DropdownPopup extends Div {
   /**
    *
    * @param {object} params
@@ -8,6 +8,6 @@ export class OptionsRow extends Div {
    * @param {Array<string>} params.classList
    */
   constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["options_row", ...classList] });
+    super({ id, classList: ["dropdown_popup", ...classList] });
   }
 }

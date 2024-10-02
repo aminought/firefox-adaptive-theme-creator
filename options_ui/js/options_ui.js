@@ -4,24 +4,21 @@ import {
   PAGE_COLOR_ALGO,
   TRIGGER,
 } from "../../shared/constants.js";
-import {
-  createNumberDropdown,
-  createStringDropdown,
-} from "./dropdown/dropdown_utils.js";
+import { createNumberSelect, createStringSelect } from "./utils/select.js";
 
-import { Checkbox } from "./checkbox/checkbox.js";
-import { ColorSquare } from "./color_square.js";
-import { Div } from "./div.js";
-import { Label } from "./label.js";
+import { Checkbox } from "./ui_elements/checkbox.js";
+import { ColorInput } from "./ui_elements/color_input.js";
+import { Div } from "./ui_elements/div.js";
+import { Dropdown } from "./ui_elements/dropdown.js";
+import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
-import { NumberInput } from "./number_input.js";
+import { NumberInput } from "./ui_elements/number_input.js";
 import { OptionWithLabel } from "./option_with_label.js";
 import { Options } from "../../shared/options.js";
 import { OptionsCol } from "./options_col.js";
 import { OptionsGroup } from "./options_group.js";
 import { OptionsRow } from "./options_row.js";
-import { Spoiler } from "./spoiler/spoiler.js";
-import { UIElement } from "./ui_element.js";
+import { UIElement } from "./ui_elements/ui_element.js";
 
 const FILLER = "@".repeat(100);
 
@@ -49,39 +46,37 @@ const makeGlobalColorDropdown = (label, type, options, sources) => {
     darkness: `global_${type}_darkness`,
     brightness: `global_${type}_brightness`,
   };
-  return new Spoiler(label, {
+  return new Dropdown(label, {
     id: ids.spoiler,
   })
     .appendChild(
       new OptionWithLabel(Localizer.getMessage("source")).appendChild(
-        createStringDropdown(Object.values(sources), Localizer.getMessage, {
+        createStringSelect(Object.values(sources), Localizer.getMessage, {
           id: ids.source,
         }).setValue(options.source)
       )
     )
     .appendChild(
       new OptionWithLabel("Color", { id: ids.color }).appendChild(
-        new ColorSquare().setColor(options.color)
+        new ColorInput().setColor(options.color)
       )
     )
     .appendChild(
       new OptionWithLabel(Localizer.getMessage("saturationLimit"), {
         id: ids.saturationLimit,
       }).appendChild(
-        createNumberDropdown(0, 1, 0.1).setValue(options.saturationLimit)
+        createNumberSelect(0, 1, 0.1).setValue(options.saturationLimit)
       )
     )
     .appendChild(
       new OptionWithLabel(Localizer.getMessage("darkness"), {
         id: ids.darkness,
-      }).appendChild(createNumberDropdown(0, 5, 0.5).setValue(options.darkness))
+      }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.darkness))
     )
     .appendChild(
       new OptionWithLabel(Localizer.getMessage("brightness"), {
         id: ids.brightness,
-      }).appendChild(
-        createNumberDropdown(0, 5, 0.5).setValue(options.brightness)
-      )
+      }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.brightness))
     );
 };
 
@@ -208,7 +203,7 @@ const makePageOptionsGroup = (options) =>
       )
       .appendChild(
         new OptionWithLabel(Localizer.getMessage("algo")).appendChild(
-          createStringDropdown(Object.values(PAGE_COLOR_ALGO)).setValue(
+          createStringSelect(Object.values(PAGE_COLOR_ALGO)).setValue(
             options.page.colorAlgo
           )
         )

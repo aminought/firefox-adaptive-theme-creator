@@ -1,5 +1,5 @@
-import { Div } from "./div.js";
-import { Label } from "./label.js";
+import { Div } from "./ui_elements/div.js";
+import { Label } from "./ui_elements/label.js";
 import { OptionsRow } from "./options_row.js";
 
 export class OptionsGroup extends Div {

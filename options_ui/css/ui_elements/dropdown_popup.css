@@ -1,0 +1,15 @@
+.dropdown_popup {
+  position: absolute;
+  display: flex;
+  gap: 4px;
+  background-color: transparent;
+  flex-direction: column;
+  justify-content: center;
+  background-color: transparent;
+}
+
+.dropdown_popup > * {
+  background-color: var(--background-color);
+  color: var(--color);
+  box-shadow: 0px 0px 8px 1px var(--color);
+}

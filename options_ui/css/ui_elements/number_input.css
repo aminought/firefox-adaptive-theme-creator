@@ -1,0 +1,21 @@
+.number_input {
+  height: var(--option-height);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  border: none;
+  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  color: var(--color);
+  font-family: var(--font-family);
+  -moz-appearance: textfield;
+  appearance: textfield;
+  width: 3em;
+  margin: 0;
+  text-align: center;
+}
+
+.number_input:hover {
+  background-color: color-mix(in srgb, currentColor 17%, transparent);
+}
+
+.number_input:focus {
+  outline: none;
+}

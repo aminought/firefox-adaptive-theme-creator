@@ -1,9 +1,9 @@
 import { ColorPicker } from "./color_picker.js";
-import { PopupController } from "./popup_controller.js";
+import { POSITIONS } from "../utils/positions.js";
+import { PopupController } from "../popup_controller.js";
 import { UIElement } from "./ui_element.js";
-import { POSITIONS } from "./utils/positions.js";
 
-export class ColorSquare extends UIElement {
+export class ColorInput extends UIElement {
   /**
    *
    * @param {object} params
@@ -11,7 +11,7 @@ export class ColorSquare extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["color_preview", ...classList] });
+    super({ id, classList: ["color_input", ...classList] });
     this.popup = new ColorPicker();
     this.color = null;
   }
@@ -19,7 +19,7 @@ export class ColorSquare extends UIElement {
   /**
    *
    * @param {string} color
-   * @returns {ColorSquare}
+   * @returns {ColorInput}
    */
   setColor = (color) => {
     this.color = color;

@@ -1,27 +1,32 @@
-import { DropdownArrow } from "./dropdown_arrow.js";
-// eslint-disable-next-line no-unused-vars
-import { DropdownItem } from "./dropdown_item.js";
-import { DropdownPopup } from "./dropdown_popup.js";
-import { Label } from "../label.js";
+import { Label } from "./label.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
-import { UIElement } from "../ui_element.js";
+import { SelectArrow } from "./select_arrow.js";
+import { SelectItem } from "./select_item.js";
+import { SelectPopup } from "./select_popup.js";
+import { UIElement } from "./ui_element.js";
 
-export class Dropdown extends UIElement {
+export class Select extends UIElement {
   /**
    *
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
+   * @param {string} params.popupPosition
    */
-  constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["dropdown", ...classList] });
+  constructor({
+    id = "",
+    classList = [],
+    popupPosition = POSITIONS.BELOW,
+  } = {}) {
+    super({ id, classList: ["select", ...classList] });
+    this.popupPosition = popupPosition;
     this.values = {};
     this.value = null;
 
-    this.popup = new DropdownPopup();
-    this.label = new Label(this.value, { classList: ["dropdown_label"] });
-    this.arrow = new DropdownArrow();
+    this.popup = new SelectPopup();
+    this.label = new Label(this.value, { classList: ["select_label"] });
+    this.arrow = new SelectArrow();
 
     this.onChange = null;
   }
@@ -41,7 +46,7 @@ export class Dropdown extends UIElement {
     element.onclick = (event) => {
       event.stopPropagation();
       if (!PopupController.popFor(element)) {
-        PopupController.push(this.popup, element, POSITIONS.BELOW);
+        PopupController.push(this.popup, element, this.popupPosition);
       }
     };
 
@@ -53,13 +58,13 @@ export class Dropdown extends UIElement {
 
   /**
    *
-   * @param {DropdownItem} dropdownItem
+   * @param {SelectItem} selectItem
    */
-  appendChild = (dropdownItem) => {
-    this.popup.appendChild(dropdownItem);
-    this.values[dropdownItem.value] = dropdownItem.label;
+  appendChild = (selectItem) => {
+    this.popup.appendChild(selectItem);
+    this.values[selectItem.value] = selectItem.label;
 
-    dropdownItem.onClick = (value) => {
+    selectItem.onClick = (value) => {
       this.setValue(value);
       this.setData(value);
       this.onChange?.(value);
@@ -71,7 +76,7 @@ export class Dropdown extends UIElement {
   /**
    *
    * @param {string | number} value
-   * @returns {Dropdown}
+   * @returns {Select}
    */
   setValue = (value) => {
     this.value = value;

@@ -1,11 +1,11 @@
-import { Label } from "../label.js";
-import { UIElement } from "../ui_element.js";
-import { SpoilerPopup } from "./spoiler_popup.js";
-import { DropdownArrow } from "../dropdown/dropdown_arrow.js";
-import { PopupController } from "../popup_controller.js";
+import { DropdownPopup } from "./dropdown_popup.js";
+import { Label } from "./label.js";
 import { POSITIONS } from "../utils/positions.js";
+import { PopupController } from "../popup_controller.js";
+import { SelectArrow } from "./select_arrow.js";
+import { UIElement } from "./ui_element.js";
 
-export class Spoiler extends UIElement {
+export class Dropdown extends UIElement {
   /**
    *
    * @param {string} label
@@ -14,11 +14,11 @@ export class Spoiler extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor(label, { id = "", classList = [] } = {}) {
-    super({ id, classList: ["spoiler", ...classList] });
+    super({ id, classList: ["dropdown", ...classList] });
 
-    this.popup = new SpoilerPopup();
-    this.label = new Label(label, { classList: ["spoiler_label"] });
-    this.arrow = new DropdownArrow();
+    this.popup = new DropdownPopup();
+    this.label = new Label(label, { classList: ["dropdown_label"] });
+    this.arrow = new SelectArrow();
   }
 
   /**

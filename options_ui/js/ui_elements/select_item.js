@@ -1,8 +1,7 @@
-// eslint-disable-next-line no-unused-vars
 import { PopupController } from "../popup_controller.js";
-import { UIElement } from "../ui_element.js";
+import { UIElement } from "./ui_element.js";
 
-export class DropdownItem extends UIElement {
+export class SelectItem extends UIElement {
   /**
    *
    * @param {string} label
@@ -12,7 +11,7 @@ export class DropdownItem extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor(label, value, { id = "", classList = [] } = {}) {
-    super({ id, classList: ["dropdown_item", ...classList] });
+    super({ id, classList: ["select_item", ...classList] });
     this.label = label;
     this.value = value;
     this.onClick = null;

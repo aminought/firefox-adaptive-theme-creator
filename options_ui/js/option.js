@@ -1,4 +1,4 @@
-import { Div } from "./div.js";
+import { Div } from "./ui_elements/div.js";
 
 export class Option extends Div {
   /**

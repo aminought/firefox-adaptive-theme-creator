@@ -1,0 +1,21 @@
+.options_group_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--radius);
+  border: 1px solid;
+  padding: 4px;
+}
+
+.options_group_title {
+  align-self: center;
+  margin: 0px;
+  text-wrap: nowrap;
+  font-weight: bold;
+}
+
+.options_group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

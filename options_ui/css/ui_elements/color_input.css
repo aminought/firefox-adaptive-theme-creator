@@ -1,0 +1,5 @@
+.color_input {
+  border-radius: 0 var(--radius) var(--radius) 0;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}

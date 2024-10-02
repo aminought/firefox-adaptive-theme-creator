@@ -1,0 +1,14 @@
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: var(--radius);
+  border: 1px solid;
+  height: var(--option-height);
+}
+
+.option label {
+  white-space: nowrap;
+  padding: 0 4px 0 4px;
+  margin-right: auto;
+}

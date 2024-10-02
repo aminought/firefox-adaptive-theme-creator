@@ -1,6 +1,6 @@
-import { UIElement } from "./ui_element.js";
-import { Label } from "./label.js";
-import { Separator } from "./separator.js";
+import { Label } from "./ui_elements/label.js";
+import { Separator } from "./ui_elements/separator.js";
+import { UIElement } from "./ui_elements/ui_element.js";
 
 export class OptionWithLabel extends UIElement {
   /**
@@ -28,6 +28,7 @@ export class OptionWithLabel extends UIElement {
 
     element.appendChild(this.label.draw());
     element.appendChild(this.separator.draw());
+
     for (const child of this.children) {
       element.appendChild(child.draw());
     }

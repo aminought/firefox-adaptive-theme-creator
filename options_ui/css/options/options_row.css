@@ -1,0 +1,11 @@
+.options_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.options_row.wrap {
+  flex-wrap: wrap;
+}
