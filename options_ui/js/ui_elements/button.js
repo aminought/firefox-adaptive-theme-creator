@@ -8,27 +8,19 @@ export class Button extends Div {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(text, { id = "", classList = [] } = {}) {
+  constructor(text, { id = null, classList = [] } = {}) {
     super({ id, classList: ["button", ...classList] });
     this.text = text;
   }
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.innerText = this.text;
-
     for (const child of this.children) {
       element.appendChild(child.draw());
     }
-
-    this.element = element;
-    return element;
   };
 }

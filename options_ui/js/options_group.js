@@ -10,20 +10,16 @@ export class OptionsGroup extends Div {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(title, { id = "", classList = [] } = {}) {
+  constructor(title, { id = null, classList = [] } = {}) {
     super({ id, classList: ["options_group_wrapper", ...classList] });
     this.title = title;
   }
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     const optionsGroup = new Div({ classList: ["options_group"] });
     for (const child of this.children) {
       optionsGroup.appendChild(child);
@@ -34,8 +30,5 @@ export class OptionsGroup extends Div {
     });
     element.appendChild(label.draw());
     element.appendChild(optionsGroup.draw());
-
-    this.element = element;
-    return element;
   };
 }

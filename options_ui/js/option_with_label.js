@@ -1,8 +1,8 @@
+import { Div } from "./ui_elements/div.js";
 import { Label } from "./ui_elements/label.js";
 import { Separator } from "./ui_elements/separator.js";
-import { UIElement } from "./ui_elements/ui_element.js";
 
-export class OptionWithLabel extends UIElement {
+export class OptionWithLabel extends Div {
   /**
    *
    * @param {string} label
@@ -10,7 +10,7 @@ export class OptionWithLabel extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(label, { id = "", classList = [] } = {}) {
+  constructor(label, { id = null, classList = [] } = {}) {
     super({ id, classList: ["option", ...classList] });
 
     this.label = new Label(label, { classList: ["option_title"] });
@@ -19,21 +19,14 @@ export class OptionWithLabel extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.appendChild(this.label.draw());
     element.appendChild(this.separator.draw());
 
     for (const child of this.children) {
       element.appendChild(child.draw());
     }
-
-    this.element = element;
-    return element;
   };
 }

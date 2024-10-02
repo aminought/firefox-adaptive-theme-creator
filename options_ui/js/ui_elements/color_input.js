@@ -1,16 +1,16 @@
 import { ColorPicker } from "./color_picker.js";
+import { Div } from "./div.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
-import { UIElement } from "./ui_element.js";
 
-export class ColorInput extends UIElement {
+export class ColorInput extends Div {
   /**
    *
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = "", classList = [] } = {}) {
+  constructor({ id = null, classList = [] } = {}) {
     super({ id, classList: ["color_input", ...classList] });
     this.popup = new ColorPicker();
     this.color = null;
@@ -31,13 +31,9 @@ export class ColorInput extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.style.backgroundColor = this.color;
     this.popup.setColor(this.color);
 
@@ -47,8 +43,5 @@ export class ColorInput extends UIElement {
         PopupController.push(this.popup, element, POSITIONS.BELOW);
       }
     };
-
-    this.element = element;
-    return element;
   };
 }

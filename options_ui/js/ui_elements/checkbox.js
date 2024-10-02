@@ -1,3 +1,4 @@
+import { Div } from "./div.js";
 import { UIElement } from "./ui_element.js";
 
 const EMPTY = `
@@ -8,7 +9,7 @@ const CHECK = `
   <svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 11v9a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h12"/><path data-name="primary" d="M21 5l-9 9-4-4"/></g></svg>
 `;
 
-export class Checkbox extends UIElement {
+export class Checkbox extends Div {
   /**
    *
    * @param {boolean} value
@@ -16,7 +17,7 @@ export class Checkbox extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(value, { id = "", classList = [] } = {}) {
+  constructor(value, { id = null, classList = [] } = {}) {
     super({ id, classList: ["checkbox", ...classList] });
     this.value = value;
     this.onChange = null;
@@ -33,25 +34,18 @@ export class Checkbox extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     Checkbox.setIcon(element, this.value);
 
     element.onclick = () => {
       this.value = !this.value;
-      this.setData(this.value);
+      UIElement.setData(element, this.value);
       Checkbox.setIcon(element, this.value);
       this.onChange?.(this.value);
     };
 
-    this.element = element;
-    this.setData(this.value);
-
-    return element;
+    UIElement.setData(element, this.value);
   };
 }

@@ -10,8 +10,8 @@ export class NumberInput extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(value, min, max, { id = "", classList = [] } = {}) {
-    super({ id, classList: ["number_input", ...classList] });
+  constructor(value, min, max, { id = null, classList = [] } = {}) {
+    super("input", { id, classList: ["number_input", ...classList] });
     this.value = value;
     this.min = min;
     this.max = max;
@@ -19,19 +19,12 @@ export class NumberInput extends UIElement {
 
   /**
    *
-   * @returns {HTMLInputElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("input");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.type = "number";
     element.min = this.min;
     element.max = this.max;
     element.value = this.value;
-
-    this.element = element;
-    return element;
   };
 }

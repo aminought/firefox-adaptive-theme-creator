@@ -1,15 +1,15 @@
+import { Div } from "./div.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
-import { UIElement } from "./ui_element.js";
 
-export class ColorPicker extends UIElement {
+export class ColorPicker extends Div {
   /**
    *
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = "", classList = [] } = {}) {
+  constructor({ id = null, classList = [] } = {}) {
     super({ id, classList: ["color_picker_wrapper", ...classList] });
     this.color = null;
     this.onChange = null;
@@ -27,13 +27,9 @@ export class ColorPicker extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.style.position = "absolute";
 
     element.onclick = (event) => {
@@ -51,8 +47,5 @@ export class ColorPicker extends UIElement {
     });
     picker.onChange = this.onChange;
     picker.onDone = () => PopupController.pop();
-
-    this.element = element;
-    return element;
   };
 }

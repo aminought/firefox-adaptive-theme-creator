@@ -1,7 +1,7 @@
+import { Div } from "./div.js";
 import { PopupController } from "../popup_controller.js";
-import { UIElement } from "./ui_element.js";
 
-export class SelectItem extends UIElement {
+export class SelectItem extends Div {
   /**
    *
    * @param {string} label
@@ -10,7 +10,7 @@ export class SelectItem extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(label, value, { id = "", classList = [] } = {}) {
+  constructor(label, value, { id = null, classList = [] } = {}) {
     super({ id, classList: ["select_item", ...classList] });
     this.label = label;
     this.value = value;
@@ -19,13 +19,9 @@ export class SelectItem extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.innerText = this.label;
 
     element.onclick = (event) => {
@@ -33,8 +29,5 @@ export class SelectItem extends UIElement {
       PopupController.pop();
       this.onClick?.(this.value);
     };
-
-    this.element = element;
-    return element;
   };
 }

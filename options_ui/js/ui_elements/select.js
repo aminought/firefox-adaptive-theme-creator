@@ -1,3 +1,4 @@
+import { Div } from "./div.js";
 import { Label } from "./label.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
@@ -6,7 +7,7 @@ import { SelectItem } from "./select_item.js";
 import { SelectPopup } from "./select_popup.js";
 import { UIElement } from "./ui_element.js";
 
-export class Select extends UIElement {
+export class Select extends Div {
   /**
    *
    * @param {object} params
@@ -15,7 +16,7 @@ export class Select extends UIElement {
    * @param {string} params.popupPosition
    */
   constructor({
-    id = "",
+    id = null,
     classList = [],
     popupPosition = POSITIONS.BELOW,
   } = {}) {
@@ -33,13 +34,9 @@ export class Select extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.appendChild(this.label.draw());
     element.appendChild(this.arrow.draw());
 
@@ -50,10 +47,7 @@ export class Select extends UIElement {
       }
     };
 
-    this.element = element;
-    this.setData(this.value);
-
-    return element;
+    UIElement.setData(element, this.value);
   };
 
   /**
@@ -66,7 +60,7 @@ export class Select extends UIElement {
 
     selectItem.onClick = (value) => {
       this.setValue(value);
-      this.setData(value);
+      UIElement.setData(this.element, value);
       this.onChange?.(value);
     };
 

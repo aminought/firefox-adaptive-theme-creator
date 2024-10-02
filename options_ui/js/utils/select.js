@@ -11,7 +11,7 @@ import { SelectItem } from "../ui_elements/select_item.js";
 export const createStringSelect = (
   values,
   localize = Localizer.getMessage,
-  { id = "", className: classList = [] } = {}
+  { id = null, className: classList = [] } = {}
 ) => {
   const select = new Select({ id, classList });
   for (const value of values) {

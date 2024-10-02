@@ -1,4 +1,4 @@
-import { UIElement } from "./ui_element.js";
+import { Div } from "./div.js";
 
 const ARROW = `
 <svg viewBox="0 0 140 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -8,29 +8,23 @@ const ARROW = `
 </svg>
 `;
 
-export class SelectArrow extends UIElement {
+export class SelectArrow extends Div {
   /**
    *
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = "", classList = [] } = {}) {
+  constructor({ id = null, classList = [] } = {}) {
     super({ id, classList: ["select_arrow", ...classList] });
   }
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  // eslint-disable-next-line class-methods-use-this
+  customize = (element) => {
     element.insertAdjacentHTML("beforeend", ARROW);
-
-    this.element = element;
-    return element;
   };
 }

@@ -50,36 +50,27 @@ const makeGlobalColorDropdown = (label, type, options, sources) => {
   };
   return new Dropdown(label, {
     id: ids.spoiler,
-  })
-    .appendChild(
-      new OptionWithLabel(Localizer.getMessage("source")).appendChild(
-        createStringSelect(Object.values(sources), Localizer.getMessage, {
-          id: ids.source,
-        }).setValue(options.source)
-      )
-    )
-    .appendChild(
-      new OptionWithLabel("Color", { id: ids.color }).appendChild(
-        new ColorInput().setColor(options.color)
-      )
-    )
-    .appendChild(
-      new OptionWithLabel(Localizer.getMessage("saturationLimit"), {
-        id: ids.saturationLimit,
-      }).appendChild(
-        createNumberSelect(0, 1, 0.1).setValue(options.saturationLimit)
-      )
-    )
-    .appendChild(
-      new OptionWithLabel(Localizer.getMessage("darkness"), {
-        id: ids.darkness,
-      }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.darkness))
-    )
-    .appendChild(
-      new OptionWithLabel(Localizer.getMessage("brightness"), {
-        id: ids.brightness,
-      }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.brightness))
-    );
+  }).appendChildren([
+    new OptionWithLabel(Localizer.getMessage("source")).appendChild(
+      createStringSelect(Object.values(sources), Localizer.getMessage, {
+        id: ids.source,
+      }).setValue(options.source)
+    ),
+    new OptionWithLabel("Color", { id: ids.color }).appendChild(
+      new ColorInput().setColor(options.color)
+    ),
+    new OptionWithLabel(Localizer.getMessage("saturationLimit"), {
+      id: ids.saturationLimit,
+    }).appendChild(
+      createNumberSelect(0, 1, 0.1).setValue(options.saturationLimit)
+    ),
+    new OptionWithLabel(Localizer.getMessage("darkness"), {
+      id: ids.darkness,
+    }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.darkness)),
+    new OptionWithLabel(Localizer.getMessage("brightness"), {
+      id: ids.brightness,
+    }).appendChild(createNumberSelect(0, 5, 0.5).setValue(options.brightness)),
+  ]);
 };
 
 /**
@@ -88,28 +79,23 @@ const makeGlobalColorDropdown = (label, type, options, sources) => {
  * @returns {UIElement}
  */
 const makeGlobalOptions = (globalOptions) =>
-  new OptionsRow()
-    .appendChild(
-      new OptionWithLabel("Enabled").appendChild(
-        new Checkbox(globalOptions.enabled, { id: "global_enabled" })
-      )
-    )
-    .appendChild(
-      makeGlobalColorDropdown(
-        "Background Options",
-        "background",
-        globalOptions.background,
-        BACKGROUND_SOURCE
-      )
-    )
-    .appendChild(
-      makeGlobalColorDropdown(
-        "Foreground Options",
-        "foreground",
-        globalOptions.foreground,
-        FOREGROUND_SOURCE
-      )
-    );
+  new OptionsRow().appendChildren([
+    new OptionWithLabel("Enabled").appendChild(
+      new Checkbox(globalOptions.enabled, { id: "global_enabled" })
+    ),
+    makeGlobalColorDropdown(
+      "Background Options",
+      "background",
+      globalOptions.background,
+      BACKGROUND_SOURCE
+    ),
+    makeGlobalColorDropdown(
+      "Foreground Options",
+      "foreground",
+      globalOptions.foreground,
+      FOREGROUND_SOURCE
+    ),
+  ]);
 
 /**
  *
@@ -118,46 +104,39 @@ const makeGlobalOptions = (globalOptions) =>
 const makeBrowserPreview = () =>
   new OptionsRow().appendChild(
     new Div({ id: "browser_preview" }).appendChild(
-      new Div({ id: "navigator" })
-        .appendChild(
-          new Div({ id: "frame", classList: ["part"] }).appendChild(
-            new Div({
-              id: "tab_selected",
-              classList: ["part"],
-            }).appendChild(new Label(FILLER, { classList: ["filler"] }))
-          )
-        )
-        .appendChild(
-          new Div({ id: "toolbar", classList: ["part"] })
-            .appendChild(new Div({ classList: ["toolbar_button"] }))
-            .appendChild(new Div({ classList: ["toolbar_button"] }))
-            .appendChild(new Div({ classList: ["placeholder"] }))
-            .appendChild(new Div({ classList: ["placeholder"] }))
-            .appendChild(
-              new Div({ id: "toolbar_field", classList: ["part"] }).appendChild(
-                new Label(FILLER, { classList: ["filler"] })
-              )
-            )
-            .appendChild(new Div({ classList: ["placeholder"] }))
-            .appendChild(new Div({ classList: ["placeholder"] }))
-            .appendChild(new Div({ classList: ["placeholder"] }))
-            .appendChild(new Div({ classList: ["toolbar_button"] }))
-            .appendChild(
-              new Div({ id: "popup", classList: ["part"] })
-                .appendChild(new Label(FILLER, { classList: ["filler"] }))
-                .appendChild(new Label(FILLER, { classList: ["filler"] }))
-            )
-        )
-        .appendChild(
-          new Div({ id: "browser" })
-            .appendChild(
-              new Div({ id: "sidebar", classList: ["part"] })
-                .appendChild(new Label(FILLER, { classList: ["filler"] }))
-                .appendChild(new Label(FILLER, { classList: ["filler"] }))
-                .appendChild(new Label(FILLER, { classList: ["filler"] }))
-            )
-            .appendChild(new Div({ id: "appcontent", classList: ["part"] }))
-        )
+      new Div({ id: "navigator" }).appendChildren([
+        new Div({ id: "frame", classList: ["part"] }).appendChild(
+          new Div({
+            id: "tab_selected",
+            classList: ["part"],
+          }).appendChild(new Label(FILLER, { classList: ["filler"] }))
+        ),
+        new Div({ id: "toolbar", classList: ["part"] }).appendChildren([
+          new Div({ classList: ["toolbar_button"] }),
+          new Div({ classList: ["toolbar_button"] }),
+          new Div({ classList: ["placeholder"] }),
+          new Div({ classList: ["placeholder"] }),
+          new Div({ id: "toolbar_field", classList: ["part"] }).appendChild(
+            new Label(FILLER, { classList: ["filler"] })
+          ),
+          new Div({ classList: ["placeholder"] }),
+          new Div({ classList: ["placeholder"] }),
+          new Div({ classList: ["placeholder"] }),
+          new Div({ classList: ["toolbar_button"] }),
+          new Div({ id: "popup", classList: ["part"] }).appendChildren([
+            new Label(FILLER, { classList: ["filler"] }),
+            new Label(FILLER, { classList: ["filler"] }),
+          ]),
+        ]),
+        new Div({ id: "browser" }).appendChildren([
+          new Div({ id: "sidebar", classList: ["part"] }).appendChildren([
+            new Label(FILLER, { classList: ["filler"] }),
+            new Label(FILLER, { classList: ["filler"] }),
+            new Label(FILLER, { classList: ["filler"] }),
+          ]),
+          new Div({ id: "appcontent", classList: ["part"] }),
+        ]),
+      ])
     )
   );
 
@@ -170,17 +149,14 @@ const makeFaviconOptionsGroup = (options) =>
   new OptionsGroup(Localizer.getMessage("faviconOptions"), {
     id: "global_favicon_options",
   }).appendChild(
-    new OptionsRow({ classList: ["wrap"] })
-      .appendChild(
-        new OptionWithLabel(Localizer.getMessage("avoidWhite")).appendChild(
-          new Checkbox(options.favicon.avoidWhite)
-        )
-      )
-      .appendChild(
-        new OptionWithLabel(Localizer.getMessage("avoidBlack")).appendChild(
-          new Checkbox(options.favicon.avoidBlack)
-        )
-      )
+    new OptionsRow({ classList: ["wrap"] }).appendChildren([
+      new OptionWithLabel(Localizer.getMessage("avoidWhite")).appendChild(
+        new Checkbox(options.favicon.avoidWhite)
+      ),
+      new OptionWithLabel(Localizer.getMessage("avoidBlack")).appendChild(
+        new Checkbox(options.favicon.avoidBlack)
+      ),
+    ])
   );
 
 /**
@@ -192,29 +168,22 @@ const makePageOptionsGroup = (options) =>
   new OptionsGroup(Localizer.getMessage("pageOptions"), {
     id: "global_page_options",
   }).appendChild(
-    new OptionsRow({ classList: ["wrap"] })
-      .appendChild(
-        new OptionWithLabel(Localizer.getMessage("avoidWhite")).appendChild(
-          new Checkbox(options.page.avoidWhite)
+    new OptionsRow({ classList: ["wrap"] }).appendChildren([
+      new OptionWithLabel(Localizer.getMessage("avoidWhite")).appendChild(
+        new Checkbox(options.page.avoidWhite)
+      ),
+      new OptionWithLabel(Localizer.getMessage("avoidBlack")).appendChild(
+        new Checkbox(options.page.avoidBlack)
+      ),
+      new OptionWithLabel(Localizer.getMessage("algo")).appendChild(
+        createStringSelect(Object.values(PAGE_COLOR_ALGO)).setValue(
+          options.page.colorAlgo
         )
-      )
-      .appendChild(
-        new OptionWithLabel(Localizer.getMessage("avoidBlack")).appendChild(
-          new Checkbox(options.page.avoidBlack)
-        )
-      )
-      .appendChild(
-        new OptionWithLabel(Localizer.getMessage("algo")).appendChild(
-          createStringSelect(Object.values(PAGE_COLOR_ALGO)).setValue(
-            options.page.colorAlgo
-          )
-        )
-      )
-      .appendChild(
-        new OptionWithLabel(
-          Localizer.getMessage("pageCaptureHeight")
-        ).appendChild(new NumberInput(options.page.captureHeight, 1, 500))
-      )
+      ),
+      new OptionWithLabel(
+        Localizer.getMessage("pageCaptureHeight")
+      ).appendChild(new NumberInput(options.page.captureHeight, 1, 500)),
+    ])
   );
 
 /**
@@ -246,16 +215,17 @@ const makeTriggersOptions = (options) => {
  * @returns {UIElement}
  */
 const makeGlobalSourceOptions = (options) =>
-  new OptionsRow()
-    .appendChild(makeFaviconOptionsGroup(options))
-    .appendChild(makePageOptionsGroup(options));
+  new OptionsRow().appendChildren([
+    makeFaviconOptionsGroup(options),
+    makePageOptionsGroup(options),
+  ]);
 
 /**
  *
  * @returns {UIElement}
  */
 const makeFooter = () =>
-  new Footer().appendChild(new Button("Help")).appendChild(new Button("Reset"));
+  new Footer().appendChildren([new Button("Help"), new Button("Reset")]);
 
 /**
  *
@@ -264,13 +234,14 @@ const makeFooter = () =>
 export const makeOptionsUI = (options) => {
   const globalOptions = options.getGlobalOptions();
 
-  const optionsUI = new OptionsCol()
-    .appendChild(makeTitle())
-    .appendChild(makeGlobalOptions(globalOptions))
-    .appendChild(makeBrowserPreview())
-    .appendChild(makeTriggersOptions(globalOptions))
-    .appendChild(makeGlobalSourceOptions(globalOptions))
-    .appendChild(makeFooter());
+  const optionsUI = new OptionsCol().appendChildren([
+    makeTitle(),
+    makeGlobalOptions(globalOptions),
+    makeBrowserPreview(),
+    makeTriggersOptions(globalOptions),
+    makeGlobalSourceOptions(globalOptions),
+    makeFooter(),
+  ]);
 
   const body = document.querySelector("body");
   body.appendChild(optionsUI.draw());

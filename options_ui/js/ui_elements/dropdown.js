@@ -1,11 +1,11 @@
+import { Div } from "./div.js";
 import { DropdownPopup } from "./dropdown_popup.js";
 import { Label } from "./label.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 import { SelectArrow } from "./select_arrow.js";
-import { UIElement } from "./ui_element.js";
 
-export class Dropdown extends UIElement {
+export class Dropdown extends Div {
   /**
    *
    * @param {string} label
@@ -13,7 +13,7 @@ export class Dropdown extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(label, { id = "", classList = [] } = {}) {
+  constructor(label, { id = null, classList = [] } = {}) {
     super({ id, classList: ["dropdown", ...classList] });
 
     this.popup = new DropdownPopup();
@@ -32,13 +32,9 @@ export class Dropdown extends UIElement {
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     element.appendChild(this.label.draw());
     element.appendChild(this.arrow.draw());
 
@@ -48,8 +44,5 @@ export class Dropdown extends UIElement {
         PopupController.push(this.popup, element, POSITIONS.BELOW);
       }
     };
-
-    this.element = element;
-    return element;
   };
 }

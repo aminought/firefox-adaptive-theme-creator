@@ -7,7 +7,7 @@ export class SelectPopup extends Div {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = "", classList = [] } = {}) {
+  constructor({ id = null, classList = [] } = {}) {
     super({ id, classList: ["select_popup", ...classList] });
   }
 }

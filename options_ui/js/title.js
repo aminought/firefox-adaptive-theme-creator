@@ -9,7 +9,7 @@ export class Title extends Label {
    * @param {Array<string>} params.classList
    * @param {string} params.for_
    */
-  constructor(text, { id = "", classList = [], for_ = "" } = {}) {
+  constructor(text, { id = null, classList = [], for_ = "" } = {}) {
     super(text, { id, classList: ["title", ...classList], for: for_ });
   }
 }

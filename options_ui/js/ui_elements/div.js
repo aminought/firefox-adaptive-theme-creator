@@ -7,24 +7,17 @@ export class Div extends UIElement {
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList });
+  constructor({ id = null, classList = [] } = {}) {
+    super("div", { id, classList });
   }
 
   /**
    *
-   * @returns {HTMLDivElement}
+   * @param {HTMLElement} element
    */
-  draw = () => {
-    const element = document.createElement("div");
-    element.id = this.id;
-    element.classList.add(...this.classList);
-
+  customize = (element) => {
     for (const child of this.children) {
       element.appendChild(child.draw());
     }
-
-    this.element = element;
-    return element;
   };
 }
