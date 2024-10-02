@@ -3,17 +3,3 @@
   justify-content: flex-end;
   gap: 4px;
 }
-
-.footer button {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
-  color: var(--color);
-  border: 1px solid;
-  border-radius: var(--radius);
-  padding: 4px 8px;
-  font-family: var(--font-family);
-  font-weight: bold;
-}
-
-.footer button:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
-}

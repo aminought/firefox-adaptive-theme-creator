@@ -6,10 +6,12 @@ import {
 } from "../../shared/constants.js";
 import { createNumberSelect, createStringSelect } from "./utils/select.js";
 
+import { Button } from "./ui_elements/button.js";
 import { Checkbox } from "./ui_elements/checkbox.js";
 import { ColorInput } from "./ui_elements/color_input.js";
 import { Div } from "./ui_elements/div.js";
 import { Dropdown } from "./ui_elements/dropdown.js";
+import { Footer } from "./footer.js";
 import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
 import { NumberInput } from "./ui_elements/number_input.js";
@@ -18,6 +20,7 @@ import { Options } from "../../shared/options.js";
 import { OptionsCol } from "./options_col.js";
 import { OptionsGroup } from "./options_group.js";
 import { OptionsRow } from "./options_row.js";
+import { Title } from "./title.js";
 import { UIElement } from "./ui_elements/ui_element.js";
 
 const FILLER = "@".repeat(100);
@@ -27,9 +30,8 @@ const FILLER = "@".repeat(100);
  * @returns {UIElement}
  */
 const makeTitle = () =>
-  new OptionsRow().appendChild(
-    new Label("ADAPTIVE THEME CREATOR", { classList: ["title"] })
-  );
+  new OptionsRow().appendChild(new Title("ADAPTIVE THEME CREATOR"));
+
 /**
  *
  * @param {string} label
@@ -250,6 +252,13 @@ const makeGlobalSourceOptions = (options) =>
 
 /**
  *
+ * @returns {UIElement}
+ */
+const makeFooter = () =>
+  new Footer().appendChild(new Button("Help")).appendChild(new Button("Reset"));
+
+/**
+ *
  * @param {Options} options
  */
 export const makeOptionsUI = (options) => {
@@ -260,7 +269,8 @@ export const makeOptionsUI = (options) => {
     .appendChild(makeGlobalOptions(globalOptions))
     .appendChild(makeBrowserPreview())
     .appendChild(makeTriggersOptions(globalOptions))
-    .appendChild(makeGlobalSourceOptions(globalOptions));
+    .appendChild(makeGlobalSourceOptions(globalOptions))
+    .appendChild(makeFooter());
 
   const body = document.querySelector("body");
   body.appendChild(optionsUI.draw());
