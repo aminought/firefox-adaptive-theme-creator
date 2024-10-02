@@ -1,3 +1,7 @@
+import { Options } from "../../shared/options.js";
+import { makeOptionsUI } from "./options_ui.js";
+import { PopupController } from "./popup_controller.js";
+
 // import { GROUPS, PARTS } from '../../shared/browser_parts.js';
 
 // import { BrowserPreview } from './browser_preview.js';
@@ -5,9 +9,6 @@
 // import { Form } from './form.js';
 // import { Localizer } from './utils/localizer.js';
 
-import { Options } from '../../shared/options.js';
-import { PopupController } from './popup_controller.js';
-import { makeOptionsUI } from './options.js';
 
 // import { Theme } from '../../shared/theme.js';
 

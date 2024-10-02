@@ -1,4 +1,4 @@
-import { UIElement } from '../ui_element.js';
+import { UIElement } from "../ui_element.js";
 
 const ARROW = `
 <svg viewBox="0 0 140 140" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -9,28 +9,28 @@ const ARROW = `
 `;
 
 export class DropdownArrow extends UIElement {
-    /**
-     *
-     * @param {object} params
-     * @param {string} params.id
-     * @param {Array<string>} params.classList
-     */
-    constructor({ id = '', classList = [] } = {}) {
-        super({ id, classList: ['dropdown_arrow', ...classList] });
-    }
+  /**
+   *
+   * @param {object} params
+   * @param {string} params.id
+   * @param {Array<string>} params.classList
+   */
+  constructor({ id = "", classList = [] } = {}) {
+    super({ id, classList: ["dropdown_arrow", ...classList] });
+  }
 
-    /**
-     *
-     * @returns {HTMLDivElement}
-     */
-    draw() {
-        const element = document.createElement('div');
-        element.id = this.id;
-        element.classList.add(...this.classList);
+  /**
+   *
+   * @returns {HTMLDivElement}
+   */
+  draw = () => {
+    const element = document.createElement("div");
+    element.id = this.id;
+    element.classList.add(...this.classList);
 
-        element.insertAdjacentHTML('beforeend', ARROW);
+    element.insertAdjacentHTML("beforeend", ARROW);
 
-        this.element = element;
-        return element;
-    }
+    this.element = element;
+    return element;
+  };
 }

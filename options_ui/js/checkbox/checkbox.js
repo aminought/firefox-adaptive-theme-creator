@@ -1,65 +1,57 @@
+import { UIElement } from "../ui_element.js";
+
 const EMPTY = `
-  <svg class="checkbox_empty" width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><path d="M20 21H4a1 1 0 01-1-1V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
+  <svg  width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><path d="M20 21H4a1 1 0 01-1-1V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
 `;
 
 const CHECK = `
-  <svg class="checkbox_checked" width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 11v9a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h12"/><path data-name="primary" d="M21 5l-9 9-4-4"/></g></svg>
+  <svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 11v9a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h12"/><path data-name="primary" d="M21 5l-9 9-4-4"/></g></svg>
 `;
 
-export class Checkbox {
-  constructor() {
-    this.element = this.#createElement();
-    /**
-     *
-     * @param {boolean} value
-     */
-    // eslint-disable-next-line no-unused-vars, no-empty-function
-    this.onChange = (value) => {};
+export class Checkbox extends UIElement {
+  /**
+   *
+   * @param {boolean} value
+   * @param {object} params
+   * @param {string} params.id
+   * @param {Array<string>} params.classList
+   */
+  constructor(value, { id = "", classList = [] } = {}) {
+    super({ id, classList: ["checkbox", ...classList] });
+    this.value = value;
+    this.onChange = null;
   }
+
+  /**
+   *
+   * @param {HTMLDivElement} element
+   * @param {boolean} value
+   */
+  static setIcon = (element, value) => {
+    element.innerHTML = value ? CHECK : EMPTY;
+  };
 
   /**
    *
    * @returns {HTMLDivElement}
    */
-  #createElement() {
-    const checkbox = document.createElement("div");
-    checkbox.className = "checkbox";
-    checkbox.insertAdjacentHTML("beforeend", EMPTY);
-    checkbox.insertAdjacentHTML("beforeend", CHECK);
+  draw = () => {
+    const element = document.createElement("div");
+    element.id = this.id;
+    element.classList.add(...this.classList);
 
-    checkbox.onclick = () => {
+    Checkbox.setIcon(element, this.value);
+
+    element.onclick = () => {
       this.value = !this.value;
-      this.onChange(this.value);
+      this.setData(this.value);
+      Checkbox.setIcon(element, this.value);
+      this.onChange?.(this.value);
     };
 
-    return checkbox;
-  }
+    this.element = element;
+    this.setData(this.value);
 
-  /**
-   * @returns {string}
-   */
-  get id() {
-    return this.element.id;
-  }
-
-  /**
-   * @param {string} id
-   */
-  set id(id) {
-    this.element.id = id;
-  }
-
-  /**
-   * @returns {boolean}
-   */
-  get value() {
-    return this.element.getAttribute("data-value") === "true";
-  }
-
-  /**
-   * @param {boolean} value
-   */
-  set value(value) {
-    this.element.setAttribute("data-value", value);
-  }
+    return element;
+  };
 }

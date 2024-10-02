@@ -4,8 +4,13 @@
   border: 1px solid;
   border-radius: var(--radius);
   overflow: hidden;
+  width: var(--body-width);
   aspect-ratio: 16 / 9;
   background-color: var(--background-color);
+}
+
+.part {
+  border: 1px solid;
 }
 
 #navigator {
@@ -25,10 +30,16 @@
 }
 
 #tab_selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 2px;
   width: 10%;
   height: 90%;
   background-color: var(--background-color);
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow: hidden;
 }
 
 #toolbar {
@@ -56,13 +67,22 @@
 }
 
 #toolbar_field {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 1;
   border-radius: 2px;
+  width: 50%;
   height: 90%;
   background-color: var(--background-color);
+  overflow: hidden;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 
 #popup {
+  display: flex;
+  flex-direction: column;
   position: absolute;
   width: 15%;
   aspect-ratio: 1 / 1;
@@ -70,6 +90,9 @@
   right: calc(0% + 1px);
   top: calc(100% - 1px);
   background-color: var(--background-color);
+  padding-top: 10px;
+  padding-right: 4px;
+  padding-left: 4px;
 }
 
 #popup.hidden {
@@ -79,14 +102,19 @@
 #browser {
   display: flex;
   flex-direction: row;
-  flex: 6;
+  flex: 12;
   background-color: var(--background-color);
 }
 
 #sidebar {
   display: flex;
+  flex-direction: column;
   flex: 1;
   background-color: var(--background-color);
+  width: 20%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-top: 10px;
 }
 
 #appcontent {
@@ -98,4 +126,9 @@
 #rickroll {
   max-width: 100%;
   aspect-ratio: 16 / 9;
+}
+
+.filler {
+  overflow: hidden;
+  font-size: 7px;
 }

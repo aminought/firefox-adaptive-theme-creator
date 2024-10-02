@@ -5,20 +5,6 @@
   width: 20px;
 }
 
-.checkbox > .checkbox_empty {
-  display: none;
-}
-
-.checkbox > .checkbox_checked {
-  display: none;
-}
-
-.checkbox[data-value="false"] > .checkbox_empty {
+.checkbox > svg {
   display: block;
-  margin: auto;
-}
-
-.checkbox[data-value="true"] > .checkbox_checked {
-  display: block;
-  margin: auto;
 }

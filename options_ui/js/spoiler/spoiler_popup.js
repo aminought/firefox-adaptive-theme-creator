@@ -1,7 +1,6 @@
-// eslint-disable-next-line no-unused-vars
 import { UIElement } from "../ui_element.js";
 
-export class DropdownPopup extends UIElement {
+export class SpoilerPopup extends UIElement {
   /**
    *
    * @param {object} params
@@ -9,13 +8,13 @@ export class DropdownPopup extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["dropdown_popup", ...classList] });
+    super({ id, classList: ["spoiler_popup", ...classList] });
   }
 
   /**
    *
    * @param {HTMLElement} target
-   * @returns {DropdownPopup}
+   * @returns {SpoilerPopup}
    */
   draw = () => {
     const element = document.createElement("div");

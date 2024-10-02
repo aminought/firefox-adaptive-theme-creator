@@ -2,10 +2,10 @@
     "algo": {
         "message": "Algorithm"
     },
-    "page_color_algo.basic": {
+    "BASIC": {
         "message": "Basic"
     },
-    "page_color_algo.kmeans": {
+    "KMEANS": {
         "message": "K-means"
     },
     "algo_basic": {
@@ -137,19 +137,19 @@
     "toolbar_field_focus": {
         "message": "Toolbar Field Focus"
     },
-    "trigger_favicon_detected": {
+    "FAVICON_DETECTED": {
         "message": "Favicon Detected"
     },
-    "trigger_page_click": {
+    "PAGE_CLICK": {
         "message": "Page Click"
     },
-    "trigger_page_scroll_end": {
+    "PAGE_SCROLL_END": {
         "message": "Page Scroll End"
     },
-    "trigger_tab_loaded": {
+    "TAB_LOADED": {
         "message": "Tab Loaded"
     },
-    "trigger_url_detected": {
+    "URL_DETECTED": {
         "message": "URL Detected"
     },
     "triggers": {

@@ -1,8 +1,9 @@
+import { ColorPicker } from "./color_picker.js";
 import { PopupController } from "./popup_controller.js";
 import { UIElement } from "./ui_element.js";
 import { POSITIONS } from "./utils/positions.js";
 
-export class ColorPicker extends UIElement {
+export class ColorSquare extends UIElement {
   /**
    *
    * @param {object} params
@@ -10,18 +11,21 @@ export class ColorPicker extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor({ id = "", classList = [] } = {}) {
-    super({ id, classList: ["color_picker_wrapper", ...classList] });
+    super({ id, classList: ["color_preview", ...classList] });
+    this.popup = new ColorPicker();
     this.color = null;
-    this.onChange = null;
   }
 
   /**
    *
    * @param {string} color
-   * @returns {ColorPicker}
+   * @returns {ColorSquare}
    */
   setColor = (color) => {
     this.color = color;
+    if (this.element) {
+      this.element.style.backgroundColor = color;
+    }
     return this;
   };
 
@@ -34,7 +38,8 @@ export class ColorPicker extends UIElement {
     element.id = this.id;
     element.classList.add(...this.classList);
 
-    element.style.position = "absolute";
+    element.style.backgroundColor = this.color;
+    this.popup.setColor(this.color);
 
     element.onclick = (event) => {
       event.stopPropagation();
@@ -42,15 +47,6 @@ export class ColorPicker extends UIElement {
         PopupController.push(this.popup, element, POSITIONS.BELOW);
       }
     };
-
-    const picker = new Picker({
-      parent: element,
-      popup: false,
-      alpha: false,
-      color: this.color,
-    });
-    picker.onChange = this.onChange;
-    picker.onDone = () => PopupController.pop();
 
     this.element = element;
     return element;

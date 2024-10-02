@@ -4,21 +4,30 @@ html {
   --radius: 4px;
   --option-height: 24px;
   --font-family: monospace;
+  --body-width: 500px;
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 4px;
   background-color: var(--background-color);
   color: var(--color);
   position: relative;
   font-family: var(--font-family);
-  min-width: 400px;
-  min-height: 400px;
+  max-width: var(--body-width);
 }
 
-#options {
+.title {
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+.options_col {
   display: flex;
   flex-direction: column;
-  padding: 4px;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -27,6 +36,11 @@ body {
   flex-direction: row;
   justify-content: center;
   gap: 8px;
+  width: 100%;
+}
+
+.options_row.wrap {
+  flex-wrap: wrap;
 }
 
 .options_group {
@@ -37,36 +51,27 @@ body {
 
 .options_group_wrapper {
   display: flex;
+  flex-direction: column;
   gap: 4px;
   border-radius: var(--radius);
   border: 1px solid;
   padding: 4px;
-  width: fit-content;
-  height: fit-content;
-}
-
-.options_group_wrapper.group_title_above {
-  flex-direction: column;
-}
-
-.options_group_wrapper.group_title_left {
-  flex-direction: row;
 }
 
 .options_group_title {
   align-self: center;
   margin: 0px;
+  text-wrap: nowrap;
+  font-weight: bold;
 }
 
 .option {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
   border-radius: var(--radius);
   border: 1px solid;
   height: var(--option-height);
-  justify-content: flex-end;
 }
 
 .options_row:has(#source[data-value="own_color"]) > .option_algo_not_own_color {
@@ -163,4 +168,59 @@ body {
 
 .option input:focus {
   outline: none;
+}
+
+/* Hide all options if disabled */
+
+body:has(#global_enabled[data-value="false"]) {
+  #global_foreground_options,
+  #global_background_options,
+  #global_triggers_options,
+  #global_favicon_options,
+  #global_page_options {
+    display: none;
+  }
+}
+
+/* Hide global foreground options if source is auto */
+
+body:has(#global_foreground_source[data-value="AUTO"]) {
+  #global_foreground_color,
+  #global_foreground_saturation_limit,
+  #global_foreground_darkness,
+  #global_foreground_brightness {
+    display: none;
+  }
+}
+
+/* Hide global options if source is color */
+
+body:has(#global_background_source[data-value="COLOR"]) {
+  #global_background_saturation_limit,
+  #global_background_darkness,
+  #global_background_brightness {
+    display: none;
+  }
+}
+
+body:has(#global_foreground_source[data-value="COLOR"]) {
+  #global_foreground_saturation_limit,
+  #global_foreground_darkness,
+  #global_foreground_brightness {
+    display: none;
+  }
+}
+
+/* Hide global color option if source is not color */
+
+body:not(:has(#global_background_source[data-value="COLOR"])) {
+  #global_background_color {
+    display: none;
+  }
+}
+
+body:not(:has(#global_foreground_source[data-value="COLOR"])) {
+  #global_foreground_color {
+    display: none;
+  }
 }
