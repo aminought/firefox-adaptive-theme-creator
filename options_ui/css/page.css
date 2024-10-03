@@ -21,7 +21,7 @@ body {
 
 /* Hide all options if disabled */
 
-body:has(#global_enabled[data-value="false"]) {
+body:has(#global\.enabled [data-value="false"]) {
   #global_foreground_options,
   #global_background_options,
   #global_triggers_options,
@@ -33,43 +33,43 @@ body:has(#global_enabled[data-value="false"]) {
 
 /* Hide global foreground options if source is auto */
 
-body:has(#global_foreground_source[data-value="AUTO"]) {
-  #global_foreground_color,
-  #global_foreground_saturation_limit,
-  #global_foreground_darkness,
-  #global_foreground_brightness {
+body:has(#global\.foreground\.source [data-value="AUTO"]) {
+  #global\.foreground\.color,
+  #global\.foreground\.saturationLimit,
+  #global\.foreground\.darkness,
+  #global\.foreground\.brightness {
     display: none;
   }
 }
 
 /* Hide global options if source is color */
 
-body:has(#global_background_source[data-value="COLOR"]) {
-  #global_background_saturation_limit,
-  #global_background_darkness,
-  #global_background_brightness {
+body:has(#global\.background\.source [data-value="COLOR"]) {
+  #global\.background\.saturationLimit,
+  #global\.background\.darkness,
+  #global\.background\.brightness {
     display: none;
   }
 }
 
-body:has(#global_foreground_source[data-value="COLOR"]) {
-  #global_foreground_saturation_limit,
-  #global_foreground_darkness,
-  #global_foreground_brightness {
+body:has(#global\.foreground\.source [data-value="COLOR"]) {
+  #global\.foreground\.saturationLimit,
+  #global\.foreground\.darkness,
+  #global\.foreground\.brightness {
     display: none;
   }
 }
 
 /* Hide global color option if source is not color */
 
-body:not(:has(#global_background_source[data-value="COLOR"])) {
-  #global_background_color {
+body:not(:has(#global\.background\.source [data-value="COLOR"])) {
+  #global\.background\.color {
     display: none;
   }
 }
 
-body:not(:has(#global_foreground_source[data-value="COLOR"])) {
-  #global_foreground_color {
+body:not(:has(#global\.foreground\.source [data-value="COLOR"])) {
+  #global\.foreground\.color {
     display: none;
   }
 }

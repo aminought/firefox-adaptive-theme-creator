@@ -15,12 +15,15 @@ export class Button extends Div {
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    element.innerText = this.text;
+  draw() {
+    this.element.innerText = this.text;
+    this.element.onclick = this.onClick;
+
     for (const child of this.children) {
-      element.appendChild(child.draw());
+      this.element.appendChild(child.draw());
     }
-  };
+    return this.element;
+  }
 }

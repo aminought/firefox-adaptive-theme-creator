@@ -14,20 +14,21 @@ export class SelectItem extends Div {
     super({ id, classList: ["select_item", ...classList] });
     this.label = label;
     this.value = value;
-    this.onClick = null;
   }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    element.innerText = this.label;
+  draw() {
+    this.element.innerText = this.label;
 
-    element.onclick = (event) => {
+    this.element.onclick = (event) => {
       event.stopPropagation();
       PopupController.pop();
       this.onClick?.(this.value);
     };
-  };
+
+    return this.element;
+  }
 }

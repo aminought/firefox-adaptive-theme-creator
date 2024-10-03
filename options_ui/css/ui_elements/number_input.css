@@ -1,4 +1,4 @@
-.number_input {
+.number_input > input {
   height: var(--option-height);
   border-radius: 0 var(--radius) var(--radius) 0;
   border: none;
@@ -12,10 +12,10 @@
   text-align: center;
 }
 
-.number_input:hover {
+.number_input > input:hover {
   background-color: color-mix(in srgb, currentColor 17%, transparent);
 }
 
-.number_input:focus {
+.number_input > input:focus {
   outline: none;
 }

@@ -1,5 +1,4 @@
-import { Div } from "./div.js";
-import { UIElement } from "./ui_element.js";
+import { Input } from "./input.js";
 
 const EMPTY = `
   <svg  width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="currentColor"><path d="M20 21H4a1 1 0 01-1-1V4a1 1 0 011-1h16a1 1 0 011 1v16a1 1 0 01-1 1" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/></svg>
@@ -9,7 +8,7 @@ const CHECK = `
   <svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M21 11v9a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h12"/><path data-name="primary" d="M21 5l-9 9-4-4"/></g></svg>
 `;
 
-export class Checkbox extends Div {
+export class Checkbox extends Input {
   /**
    *
    * @param {boolean} value
@@ -18,34 +17,39 @@ export class Checkbox extends Div {
    * @param {Array<string>} params.classList
    */
   constructor(value, { id = null, classList = [] } = {}) {
-    super({ id, classList: ["checkbox", ...classList] });
-    this.value = value;
-    this.onChange = null;
+    super(value, { id, classList: ["checkbox", ...classList] });
+    this.updateCheckbox();
   }
 
   /**
    *
-   * @param {HTMLDivElement} element
-   * @param {boolean} value
+   * @returns {Checkbox}
    */
-  static setIcon = (element, value) => {
-    element.innerHTML = value ? CHECK : EMPTY;
-  };
+  updateCheckbox() {
+    this.element.innerHTML = this.value ? CHECK : EMPTY;
+    return this;
+  }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @param {boolean} value
+   * @returns {Checkbox}
    */
-  customize = (element) => {
-    Checkbox.setIcon(element, this.value);
+  setValue(value) {
+    Input.prototype.setValueInternal.call(this, value);
+    return this.updateCheckbox();
+  }
 
-    element.onclick = () => {
-      this.value = !this.value;
-      UIElement.setData(element, this.value);
-      Checkbox.setIcon(element, this.value);
+  /**
+   *
+   * @returns {HTMLElement}
+   */
+  draw() {
+    this.element.onclick = () => {
+      this.setValue(!this.value);
       this.onChange?.(this.value);
     };
 
-    UIElement.setData(element, this.value);
-  };
+    return this.element;
+  }
 }

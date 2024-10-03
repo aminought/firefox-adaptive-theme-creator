@@ -1,19 +1,29 @@
 import { ColorPicker } from "./color_picker.js";
-import { Div } from "./div.js";
+import { Input } from "./input.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 
-export class ColorInput extends Div {
+export class ColorInput extends Input {
   /**
    *
+   * @param {string} color
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = null, classList = [] } = {}) {
-    super({ id, classList: ["color_input", ...classList] });
-    this.popup = new ColorPicker();
-    this.color = null;
+  constructor(color, { id = null, classList = [] } = {}) {
+    super(color, { id, classList: ["color_input", ...classList] });
+    this.popup = new ColorPicker(color);
+    this.updateBackgroundColor();
+  }
+
+  /**
+   *
+   * @returns {ColorInput}
+   */
+  updateBackgroundColor() {
+    this.element.style.backgroundColor = this.value;
+    return this;
   }
 
   /**
@@ -21,27 +31,26 @@ export class ColorInput extends Div {
    * @param {string} color
    * @returns {ColorInput}
    */
-  setColor = (color) => {
-    this.color = color;
-    if (this.element) {
-      this.element.style.backgroundColor = color;
-    }
-    return this;
-  };
+  setValue(color) {
+    Input.prototype.setValueInternal.call(this, color);
+    return this.updateBackgroundColor();
+  }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    element.style.backgroundColor = this.color;
-    this.popup.setColor(this.color);
+  draw() {
+    this.popup.setValue(this.value);
+    this.popup.setOnChange(this.onChange);
 
-    element.onclick = (event) => {
+    this.element.onclick = (event) => {
       event.stopPropagation();
-      if (!PopupController.popFor(element)) {
-        PopupController.push(this.popup, element, POSITIONS.BELOW);
+      if (!PopupController.popFor(this.element)) {
+        PopupController.push(this.popup, this.element, POSITIONS.BELOW);
       }
     };
-  };
+
+    return this.element;
+  }
 }

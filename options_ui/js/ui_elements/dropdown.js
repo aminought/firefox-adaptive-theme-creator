@@ -15,7 +15,6 @@ export class Dropdown extends Div {
    */
   constructor(label, { id = null, classList = [] } = {}) {
     super({ id, classList: ["dropdown", ...classList] });
-
     this.popup = new DropdownPopup();
     this.label = new Label(label, { classList: ["dropdown_label"] });
     this.arrow = new SelectArrow();
@@ -25,24 +24,26 @@ export class Dropdown extends Div {
    *
    * @param {UIElement} element
    */
-  appendChild = (element) => {
+  appendChild(element) {
     this.popup.appendChild(element);
     return this;
-  };
+  }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    element.appendChild(this.label.draw());
-    element.appendChild(this.arrow.draw());
+  draw() {
+    this.element.appendChild(this.label.draw());
+    this.element.appendChild(this.arrow.draw());
 
-    element.onclick = (event) => {
+    this.element.onclick = (event) => {
       event.stopPropagation();
-      if (!PopupController.popFor(element)) {
-        PopupController.push(this.popup, element, POSITIONS.BELOW);
+      if (!PopupController.popFor(this.element)) {
+        PopupController.push(this.popup, this.element, POSITIONS.BELOW);
       }
     };
-  };
+
+    return this.element;
+  }
 }

@@ -1,6 +1,6 @@
-import { UIElement } from "./ui_element.js";
+import { Input } from "./input.js";
 
-export class NumberInput extends UIElement {
+export class NumberInput extends Input {
   /**
    *
    * @param {number} value
@@ -11,20 +11,47 @@ export class NumberInput extends UIElement {
    * @param {Array<string>} params.classList
    */
   constructor(value, min, max, { id = null, classList = [] } = {}) {
-    super("input", { id, classList: ["number_input", ...classList] });
-    this.value = value;
+    super(value, { id, classList: ["number_input", ...classList] });
+    this.input = document.createElement("input");
     this.min = min;
     this.max = max;
+    this.updateField();
   }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {NumberInput}
    */
-  customize = (element) => {
-    element.type = "number";
-    element.min = this.min;
-    element.max = this.max;
-    element.value = this.value;
-  };
+  updateField() {
+    this.input.value = this.value;
+    return this;
+  }
+
+  /**
+   *
+   * @param {number} value
+   * @returns {NumberInput}
+   */
+  setValue(value) {
+    Input.prototype.setValueInternal.call(this, value);
+    return this.updateField();
+  }
+
+  /**
+   *
+   * @returns {HTMLElement}
+   */
+  draw() {
+    this.input.type = "number";
+    this.input.min = this.min;
+    this.input.max = this.max;
+
+    this.input.onchange = (event) => {
+      this.setValue(event.target.value);
+      this.onChange?.(this.value);
+    };
+
+    this.element.appendChild(this.input);
+    return this.element;
+  }
 }

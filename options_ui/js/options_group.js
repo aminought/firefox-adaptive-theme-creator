@@ -13,22 +13,24 @@ export class OptionsGroup extends Div {
   constructor(title, { id = null, classList = [] } = {}) {
     super({ id, classList: ["options_group_wrapper", ...classList] });
     this.title = title;
+    this.optionsGroup = new Div({ classList: ["options_group"] });
   }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    const optionsGroup = new Div({ classList: ["options_group"] });
+  draw() {
     for (const child of this.children) {
-      optionsGroup.appendChild(child);
+      this.optionsGroup.appendChild(child);
     }
 
     const label = new Label(this.title, {
       classList: ["options_group_title"],
     });
-    element.appendChild(label.draw());
-    element.appendChild(optionsGroup.draw());
-  };
+    this.element.appendChild(label.draw());
+    this.element.appendChild(this.optionsGroup.draw());
+
+    return this.element;
+  }
 }

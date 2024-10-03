@@ -21,10 +21,10 @@ export class SelectArrow extends Div {
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  // eslint-disable-next-line class-methods-use-this
-  customize = (element) => {
-    element.insertAdjacentHTML("beforeend", ARROW);
-  };
+  draw() {
+    this.element.innerHTML = ARROW;
+    return this.element;
+  }
 }

@@ -48,8 +48,8 @@ export const DEFAULT_OPTIONS = {
       avoidBlack: false,
     },
     page: {
-      avoidWhite: false,
-      avoidBlack: false,
+      avoidWhite: true,
+      avoidBlack: true,
       captureHeight: 10,
       colorAlgo: PAGE_COLOR_ALGO.BASIC,
     },

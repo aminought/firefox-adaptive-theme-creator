@@ -7,7 +7,7 @@
   height: var(--option-height);
 }
 
-.option label {
+.option .label {
   white-space: nowrap;
   padding: 0 4px 0 4px;
   margin-right: auto;

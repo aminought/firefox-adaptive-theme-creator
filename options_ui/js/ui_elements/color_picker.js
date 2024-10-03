@@ -1,51 +1,44 @@
-import { Div } from "./div.js";
+import { Input } from "./input.js";
 import { POSITIONS } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 
-export class ColorPicker extends Div {
+export class ColorPicker extends Input {
   /**
    *
+   * @param {string} color
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor({ id = null, classList = [] } = {}) {
-    super({ id, classList: ["color_picker_wrapper", ...classList] });
-    this.color = null;
-    this.onChange = null;
+  constructor(color, { id = null, classList = [] } = {}) {
+    super(color, { id, classList: ["color_picker_wrapper", ...classList] });
+    this.picker = new Picker({
+      parent: this.element,
+      popup: false,
+      alpha: false,
+      color,
+    });
   }
 
   /**
    *
-   * @param {string} color
-   * @returns {ColorPicker}
+   * @returns {HTMLElement}
    */
-  setColor = (color) => {
-    this.color = color;
-    return this;
-  };
+  draw() {
+    this.picker.setColor(this.value);
+    this.picker.onChange = this.onChange;
+    this.picker.onDone = () => PopupController.pop();
 
-  /**
-   *
-   * @param {HTMLElement} element
-   */
-  customize = (element) => {
-    element.style.position = "absolute";
-
-    element.onclick = (event) => {
+    this.element.onclick = (event) => {
+      if (event.target !== this.element) {
+        return;
+      }
       event.stopPropagation();
-      if (!PopupController.popFor(element)) {
-        PopupController.push(this.popup, element, POSITIONS.BELOW);
+      if (!PopupController.popFor(this.element)) {
+        PopupController.push(this.popup, this.element, POSITIONS.BELOW);
       }
     };
 
-    const picker = new Picker({
-      parent: element,
-      popup: false,
-      alpha: false,
-      color: this.color,
-    });
-    picker.onChange = this.onChange;
-    picker.onDone = () => PopupController.pop();
-  };
+    return this.element;
+  }
 }

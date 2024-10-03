@@ -1,6 +1,6 @@
-import { UIElement } from "./ui_element.js";
+import { Div } from "./div.js";
 
-export class Label extends UIElement {
+export class Label extends Div {
   /**
    *
    * @param {string} text
@@ -10,30 +10,31 @@ export class Label extends UIElement {
    * @param {string} params.for_
    */
   constructor(text, { id = null, classList = [], for_ = "" } = {}) {
-    super("label", { id, classList });
-    this.text = text;
+    super({ id, classList: ["label", ...classList] });
+    this.label = document.createElement("label");
+    this.setText(text);
     this.for = for_;
   }
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
-    element.innerText = this.text;
-    element.setAttribute("for", this.for);
-  };
+  draw() {
+    this.label.setAttribute("for", this.for);
+
+    this.element.appendChild(this.label);
+    return this.element;
+  }
 
   /**
    *
    * @param {string} text
    * @returns {Label}
    */
-  setText = (text) => {
+  setText(text) {
     this.text = text;
-    if (this.element) {
-      this.element.innerText = text;
-    }
+    this.label.innerText = text;
     return this;
-  };
+  }
 }

@@ -13,11 +13,12 @@ export class Div extends UIElement {
 
   /**
    *
-   * @param {HTMLElement} element
+   * @returns {HTMLElement}
    */
-  customize = (element) => {
+  draw() {
     for (const child of this.children) {
-      element.appendChild(child.draw());
+      this.element.appendChild(child.draw());
     }
-  };
+    return this.element;
+  }
 }
