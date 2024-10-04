@@ -33,6 +33,7 @@ export class ColorInput extends Input {
    */
   setValue(color) {
     Input.prototype.setValueInternal.call(this, color);
+    this.popup.setValue(this.value);
     return this.updateBackgroundColor();
   }
 
@@ -41,7 +42,6 @@ export class ColorInput extends Input {
    * @returns {HTMLElement}
    */
   draw() {
-    this.popup.setValue(this.value);
     this.popup.setOnChange(this.onChange);
 
     this.element.onclick = (event) => {
