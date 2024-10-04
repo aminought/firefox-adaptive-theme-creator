@@ -11,10 +11,9 @@ import { createNumberSelect, createStringSelect } from "./utils/select.js";
 import { Button } from "./ui_elements/button.js";
 import { Checkbox } from "./ui_elements/checkbox.js";
 import { ColorInput } from "./ui_elements/color_input.js";
-import { Div } from "./ui_elements/div.js";
 import { Dropdown } from "./ui_elements/dropdown.js";
+import { Firefox } from "./firefox/firefox.js";
 import { Footer } from "./footer.js";
-import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
 import { NumberInput } from "./ui_elements/number_input.js";
 import { OptionWithLabel } from "./option_with_label.js";
@@ -125,44 +124,7 @@ const makeGlobalOptions = (options) => {
  *
  * @returns {UIElement}
  */
-const makeBrowserPreview = () =>
-  new OptionsRow().appendChild(
-    new Div({ id: "browser_preview" }).appendChild(
-      new Div({ id: "navigator" }).appendChildren([
-        new Div({ id: "frame", classList: ["part"] }).appendChild(
-          new Div({
-            id: "tab_selected",
-            classList: ["part"],
-          }).appendChild(new Label(FILLER, { classList: ["filler"] }))
-        ),
-        new Div({ id: "toolbar", classList: ["part"] }).appendChildren([
-          new Div({ classList: ["toolbar_button"] }),
-          new Div({ classList: ["toolbar_button"] }),
-          new Div({ classList: ["placeholder"] }),
-          new Div({ classList: ["placeholder"] }),
-          new Div({ id: "toolbar_field", classList: ["part"] }).appendChild(
-            new Label(FILLER, { classList: ["filler"] })
-          ),
-          new Div({ classList: ["placeholder"] }),
-          new Div({ classList: ["placeholder"] }),
-          new Div({ classList: ["placeholder"] }),
-          new Div({ classList: ["toolbar_button"] }),
-          new Div({ id: "popup", classList: ["part"] }).appendChildren([
-            new Label(FILLER, { classList: ["filler"] }),
-            new Label(FILLER, { classList: ["filler"] }),
-          ]),
-        ]),
-        new Div({ id: "browser" }).appendChildren([
-          new Div({ id: "sidebar", classList: ["part"] }).appendChildren([
-            new Label(FILLER, { classList: ["filler"] }),
-            new Label(FILLER, { classList: ["filler"] }),
-            new Label(FILLER, { classList: ["filler"] }),
-          ]),
-          new Div({ id: "appcontent", classList: ["part"] }),
-        ]),
-      ])
-    )
-  );
+const makeFirefoxPreview = () => new OptionsRow().appendChild(new Firefox());
 
 /**
  *
@@ -314,7 +276,7 @@ export const makeOptionsUI = (options) => {
   const optionsUI = new OptionsCol().appendChildren([
     makeTitle(),
     makeGlobalOptions(options),
-    makeBrowserPreview(),
+    makeFirefoxPreview(),
     makeTriggersOptions(options),
     makeGlobalSourceOptions(options),
     makeFooter(options),
