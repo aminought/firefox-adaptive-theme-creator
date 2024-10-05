@@ -78,9 +78,7 @@ export class Firefox {
 
     for (const groupItemId of Object.keys(this.groups)) {
       const [groupItem, groupName] = this.groups[groupItemId];
-      groupItem.setOnMouseEnter((event) => {
-        console.log(event);
-        console.log(`enter ${groupItemId}`);
+      groupItem.setOnMouseEnter(() => {
         PopupController.showFixed(
           new StatusBar(groupName, {
             localize: Localizer.localizePartGroup,
@@ -89,14 +87,10 @@ export class Firefox {
         );
       });
       groupItem.setOnMouseLeave((event) => {
-        console.log(event);
-        console.log(`leave ${groupItemId}`);
         PopupController.removeFixed("status_bar");
-        const parentGroupItemId = event.relatedTarget.id;
-        console.log("parentGroupItemId: ", parentGroupItemId);
+        const parentGroupItemId = event.relatedTarget?.id;
         if (parentGroupItemId in this.groups) {
           const [parentGroupName] = this.groups[parentGroupItemId].slice(-1);
-          console.log("parentGroupName: ", parentGroupName);
           PopupController.showFixed(
             new StatusBar(parentGroupName, {
               localize: Localizer.localizePartGroup,
