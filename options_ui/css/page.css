@@ -73,3 +73,9 @@ body:not(:has(#global\.foreground\.source [data-value="COLOR"])) {
     display: none;
   }
 }
+
+/* Disable text selection */
+
+.label > label {
+  user-select: none;
+}
