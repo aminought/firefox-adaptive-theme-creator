@@ -1,5 +1,6 @@
 import { Localizer } from "./localizer.js";
 import { ORIENTATION } from "../ui_elements/select_popup.js";
+import { POSITION } from "./positions.js";
 import { Select } from "../ui_elements/select.js";
 import { SelectItem } from "../ui_elements/select_item.js";
 
@@ -12,6 +13,7 @@ import { SelectItem } from "../ui_elements/select_item.js";
  * @param {string} params.id
  * @param {Array<string>} params.classList
  * @param {Array<string>} params.itemClassList
+ * @param {string} params.osiition
  * @param {string} params.orientation
  * @returns {Select}
  */
@@ -23,10 +25,16 @@ export const createStringSelect = (
     id = null,
     classList = [],
     itemClassList = [],
+    position = POSITION.BELOW_ALIGN_CENTER,
     orientation = ORIENTATION.HORIZONTAL,
   } = {}
 ) => {
-  const select = new Select({ id, classList, orientation });
+  const select = new Select({
+    id,
+    classList,
+    orientation,
+    popupPosition: position,
+  });
   for (const value of values) {
     const label = localize(value);
     const selectItem = new SelectItem(label, value, {
@@ -47,6 +55,7 @@ export const createStringSelect = (
  * @param {string} params.id
  * @param {Array<string>} params.classList
  * @param {Array<string>} params.itemClassList
+ * @param {string} params.position
  * @param {string} params.orientation
  * @returns {Select}
  */
@@ -59,10 +68,16 @@ export const createNumberSelect = (
     id = null,
     classList = [],
     itemClassList = [],
+    position = POSITION.BELOW_ALIGN_LEFT,
     orientation = ORIENTATION.HORIZONTAL,
   } = {}
 ) => {
-  const select = new Select({ id, classList, orientation });
+  const select = new Select({
+    id,
+    classList,
+    orientation,
+    popupPosition: position,
+  });
   for (let i = start; i <= end; i += step) {
     const value = i.toFixed(1);
     const selectItem = new SelectItem(value, value, {

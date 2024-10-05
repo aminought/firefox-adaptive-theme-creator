@@ -2,7 +2,7 @@ import { ORIENTATION, SelectPopup } from "./select_popup.js";
 
 import { Input } from "./input.js";
 import { Label } from "./label.js";
-import { POSITIONS } from "../utils/positions.js";
+import { POSITION } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 import { SelectArrow } from "./select_arrow.js";
 import { SelectItem } from "./select_item.js";
@@ -20,7 +20,7 @@ export class Select extends Input {
     id = null,
     classList = [],
     orientation = ORIENTATION.HORIZONTAL,
-    popupPosition = POSITIONS.BELOW,
+    popupPosition = POSITION.BELOW_ALIGN_CENTER,
   } = {}) {
     super("", { id, classList: ["select", ...classList] });
     this.popupPosition = popupPosition;

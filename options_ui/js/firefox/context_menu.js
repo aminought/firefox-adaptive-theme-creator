@@ -12,6 +12,7 @@ import { Localizer } from "../utils/localizer.js";
 import { ORIENTATION } from "../ui_elements/select_popup.js";
 import { OptionWithLabel } from "../option_with_label.js";
 import { Options } from "../../../shared/options.js";
+import { POSITION } from "../utils/positions.js";
 import { Part } from "../../../shared/browser_parts.js";
 
 export class ContextMenu extends Div {
@@ -35,6 +36,7 @@ export class ContextMenu extends Div {
       {
         classList: ["context_menu_select"],
         itemClassList: ["context_menu_select_item"],
+        position: POSITION.BELOW_ALIGN_LEFT,
         orientation: ORIENTATION.VERTICAL,
       }
     );

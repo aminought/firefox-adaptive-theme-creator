@@ -1,5 +1,5 @@
 import { Input } from "./input.js";
-import { POSITIONS } from "../utils/positions.js";
+import { POSITION } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 
 export class ColorPicker extends Input {
@@ -35,7 +35,7 @@ export class ColorPicker extends Input {
       }
       event.stopPropagation();
       if (!PopupController.popFor(this.element)) {
-        PopupController.push(event, this.popup, this.element, POSITIONS.BELOW);
+        PopupController.push(event, this.popup, this.element, POSITION.BELOW_ALIGN_CENTER);
       }
     };
 

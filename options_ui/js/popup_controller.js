@@ -1,5 +1,5 @@
 import {
-  POSITIONS,
+  POSITION,
   positionByCoords,
   positionRelative,
 } from "./utils/positions.js";
@@ -23,7 +23,7 @@ export class PopupController {
     const element = popup.draw(...args);
     const body = document.querySelector("body");
     body.appendChild(element);
-    if (position === POSITIONS.POINTER) {
+    if (position === POSITION.POINTER) {
       positionByCoords(element, body, event.clientX, event.clientY);
     } else {
       positionRelative(position, element, body, target);

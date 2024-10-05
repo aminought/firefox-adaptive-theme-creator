@@ -6,7 +6,7 @@ import { Group } from "./group.js";
 import { ICONS } from "./icons.js";
 import { NamedPart } from "./named_part.js";
 import { Options } from "../../../shared/options.js";
-import { POSITIONS } from "../utils/positions.js";
+import { POSITION } from "../utils/positions.js";
 import { Placeholder } from "./placeholder.js";
 import { PopupController } from "../popup_controller.js";
 import { Text } from "./text.js";
@@ -70,10 +70,10 @@ export class Firefox {
       }
       const parts = this.groups[target.id];
       const context_menu = new ContextMenu(parts, this.options, {
-        position: POSITIONS.POINTER,
+        position: POSITION.POINTER,
       });
       if (!PopupController.popFor(target)) {
-        PopupController.push(event, context_menu, target, POSITIONS.POINTER);
+        PopupController.push(event, context_menu, target, POSITION.POINTER);
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Div } from "./div.js";
 import { DropdownPopup } from "./dropdown_popup.js";
 import { Label } from "./label.js";
-import { POSITIONS } from "../utils/positions.js";
+import { POSITION } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 import { SelectArrow } from "./select_arrow.js";
 
@@ -16,7 +16,7 @@ export class Dropdown extends Div {
    */
   constructor(
     label,
-    { id = null, classList = [], position = POSITIONS.BELOW } = {}
+    { id = null, classList = [], position = POSITION.BELOW_ALIGN_CENTER } = {}
   ) {
     super({ id, classList: ["dropdown", ...classList] });
     this.position = position;

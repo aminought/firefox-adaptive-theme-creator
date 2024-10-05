@@ -1,6 +1,7 @@
-export const POSITIONS = {
+export const POSITION = {
   ABOVE: "ABOVE",
-  BELOW: "BELOW",
+  BELOW_ALIGN_CENTER: "BELOW_ALIGN_CENTER",
+  BELOW_ALIGN_LEFT: "BELOW_ALIGN_LEFT",
   RIGHT: "RIGHT",
   LEFT: "LEFT",
   INPLACE: "INPLACE",
@@ -54,19 +55,26 @@ export const positionRelative = (pos, child, parent, target, padding = 4) => {
   let x = -parentRect.left;
   let y = -parentRect.top;
 
-  if (pos === POSITIONS.ABOVE) {
+  if (pos === POSITION.ABOVE) {
     x += targetRect.left + targetRect.width / 2 - childRect.width / 2;
     y += targetRect.top - childRect.height - padding;
-  } else if (pos === POSITIONS.BELOW) {
-    x += targetRect.left + targetRect.width / 2 - childRect.width / 2;
+  } else if (
+    pos === POSITION.BELOW_ALIGN_CENTER ||
+    pos === POSITION.BELOW_ALIGN_LEFT
+  ) {
     y += targetRect.bottom + padding;
-  } else if (pos === POSITIONS.LEFT) {
+    if (pos === POSITION.BELOW_ALIGN_CENTER) {
+      x += targetRect.left + targetRect.width / 2 - childRect.width / 2;
+    } else if (pos === POSITION.BELOW_ALIGN_LEFT) {
+      x += targetRect.left;
+    }
+  } else if (pos === POSITION.LEFT) {
     x += targetRect.left - childRect.width - padding;
     y += targetRect.top;
-  } else if (pos === POSITIONS.RIGHT) {
+  } else if (pos === POSITION.RIGHT) {
     x += targetRect.right + padding;
     y += targetRect.top;
-  } else if (pos === POSITIONS.INPLACE) {
+  } else if (pos === POSITION.INPLACE) {
     x += targetRect.left;
     y += targetRect.top;
   }

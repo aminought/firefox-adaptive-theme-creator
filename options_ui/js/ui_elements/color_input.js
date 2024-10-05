@@ -1,6 +1,6 @@
 import { ColorPicker } from "./color_picker.js";
 import { Input } from "./input.js";
-import { POSITIONS } from "../utils/positions.js";
+import { POSITION } from "../utils/positions.js";
 import { PopupController } from "../popup_controller.js";
 
 export class ColorInput extends Input {
@@ -47,7 +47,7 @@ export class ColorInput extends Input {
     this.element.onclick = (event) => {
       event.stopPropagation();
       if (!PopupController.popFor(this.element)) {
-        PopupController.push(event, this.popup, this.element, POSITIONS.BELOW);
+        PopupController.push(event, this.popup, this.element, POSITION.BELOW_ALIGN_CENTER);
       }
     };
 
