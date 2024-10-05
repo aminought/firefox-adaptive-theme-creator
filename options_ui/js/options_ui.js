@@ -21,6 +21,8 @@ import { Options } from "../../shared/options.js";
 import { OptionsCol } from "./options_col.js";
 import { OptionsGroup } from "./options_group.js";
 import { OptionsRow } from "./options_row.js";
+import { PopupController } from "./popup_controller.js";
+import { StatusBar } from "./status_bar.js";
 import { Title } from "./title.js";
 import { UIElement } from "./ui_elements/ui_element.js";
 
@@ -61,11 +63,10 @@ const makeGlobalColorDropdown = (type, options, sources) => {
     ),
     new OptionWithLabel(ids.color, options)
       .appendChild(colorInput)
-      .setOnChange(async (value) => {
+      .setOnChange((value) => {
         const color = value.rgbaString;
         options.set(ids.color, color);
         colorInput.setValue(color).updateBackgroundColor();
-        await options.save();
       }),
     new OptionWithLabel(ids.saturationLimit, options).appendChild(
       createNumberSelect(options.get(ids.saturationLimit), 0, 1, 0.1)
@@ -184,7 +185,7 @@ const makeTriggersOptions = (options) => {
         localize: Localizer.localizeTrigger,
       })
         .appendChild(new Checkbox(options.get(optionPath).includes(trigger)))
-        .setOnChange(async (value) => {
+        .setOnChange((value) => {
           const triggers = new Set(options.get(optionPath));
           if (value) {
             triggers.add(trigger);
@@ -192,7 +193,6 @@ const makeTriggersOptions = (options) => {
             triggers.delete(trigger);
           }
           options.set(optionPath, Array.from(triggers));
-          await options.save();
         })
         .setOnReset((child) => {
           const triggers = options.get(optionPath);
@@ -227,6 +227,7 @@ const makeFooter = (options) =>
     new Button("Reset").setOnClick(async () => {
       options.reset();
       await options.save();
+      PopupController.showSelfDestructive(new StatusBar("options_reset"));
     }),
   ]);
 

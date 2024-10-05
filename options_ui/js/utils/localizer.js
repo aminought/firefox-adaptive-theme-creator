@@ -96,4 +96,13 @@ export class Localizer {
     const trigger = triggerId.split(".").pop();
     return Localizer.getMessage(`trigger.${trigger}`);
   }
+
+  /**
+   *
+   * @param {string} text
+   * @returns {string}
+   */
+  static localizeStatusBar(text) {
+    return Localizer.getMessage(`status_bar.${text}`);
+  }
 }

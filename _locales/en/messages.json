@@ -229,5 +229,11 @@
     },
     "trigger.URL_DETECTED": {
         "message": "URL Detected"
+    },
+    "status_bar.options_saved": {
+        "message": "Options have been saved"
+    },
+    "status_bar.options_reset": {
+        "message": "Options have been reset"
     }
 }

@@ -1,7 +1,6 @@
 import {
   BACKGROUND_SOURCE,
   FOREGROUND_SOURCE,
-  INHERITANCE,
 } from "../../../shared/constants.js";
 import { createNumberSelect, createStringSelect } from "../utils/select.js";
 
@@ -14,6 +13,8 @@ import { OptionWithLabel } from "../option_with_label.js";
 import { Options } from "../../../shared/options.js";
 import { POSITION } from "../utils/positions.js";
 import { Part } from "../../../shared/browser_parts.js";
+import { PopupController } from "../popup_controller.js";
+import { StatusBar } from "../status_bar.js";
 
 export class ContextMenu extends Div {
   /**
@@ -85,11 +86,10 @@ export class ContextMenu extends Div {
       ),
       new OptionWithLabel(ids.color, this.options)
         .appendChild(colorInput)
-        .setOnChange(async (value) => {
+        .setOnChange((value) => {
           const color = value.rgbaString;
           this.options.set(ids.color, color);
           colorInput.setValue(color).updateBackgroundColor();
-          await this.options.save();
         }),
       new OptionWithLabel(ids.saturationLimit, this.options).appendChild(
         createNumberSelect(this.options.get(ids.saturationLimit), 0, 1, 0.1)

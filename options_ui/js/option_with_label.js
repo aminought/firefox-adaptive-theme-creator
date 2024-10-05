@@ -3,7 +3,9 @@ import { Input } from "./ui_elements/input.js";
 import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
+import { PopupController } from "./popup_controller.js";
 import { Separator } from "./ui_elements/separator.js";
+import { StatusBar } from "./status_bar.js";
 
 export class OptionWithLabel extends Div {
   /**
@@ -24,14 +26,13 @@ export class OptionWithLabel extends Div {
       classList: ["option_title"],
     });
     this.separator = new Separator();
-    this.onChange = async (value) => {
+    this.setOnChange((value) => {
       this.options.set(id, value);
-      await this.options.save();
-    };
-    this.onReset = (child) => {
+    });
+    this.setOnReset((child) => {
       const value = this.options.get(this.id);
       child.setValue(value);
-    };
+    });
   }
 
   /**
@@ -51,7 +52,11 @@ export class OptionWithLabel extends Div {
    * @returns {OptionWithLabel}
    */
   setOnChange(callback) {
-    this.onChange = callback;
+    this.onChange = async (value) => {
+      callback(value);
+      await this.options.save();
+      PopupController.showSelfDestructive(new StatusBar("options_saved"));
+    };
     for (const child of this.children) {
       child.onChange = this.onChange;
     }
