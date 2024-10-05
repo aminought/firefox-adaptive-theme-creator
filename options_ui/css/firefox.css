@@ -47,7 +47,6 @@
   width: 10%;
   height: 90%;
   background-color: var(--background-color);
-  box-sizing: border-box;
 }
 
 #toolbar {
@@ -126,16 +125,21 @@ body:has(.toolbar_button:hover) .toolbar_button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  flex: 0.5;
-  padding: 2px;
+  flex: 0.7;
+  padding-left: 2%;
   gap: 5px;
   background-color: var(--background-color);
+  box-sizing: border-box;
+}
+
+#bookmarks > .text {
+  width: 4%;
 }
 
 #browser {
   display: flex;
   flex-direction: row;
-  flex: 3.5;
+  flex: 4;
   background-color: var(--background-color);
 }
 

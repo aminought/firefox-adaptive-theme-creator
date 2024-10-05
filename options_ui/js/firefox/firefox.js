@@ -142,7 +142,7 @@ export class Firefox {
           this.toolbarMenuButton,
           this.popup.appendChildren([new Text(), new Text()]),
         ]),
-        this.bookmarks,
+        this.bookmarks.appendChildren([new Text(), new Text(), new Text()]),
       ]),
       this.browser.appendChildren([
         this.sidebar.appendChildren([new Text(), new Text(), new Text()]),
