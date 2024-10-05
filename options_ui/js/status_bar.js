@@ -9,10 +9,19 @@ export class StatusBar extends Div {
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
+   * @param {number?} params.timeout
+   * @param {CallableFunction} params.localize
    */
-  constructor(text, { id = null, classList = [], timeout = 3000 } = {}) {
-    super({ id, classList: ["status_bar", ...classList] });
-    this.text = Localizer.localizeStatusBar(text);
+  constructor(
+    text,
+    {
+      classList = [],
+      timeout = 3000,
+      localize = Localizer.localizeStatusBar,
+    } = {}
+  ) {
+    super({ id: "status_bar", classList });
+    this.text = localize(text);
     this.timeout = timeout;
   }
 
@@ -24,9 +33,11 @@ export class StatusBar extends Div {
     const label = new Label(this.text);
     this.element.appendChild(label.draw());
 
-    setTimeout(() => {
-      this.remove();
-    }, this.timeout);
+    if (this.timeout !== null) {
+      setTimeout(() => {
+        this.remove();
+      }, this.timeout);
+    }
 
     return this.element;
   }

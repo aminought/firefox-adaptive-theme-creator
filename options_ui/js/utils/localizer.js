@@ -89,6 +89,15 @@ export class Localizer {
 
   /**
    *
+   * @param {string} partGroup
+   * @returns {string}
+   */
+  static localizePartGroup(partGroup) {
+    return Localizer.getMessage(`part_group.${partGroup}`);
+  }
+
+  /**
+   *
    * @param {string} triggerId
    * @returns {string}
    */

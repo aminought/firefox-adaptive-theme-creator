@@ -227,7 +227,7 @@ const makeFooter = (options) =>
     new Button("Reset").setOnClick(async () => {
       options.reset();
       await options.save();
-      PopupController.showSelfDestructive(new StatusBar("options_reset"));
+      PopupController.showFixed(new StatusBar("options_reset"));
     }),
   ]);
 

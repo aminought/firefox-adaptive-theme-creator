@@ -55,7 +55,7 @@ export class OptionWithLabel extends Div {
     this.onChange = async (value) => {
       callback(value);
       await this.options.save();
-      PopupController.showSelfDestructive(new StatusBar("options_saved"));
+      PopupController.showFixed(new StatusBar("options_saved"));
     };
     for (const child of this.children) {
       child.onChange = this.onChange;

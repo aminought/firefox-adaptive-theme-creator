@@ -11,7 +11,7 @@ const FIRST_Z_INDEX = 100;
 export class PopupController {
   static body = document.querySelector("body");
   static stack = [];
-  static selfDesctructive = null;
+  static fixed = {};
 
   /**
    *
@@ -50,12 +50,22 @@ export class PopupController {
    *
    * @param {UIElement} popup
    */
-  static showSelfDestructive(popup) {
-    if (PopupController.selfDesctructive !== null) {
-      PopupController.selfDesctructive.remove();
+  static showFixed(popup) {
+    if (popup.id in PopupController.fixed) {
+      PopupController.fixed[popup.id].remove();
     }
-    PopupController.selfDesctructive = popup;
+    PopupController.fixed[popup.id] = popup;
     PopupController.body.appendChild(popup.draw());
+  }
+
+  /**
+   *
+   * @param {string} id
+   */
+  static removeFixed(id) {
+    if (id in PopupController.fixed) {
+      PopupController.fixed[id].remove();
+    }
   }
 
   /**

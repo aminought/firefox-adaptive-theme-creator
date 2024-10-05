@@ -1,4 +1,4 @@
-.status_bar {
+#status_bar {
   position: fixed;
   flex-direction: row;
   align-items: center;
@@ -6,8 +6,14 @@
   bottom: 1%;
   left: 1%;
   background-color: var(--background-color);
-  padding: 2px;
+  height: var(--option-height);
+  padding-left: 4px;
+  padding-right: 4px;
   border: 1px solid;
   border-radius: var(--border-radius);
   box-shadow: 0px 0px 8px 1px var(--color);
+}
+
+#status_bar label {
+  font-weight: bold;
 }

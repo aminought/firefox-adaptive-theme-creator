@@ -212,6 +212,39 @@
     "part.toolbar_vertical_separator": {
         "message": "Toolbar Vertical Separator"
     },
+    "part_group.BOOKMARKS": {
+        "message": "Bookmarks"
+    },
+    "part_group.BUTTONS_AND_ICONS": {
+        "message": "Buttons And Icons"
+    },
+    "part_group.NTP": {
+        "message": "New Tab Page"
+    },
+    "part_group.POPUP": {
+        "message": "Popup"
+    },
+    "part_group.SIDEBAR": {
+        "message": "Sidebar"
+    },
+    "part_group.TABS": {
+        "message": "Tabs"
+    },
+    "part_group.TITLEBAR": {
+        "message": "Title Bar"
+    },
+    "part_group.TOOLBAR": {
+        "message": "Toolbar"
+    },
+    "part_group.TOOLBAR_FIELD": {
+        "message": "Toolbar Field"
+    },
+    "status_bar.options_reset": {
+        "message": "Options have been reset"
+    },
+    "status_bar.options_saved": {
+        "message": "Options have been saved"
+    },
     "title": {
         "message": "ADAPTIVE THEME CREATOR"
     },
@@ -229,11 +262,5 @@
     },
     "trigger.URL_DETECTED": {
         "message": "URL Detected"
-    },
-    "status_bar.options_saved": {
-        "message": "Options have been saved"
-    },
-    "status_bar.options_reset": {
-        "message": "Options have been reset"
     }
 }

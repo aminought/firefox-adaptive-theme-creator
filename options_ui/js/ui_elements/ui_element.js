@@ -104,4 +104,22 @@ export class UIElement {
     this.element.oncontextmenu = callback;
     return this;
   }
+
+  /**
+   *
+   * @param {CallableFunction} callback
+   */
+  setOnMouseEnter(callback) {
+    this.element.onmouseenter = callback;
+    return this;
+  }
+
+  /**
+   *
+   * @param {CallableFunction} callback
+   */
+  setOnMouseLeave(callback) {
+    this.element.onmouseleave = callback;
+    return this;
+  }
 }

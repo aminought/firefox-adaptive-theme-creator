@@ -122,9 +122,21 @@ export const PARTS = {
   toolbar_vertical_separator: new Part("toolbar_vertical_separator"),
 };
 
+export const GROUP_NAMES = {
+  TITLEBAR: "TITLEBAR",
+  TABS: "TABS",
+  TOOLBAR: "TOOLBAR",
+  TOOLBAR_FIELD: "TOOLBAR_FIELD",
+  BUTTONS_AND_ICONS: "BUTTONS_AND_ICONS",
+  POPUP: "POPUP",
+  BOOKMARKS: "BOOKMARKS",
+  SIDEBAR: "SIDEBAR",
+  NTP: "NTP",
+};
+
 export const GROUPS = {
-  titlebar: [PARTS.frame, PARTS.frame_inactive],
-  tab: [
+  [GROUP_NAMES.TITLEBAR]: [PARTS.frame, PARTS.frame_inactive],
+  [GROUP_NAMES.TABS]: [
     PARTS.tab_selected,
     PARTS.tab_text,
     PARTS.tab_background_text,
@@ -132,14 +144,14 @@ export const GROUPS = {
     PARTS.tab_loading,
     PARTS.tab_background_separator,
   ],
-  toolbar: [
+  [GROUP_NAMES.TOOLBAR]: [
     PARTS.toolbar,
     PARTS.toolbar_text,
     PARTS.toolbar_top_separator,
     PARTS.toolbar_bottom_separator,
     PARTS.toolbar_vertical_separator,
   ],
-  toolbarField: [
+  [GROUP_NAMES.TOOLBAR_FIELD]: [
     PARTS.toolbar_field,
     PARTS.toolbar_field_text,
     PARTS.toolbar_field_focus,
@@ -150,26 +162,30 @@ export const GROUPS = {
     PARTS.toolbar_field_border_focus,
     PARTS.toolbar_field_separator,
   ],
-  buttonsAndIcons: [
+  [GROUP_NAMES.BUTTONS_AND_ICONS]: [
     PARTS.button_background_active,
     PARTS.button_background_hover,
     PARTS.icons,
     PARTS.icons_attention,
   ],
-  popup: [
+  [GROUP_NAMES.POPUP]: [
     PARTS.popup,
     PARTS.popup_text,
     PARTS.popup_highlight,
     PARTS.popup_highlight_text,
     PARTS.popup_border,
   ],
-  bookmarks: [PARTS.bookmark_text],
-  sidebar: [
+  [GROUP_NAMES.BOOKMARKS]: [PARTS.bookmark_text],
+  [GROUP_NAMES.SIDEBAR]: [
     PARTS.sidebar,
     PARTS.sidebar_text,
     PARTS.sidebar_highlight,
     PARTS.sidebar_highlight_text,
     PARTS.sidebar_border,
   ],
-  ntp: [PARTS.ntp_background, PARTS.ntp_card_background, PARTS.ntp_text],
+  [GROUP_NAMES.NTP]: [
+    PARTS.ntp_background,
+    PARTS.ntp_card_background,
+    PARTS.ntp_text,
+  ],
 };
