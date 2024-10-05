@@ -76,6 +76,26 @@ export class UIElement {
 
   /**
    *
+   * @param {string} height
+   * @returns {UIElement}
+   */
+  setHeight(height) {
+    this.element.style.height = height;
+    return this;
+  }
+
+  /**
+   *
+   * @param {string} height
+   * @returns {UIElement}
+   */
+  setMaxHeight(height) {
+    this.element.style.maxHeight = height;
+    return this;
+  }
+
+  /**
+   *
    * @param {HTMLElement} element
    * @returns {boolean}
    */

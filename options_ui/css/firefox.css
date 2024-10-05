@@ -2,6 +2,7 @@
   --group-shadow: 0px 0px 8px 4px var(--color);
   --toolbar-button-shadow: 0px 0px 4px 2px var(--color);
   --transition-s: 0.2s;
+  --text-gap: 6px;
 
   display: flex;
   flex-direction: column;
@@ -46,8 +47,6 @@
   width: 10%;
   height: 90%;
   background-color: var(--background-color);
-  padding-left: 1%;
-  padding-right: 1%;
   box-sizing: border-box;
 }
 
@@ -105,6 +104,8 @@ body:has(.toolbar_button:hover) .toolbar_button {
 #popup {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: var(--text-gap);
   position: absolute;
   width: 18%;
   aspect-ratio: 1 / 1;
@@ -113,8 +114,6 @@ body:has(.toolbar_button:hover) .toolbar_button {
   top: calc(100% - 1px);
   background-color: var(--background-color);
   padding-top: 2%;
-  padding-right: 2%;
-  padding-left: 2%;
   z-index: 2;
   box-sizing: border-box;
 }
@@ -124,7 +123,6 @@ body:has(.toolbar_button:hover) .toolbar_button {
 }
 
 #bookmarks {
-  position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -144,30 +142,80 @@ body:has(.toolbar_button:hover) .toolbar_button {
 #sidebar {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: var(--text-gap);
   flex: 1;
   background-color: var(--background-color);
   width: 20%;
-  padding-left: 2%;
-  padding-right: 2%;
   padding-top: 2%;
   box-sizing: border-box;
 }
 
 #ntp {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
   flex: 4;
-  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
+  background-color: var(--background-color);
 }
 
-#rickroll {
-  max-width: 100%;
-  aspect-ratio: 16 / 9;
+#ntp_search {
+  background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
+  border-radius: var(--radius);
+  width: 50%;
+  height: 8%;
+}
+
+#ntp_cards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  gap: 20%;
+}
+
+.ntp_cards_row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  gap: 5%;
+}
+
+.ntp_card_wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  aspect-ratio: 1/1;
+}
+
+.ntp_card {
+  background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
+  border-radius: var(--radius);
+  width: 70%;
+  aspect-ratio: 1/1;
+}
+
+.ntp_card_wrapper .text {
+  width: 70%;
 }
 
 .text {
-  overflow: hidden;
-}
-
-.text > .label {
-  font-size: 7px;
+  background-color: var(--color);
+  border-radius: var(--radius);
+  height: 3px;
+  width: 80%;
 }

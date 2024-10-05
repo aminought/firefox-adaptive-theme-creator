@@ -6,6 +6,8 @@ import { Group } from "./group.js";
 import { ICONS } from "./icons.js";
 import { Localizer } from "../utils/localizer.js";
 import { NamedPart } from "./named_part.js";
+import { NtpCards } from "./npt_cards.js";
+import { NtpSearch } from "./ntp_search.js";
 import { Options } from "../../../shared/options.js";
 import { POSITION } from "../utils/positions.js";
 import { Placeholder } from "./placeholder.js";
@@ -144,7 +146,7 @@ export class Firefox {
       ]),
       this.browser.appendChildren([
         this.sidebar.appendChildren([new Text(), new Text(), new Text()]),
-        this.ntp,
+        this.ntp.appendChildren([new NtpSearch(), new NtpCards(1, 6)]),
       ]),
     ]);
 
