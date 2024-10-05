@@ -37,6 +37,7 @@
   flex: 1;
   padding: 2px 5px;
   background-color: var(--background-color);
+  box-sizing: border-box;
 }
 
 #tab_selected {
@@ -58,6 +59,7 @@
   padding: 2px;
   gap: 5px;
   background-color: var(--background-color);
+  box-sizing: border-box;
 }
 
 .toolbar_button {
@@ -126,7 +128,7 @@ body:has(.toolbar_button:hover) .toolbar_button {
   flex-direction: row;
   align-items: center;
   flex: 0.7;
-  padding-left: 2%;
+  padding-left: 2px;
   gap: 5px;
   background-color: var(--background-color);
   box-sizing: border-box;
