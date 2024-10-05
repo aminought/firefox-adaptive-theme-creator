@@ -3,7 +3,8 @@ export const POSITIONS = {
   BELOW: "BELOW",
   RIGHT: "RIGHT",
   LEFT: "LEFT",
-  INPLACE: "IN_PLACE",
+  INPLACE: "INPLACE",
+  POINTER: "POINTER",
 };
 
 /**

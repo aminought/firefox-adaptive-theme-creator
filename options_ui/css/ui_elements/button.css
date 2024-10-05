@@ -1,5 +1,5 @@
 .button {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
   color: var(--color);
   border: 1px solid;
   border-radius: var(--radius);
@@ -10,5 +10,5 @@
 }
 
 .button:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
+  background-color: color-mix(in srgb, currentColor 17%, var(--background-color));
 }

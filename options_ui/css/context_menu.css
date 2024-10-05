@@ -2,25 +2,17 @@
   position: absolute;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 4px;
-  padding: 2px;
   background-color: transparent;
 }
 
-.context_menu_options {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-#context_menu_parts_wrapper {
-  background-color: var(--background-color);
-  width: fit-content;
-  height: fit-content;
-}
-
-#context_menu_parts {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+.context_menu_select {
+  background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
   color: var(--color);
   height: var(--option-height);
   border-radius: var(--radius);
@@ -31,32 +23,82 @@
   font-family: var(--font-family);
 }
 
-#context_menu_parts:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
+.context_menu_select:hover {
+  background-color: color-mix(
+    in srgb,
+    currentColor 17%,
+    var(--background-color)
+  );
 }
 
-#context_menu_parts > option {
-  font-family: var(--font-family);
+.context_menu_select_item {
+  font-weight: bold;
 }
 
-.context_menu_options .option {
+.context_menu_items {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+}
+
+.context_menu_items > * {
   background-color: var(--background-color);
   color: var(--color);
   box-shadow: 0px 0px 8px 1px var(--color);
 }
 
-.context_menu:not(:has(div[data-value="inheritance_off"]))
-  .option_inherit_from_off {
-  display: none;
+/* Hide all options if disabled */
+
+body:has([id^="parts"][id$="enabled"] [data-value="false"]) {
+  [id^="parts"][id$="inheritance"],
+  [id^="parts"][id$="source"],
+  [id^="parts"][id$="color"],
+  [id^="parts"][id$="saturationLimit"],
+  [id^="parts"][id$="darkness"],
+  [id^="parts"][id$="brightness"] {
+    display: none;
+  }
 }
 
-.context_menu:not(:has(div[data-value="own_color"])) .option_source_own_color {
-  display: none;
+/* Hide options if inheritane is off */
+
+body:not(:has([id^="parts"][id$="inheritance"] [data-value="OFF"])) {
+  [id^="parts"][id$="source"],
+  [id^="parts"][id$="color"],
+  [id^="parts"][id$="saturationLimit"],
+  [id^="parts"][id$="darkness"],
+  [id^="parts"][id$="brightness"] {
+    display: none;
+  }
 }
 
-.context_menu_title {
-  align-self: center;
-  font-weight: bold;
-  background-color: var(--background-color);
-  color: var(--color);
+/* Hide color if source is not color */
+
+body:not(:has([id^="parts"][id$="source"] [data-value="COLOR"])) {
+  [id^="parts"][id$="color"] {
+    display: none;
+  }
+}
+
+/* Hide options if source is color */
+
+body:has([id^="parts"][id$="source"] [data-value="COLOR"]) {
+  [id^="parts"][id$="saturationLimit"],
+  [id^="parts"][id$="darkness"],
+  [id^="parts"][id$="brightness"] {
+    display: none;
+  }
+}
+
+/* Hide options if source is auto */
+
+body:has([id^="parts"][id$="source"] [data-value="AUTO"]) {
+  [id^="parts"][id$="color"],
+  [id^="parts"][id$="saturationLimit"],
+  [id^="parts"][id$="darkness"],
+  [id^="parts"][id$="brightness"] {
+    display: none;
+  }
 }

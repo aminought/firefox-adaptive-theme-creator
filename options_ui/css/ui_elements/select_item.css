@@ -2,13 +2,25 @@
   padding: 8px;
   cursor: default;
   white-space: nowrap;
+  border-color: color-mix(in srgb, currentColor 50%, var(--background-color));
 }
 
-.select_item + .select_item {
-  border-left: 1px solid;
-  border-color: color-mix(in srgb, currentColor 50%, transparent);
+.select_popup.horizontal {
+  .select_item + .select_item {
+    border-left: 1px solid;
+  }
+}
+
+.select_popup.vertical {
+  .select_item + .select_item {
+    border-top: 1px solid;
+  }
 }
 
 .select_item:hover {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
 }

@@ -156,7 +156,7 @@ body:has(.toolbar_button:hover) .toolbar_button {
 #ntp {
   display: flex;
   flex: 4;
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
 }
 
 #rickroll {

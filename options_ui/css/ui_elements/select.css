@@ -8,11 +8,11 @@
   padding-right: 4px;
   height: 100%;
   cursor: default;
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
 }
 
 .select:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
+  background-color: color-mix(in srgb, currentColor 17%, var(--background-color));
 }
 
 .select_label {

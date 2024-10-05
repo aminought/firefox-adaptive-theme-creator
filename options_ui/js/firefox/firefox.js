@@ -1,13 +1,24 @@
+import { GROUPS, Part } from "../../../shared/browser_parts.js";
+
+import { ContextMenu } from "./context_menu.js";
 import { Div } from "../ui_elements/div.js";
 import { Group } from "./group.js";
 import { ICONS } from "./icons.js";
 import { NamedPart } from "./named_part.js";
+import { Options } from "../../../shared/options.js";
+import { POSITIONS } from "../utils/positions.js";
 import { Placeholder } from "./placeholder.js";
+import { PopupController } from "../popup_controller.js";
 import { Text } from "./text.js";
 import { ToolbarButton } from "./toolbar_button.js";
 
 export class Firefox {
-  constructor() {
+  /**
+   *
+   * @param {Options} options
+   */
+  constructor(options) {
+    this.options = options;
     this.element = new Div({ id: "firefox" });
     this.navigator = new NamedPart("navigator");
     this.titlebar = new Group("titlebar");
@@ -36,12 +47,35 @@ export class Firefox {
     this.sidebar = new Group("sidebar");
     this.ntp = new Group("ntp");
 
-    this.toolbarButtons = [
-      this.toolbarBackButton,
-      this.toolbarForwardButton,
-      this.toolbarReloadButton,
-      this.toolbarMenuButton,
-    ];
+    this.groups = {
+      [this.titlebar.id]: GROUPS.titlebar,
+      [this.tabSelected.id]: GROUPS.tab,
+      [this.toolbar.id]: GROUPS.toolbar,
+      [this.toolbarField.id]: GROUPS.toolbarField,
+      [this.toolbarBackButton.id]: GROUPS.buttonsAndIcons,
+      [this.toolbarForwardButton.id]: GROUPS.buttonsAndIcons,
+      [this.toolbarReloadButton.id]: GROUPS.buttonsAndIcons,
+      [this.toolbarMenuButton.id]: GROUPS.buttonsAndIcons,
+      [this.popup.id]: GROUPS.popup,
+      [this.bookmarks.id]: GROUPS.bookmarks,
+      [this.sidebar.id]: GROUPS.sidebar,
+      [this.ntp.id]: GROUPS.ntp,
+    };
+
+    this.element.setOnContextMenu((event) => {
+      event.preventDefault();
+      let { target } = event;
+      while (!(target.id in this.groups) && target.parentElement) {
+        target = target.parentElement;
+      }
+      const parts = this.groups[target.id];
+      const context_menu = new ContextMenu(parts, this.options, {
+        position: POSITIONS.POINTER,
+      });
+      if (!PopupController.popFor(target)) {
+        PopupController.push(event, context_menu, target, POSITIONS.POINTER);
+      }
+    });
   }
 
   /**

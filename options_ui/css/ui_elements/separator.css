@@ -1,4 +1,4 @@
 .separator {
   height: 100%;
-  border-left: 1px solid color-mix(in srgb, currentColor 50%, transparent);
+  border-left: 1px solid color-mix(in srgb, currentColor 50%, var(--background-color));
 }

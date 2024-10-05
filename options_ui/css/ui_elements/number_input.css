@@ -2,7 +2,7 @@
   height: var(--option-height);
   border-radius: 0 var(--radius) var(--radius) 0;
   border: none;
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
   color: var(--color);
   font-family: var(--font-family);
   -moz-appearance: textfield;
@@ -13,7 +13,7 @@
 }
 
 .number_input > input:hover {
-  background-color: color-mix(in srgb, currentColor 17%, transparent);
+  background-color: color-mix(in srgb, currentColor 17%, var(--background-color));
 }
 
 .number_input > input:focus {

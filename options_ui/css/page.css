@@ -17,11 +17,6 @@ body {
   position: relative;
   font-family: var(--font-family);
   max-width: var(--body-width);
-
-  .dropdown_popup,
-  .select_popup {
-    z-index: 3;
-  }
 }
 
 /* Hide all options if disabled */

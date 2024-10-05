@@ -35,6 +35,7 @@ export class UIElement {
   /**
    *
    * @param {Array<UIElement>} children
+   * @returns {UIElement}
    */
   appendChildren(children) {
     for (const child of children) {
@@ -45,10 +46,32 @@ export class UIElement {
 
   /**
    *
+   * @returns {UIElement}
+   */
+  removeChildren() {
+    while (this.element.firstChild) {
+      this.element.removeChild(this.element.lastChild);
+    }
+    this.children = [];
+    return this;
+  }
+
+  /**
+   *
    * @returns {HTMLElement}
    */
   draw() {
     return this.element;
+  }
+
+  /**
+   *
+   * @param {number} zIndex
+   * @returns {UIElement}
+   */
+  setZIndex(zIndex) {
+    this.element.style.zIndex = zIndex;
+    return this;
   }
 
   /**
@@ -70,6 +93,15 @@ export class UIElement {
    */
   setOnClick(callback) {
     this.onClick = callback;
+    return this;
+  }
+
+  /**
+   *
+   * @param {CallableFunction} callback
+   */
+  setOnContextMenu(callback) {
+    this.element.oncontextmenu = callback;
     return this;
   }
 }

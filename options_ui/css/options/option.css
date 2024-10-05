@@ -5,6 +5,7 @@
   border-radius: var(--radius);
   border: 1px solid;
   height: var(--option-height);
+  overflow: hidden;
 }
 
 .option .label {

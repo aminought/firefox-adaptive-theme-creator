@@ -122,9 +122,11 @@ const makeGlobalOptions = (options) => {
 
 /**
  *
+ * @param {Options}
  * @returns {UIElement}
  */
-const makeFirefoxPreview = () => new OptionsRow().appendChild(new Firefox());
+const makeFirefoxPreview = (options) =>
+  new OptionsRow().appendChild(new Firefox(options));
 
 /**
  *
@@ -276,7 +278,7 @@ export const makeOptionsUI = (options) => {
   const optionsUI = new OptionsCol().appendChildren([
     makeTitle(),
     makeGlobalOptions(options),
-    makeFirefoxPreview(),
+    makeFirefoxPreview(options),
     makeTriggersOptions(options),
     makeGlobalSourceOptions(options),
     makeFooter(options),

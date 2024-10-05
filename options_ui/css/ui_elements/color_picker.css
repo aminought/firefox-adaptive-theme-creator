@@ -22,7 +22,11 @@
 }
 
 .picker_editor > input {
-  background-color: color-mix(in srgb, currentColor 13%, transparent);
+  background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
   color: var(--color) !important;
   box-shadow: none !important;
   text-align: center !important;

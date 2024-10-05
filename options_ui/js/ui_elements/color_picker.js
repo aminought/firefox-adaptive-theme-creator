@@ -35,7 +35,7 @@ export class ColorPicker extends Input {
       }
       event.stopPropagation();
       if (!PopupController.popFor(this.element)) {
-        PopupController.push(this.popup, this.element, POSITIONS.BELOW);
+        PopupController.push(event, this.popup, this.element, POSITIONS.BELOW);
       }
     };
 

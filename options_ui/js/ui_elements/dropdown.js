@@ -12,9 +12,14 @@ export class Dropdown extends Div {
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
+   * @param {string} params.position
    */
-  constructor(label, { id = null, classList = [] } = {}) {
+  constructor(
+    label,
+    { id = null, classList = [], position = POSITIONS.BELOW } = {}
+  ) {
     super({ id, classList: ["dropdown", ...classList] });
+    this.position = position;
     this.popup = new DropdownPopup();
     this.label = new Label(label, { classList: ["dropdown_label"] });
     this.arrow = new SelectArrow();
@@ -40,7 +45,7 @@ export class Dropdown extends Div {
     this.element.onclick = (event) => {
       event.stopPropagation();
       if (!PopupController.popFor(this.element)) {
-        PopupController.push(this.popup, this.element, POSITIONS.BELOW);
+        PopupController.push(event, this.popup, this.element, this.position);
       }
     };
 

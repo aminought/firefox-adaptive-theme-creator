@@ -45,7 +45,9 @@ export class Checkbox extends Input {
    * @returns {HTMLElement}
    */
   draw() {
-    this.element.onclick = () => {
+    this.element.onclick = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
       this.setValue(!this.value);
       this.onChange?.(this.value);
     };
