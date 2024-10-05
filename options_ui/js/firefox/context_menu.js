@@ -31,7 +31,7 @@ export class ContextMenu extends Div {
     this.select = createStringSelect(
       this.parts[0].name,
       this.parts.map((part) => part.name),
-      (text) => text,
+      Localizer.localizePart,
       {
         classList: ["context_menu_select"],
         itemClassList: ["context_menu_select_item"],
@@ -60,34 +60,28 @@ export class ContextMenu extends Div {
     };
     const colorInput = new ColorInput(this.options.get(ids.color));
     this.items.appendChildren([
-      new OptionWithLabel(ids.enabled, "Enabled", this.options).appendChild(
+      new OptionWithLabel(ids.enabled, this.options).appendChild(
         new Checkbox(this.options.get(ids.enabled))
       ),
-      new OptionWithLabel(
-        ids.inheritance,
-        "Inheritance",
-        this.options
-      ).appendChild(
+      new OptionWithLabel(ids.inheritance, this.options).appendChild(
         createStringSelect(
           this.options.get(ids.inheritance),
           part.getInheritances(),
-          (text) => text
+          Localizer.localizeInheritance
         )
       ),
-      new OptionWithLabel(
-        ids.source,
-        Localizer.getMessage("source"),
-        this.options
-      ).appendChild(
+      new OptionWithLabel(ids.source, this.options).appendChild(
         createStringSelect(
           this.options.get(ids.source),
           Object.values(
             part.isForeground ? FOREGROUND_SOURCE : BACKGROUND_SOURCE
           ),
-          Localizer.getMessage
+          part.isForeground
+            ? Localizer.localizeForegroundSource
+            : Localizer.localizeBackgroundSource
         )
       ),
-      new OptionWithLabel(ids.color, "Color", this.options)
+      new OptionWithLabel(ids.color, this.options)
         .appendChild(colorInput)
         .setOnChange(async (value) => {
           const color = value.rgbaString;
@@ -95,25 +89,13 @@ export class ContextMenu extends Div {
           colorInput.setValue(color).updateBackgroundColor();
           await this.options.save();
         }),
-      new OptionWithLabel(
-        ids.saturationLimit,
-        Localizer.getMessage("saturationLimit"),
-        this.options
-      ).appendChild(
+      new OptionWithLabel(ids.saturationLimit, this.options).appendChild(
         createNumberSelect(this.options.get(ids.saturationLimit), 0, 1, 0.1)
       ),
-      new OptionWithLabel(
-        ids.darkness,
-        Localizer.getMessage("darkness"),
-        this.options
-      ).appendChild(
+      new OptionWithLabel(ids.darkness, this.options).appendChild(
         createNumberSelect(this.options.get(ids.darkness), 0, 5, 0.5)
       ),
-      new OptionWithLabel(
-        ids.brightness,
-        Localizer.getMessage("brightness"),
-        this.options
-      ).appendChild(
+      new OptionWithLabel(ids.brightness, this.options).appendChild(
         createNumberSelect(this.options.get(ids.brightness), 0, 5, 0.5)
       ),
     ]);

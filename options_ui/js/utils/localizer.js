@@ -1,12 +1,6 @@
-export class Localizer {
-  static localizePage() {
-    const elements = document.querySelectorAll("[data-i18n]");
-    for (const element of elements) {
-      const messageName = element.getAttribute("data-i18n");
-      element.innerHTML = Localizer.getMessage(messageName);
-    }
-  }
+import { INHERITANCE } from "../../../shared/constants.js";
 
+export class Localizer {
   /**
    *
    * @param {string} messageName
@@ -18,46 +12,88 @@ export class Localizer {
 
   /**
    *
+   * @param {string} backgroundSource
+   * @returns {string}
+   */
+  static localizeBackgroundSource(backgroundSource) {
+    return Localizer.getMessage(`background_source.${backgroundSource}`);
+  }
+
+  /**
+   *
+   * @param {string} button
+   * @returns {string}
+   */
+  static localizeButton(button) {
+    return Localizer.getMessage(`button.${button}`);
+  }
+
+  /**
+   *
+   * @param {string} foregroundSource
+   * @returns {string}
+   */
+  static localizeForegroundSource(foregroundSource) {
+    return Localizer.getMessage(`foreground_source.${foregroundSource}`);
+  }
+
+  /**
+   *
    * @param {string} inheritance
    * @returns {string}
    */
   static localizeInheritance(inheritance) {
-    return Localizer.getMessage(`inheritance.${inheritance}`);
+    if (inheritance in INHERITANCE) {
+      return Localizer.getMessage(`inheritance.${inheritance}`);
+    }
+    return Localizer.localizePart(inheritance);
   }
 
   /**
    *
-   * @param {string} background_source
+   * @param {string} option
    * @returns {string}
    */
-  static localizeBackgroundSource(background_source) {
-    return Localizer.getMessage(`background_source.${background_source}`);
+  static localizeOption(option) {
+    const suffix = option.split(".").pop();
+    return Localizer.getMessage(`option.${suffix}`);
   }
 
   /**
    *
-   * @param {string} foreground_source
+   * @param {string} optionGroup
    * @returns {string}
    */
-  static localizeForegroundSource(foreground_source) {
-    return Localizer.getMessage(`foreground_source.${foreground_source}`);
+  static localizeOptionGroup(optionGroup) {
+    const suffix = optionGroup.split(".").pop();
+    return Localizer.getMessage(`option_group.${suffix}`);
   }
 
   /**
    *
-   * @param {string} algo
+   * @param {string} pageColorAlgo
    * @returns {string}
    */
-  static localizePageColorAlgo(algo) {
-    return Localizer.getMessage(`page_color_algo.${algo}`);
+  static localizePageColorAlgo(pageColorAlgo) {
+    return Localizer.getMessage(`page_color_algo.${pageColorAlgo}`);
   }
 
   /**
    *
-   * @param {string} trigger
+   * @param {string} part
    * @returns {string}
    */
-  static localizeTrigger(trigger) {
+  static localizePart(part) {
+    return Localizer.getMessage(`part.${part}`);
+  }
+
+  /**
+   *
+   * @param {string} triggerId
+   * @returns {string}
+   */
+  static localizeTrigger(triggerId) {
+    const trigger = triggerId.split(".").pop();
     return Localizer.getMessage(`trigger.${trigger}`);
   }
 }

@@ -1,5 +1,6 @@
 import { Div } from "./ui_elements/div.js";
 import { Label } from "./ui_elements/label.js";
+import { Localizer } from "./utils/localizer.js";
 import { OptionsRow } from "./options_row.js";
 
 export class OptionsGroup extends Div {
@@ -12,7 +13,7 @@ export class OptionsGroup extends Div {
    */
   constructor(title, { id = null, classList = [] } = {}) {
     super({ id, classList: ["options_group_wrapper", ...classList] });
-    this.title = title;
+    this.title = Localizer.localizeOptionGroup(title);
     this.optionsGroup = new Div({ classList: ["options_group"] });
   }
 

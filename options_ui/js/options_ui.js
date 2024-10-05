@@ -24,23 +24,20 @@ import { OptionsRow } from "./options_row.js";
 import { Title } from "./title.js";
 import { UIElement } from "./ui_elements/ui_element.js";
 
-const FILLER = "@".repeat(100);
-
 /**
  *
  * @returns {UIElement}
  */
-const makeTitle = () =>
-  new OptionsRow().appendChild(new Title("ADAPTIVE THEME CREATOR"));
+const makeTitle = () => new OptionsRow().appendChild(new Title("title"));
 
 /**
  *
- * @param {string} label
+ * @param {string} type
  * @param {Options} options
  * @param {object} sources
  * @returns {UIElement}
  */
-const makeGlobalColorDropdown = (label, type, options, sources) => {
+const makeGlobalColorDropdown = (type, options, sources) => {
   const ids = {
     dropdown: `global_${type}_options`,
     source: `global.${type}.source`,
@@ -50,21 +47,19 @@ const makeGlobalColorDropdown = (label, type, options, sources) => {
     brightness: `global.${type}.brightness`,
   };
   const colorInput = new ColorInput(options.get(ids.color));
-  return new Dropdown(label, {
+  return new Dropdown(Localizer.localizeOptionGroup(type), {
     id: ids.dropdown,
   }).appendChildren([
-    new OptionWithLabel(
-      ids.source,
-      Localizer.getMessage("source"),
-      options
-    ).appendChild(
+    new OptionWithLabel(ids.source, options).appendChild(
       createStringSelect(
         options.get(ids.source),
         Object.values(sources),
-        Localizer.getMessage
+        type === "foreground"
+          ? Localizer.localizeForegroundSource
+          : Localizer.localizeBackgroundSource
       )
     ),
-    new OptionWithLabel(ids.color, "Color", options)
+    new OptionWithLabel(ids.color, options)
       .appendChild(colorInput)
       .setOnChange(async (value) => {
         const color = value.rgbaString;
@@ -72,23 +67,15 @@ const makeGlobalColorDropdown = (label, type, options, sources) => {
         colorInput.setValue(color).updateBackgroundColor();
         await options.save();
       }),
-    new OptionWithLabel(
-      ids.saturationLimit,
-      Localizer.getMessage("saturationLimit"),
-      options
-    ).appendChild(
+    new OptionWithLabel(ids.saturationLimit, options).appendChild(
       createNumberSelect(options.get(ids.saturationLimit), 0, 1, 0.1)
     ),
-    new OptionWithLabel(
-      ids.darkness,
-      Localizer.getMessage("darkness"),
-      options
-    ).appendChild(createNumberSelect(options.get(ids.darkness), 0, 5, 0.5)),
-    new OptionWithLabel(
-      ids.brightness,
-      Localizer.getMessage("brightness"),
-      options
-    ).appendChild(createNumberSelect(options.get(ids.brightness), 0, 5, 0.5)),
+    new OptionWithLabel(ids.darkness, options).appendChild(
+      createNumberSelect(options.get(ids.darkness), 0, 5, 0.5)
+    ),
+    new OptionWithLabel(ids.brightness, options).appendChild(
+      createNumberSelect(options.get(ids.brightness), 0, 5, 0.5)
+    ),
   ]);
 };
 
@@ -102,21 +89,11 @@ const makeGlobalOptions = (options) => {
     enabled: "global.enabled",
   };
   return new OptionsRow().appendChildren([
-    new OptionWithLabel(ids.enabled, "Enabled", options).appendChild(
+    new OptionWithLabel(ids.enabled, options).appendChild(
       new Checkbox(options.get(ids.enabled))
     ),
-    makeGlobalColorDropdown(
-      "Background Options",
-      "background",
-      options,
-      BACKGROUND_SOURCE
-    ),
-    makeGlobalColorDropdown(
-      "Foreground Options",
-      "foreground",
-      options,
-      FOREGROUND_SOURCE
-    ),
+    makeGlobalColorDropdown("background", options, BACKGROUND_SOURCE),
+    makeGlobalColorDropdown("foreground", options, FOREGROUND_SOURCE),
   ]);
 };
 
@@ -139,20 +116,16 @@ const makeFaviconOptionsGroup = (options) => {
     avoidWhite: "global.favicon.avoidWhite",
     avoidBlack: "global.favicon.avoidBlack",
   };
-  return new OptionsGroup(Localizer.getMessage("faviconOptions"), {
+  return new OptionsGroup("global.favicon", {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new OptionWithLabel(
-        ids.avoidWhite,
-        Localizer.getMessage("avoidWhite"),
-        options
-      ).appendChild(new Checkbox(options.get(ids.avoidWhite))),
-      new OptionWithLabel(
-        ids.avoidBlack,
-        Localizer.getMessage("avoidBlack"),
-        options
-      ).appendChild(new Checkbox(options.get(ids.avoidBlack))),
+      new OptionWithLabel(ids.avoidWhite, options).appendChild(
+        new Checkbox(options.get(ids.avoidWhite))
+      ),
+      new OptionWithLabel(ids.avoidBlack, options).appendChild(
+        new Checkbox(options.get(ids.avoidBlack))
+      ),
     ])
   );
 };
@@ -170,35 +143,26 @@ const makePageOptionsGroup = (options) => {
     colorAlgo: "global.page.colorAlgo",
     captureHeight: "global.page.captureHeight",
   };
-  return new OptionsGroup(Localizer.getMessage("pageOptions"), {
+  return new OptionsGroup("global.page", {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new OptionWithLabel(
-        ids.avoidWhite,
-        Localizer.getMessage("avoidWhite"),
-        options
-      ).appendChild(new Checkbox(options.get(ids.avoidWhite))),
-      new OptionWithLabel(
-        ids.avoidBlack,
-        Localizer.getMessage("avoidBlack"),
-        options
-      ).appendChild(new Checkbox(options.get(ids.avoidBlack))),
-      new OptionWithLabel(
-        ids.colorAlgo,
-        Localizer.getMessage("algo"),
-        options
-      ).appendChild(
+      new OptionWithLabel(ids.avoidWhite, options).appendChild(
+        new Checkbox(options.get(ids.avoidWhite))
+      ),
+      new OptionWithLabel(ids.avoidBlack, options).appendChild(
+        new Checkbox(options.get(ids.avoidBlack))
+      ),
+      new OptionWithLabel(ids.colorAlgo, options).appendChild(
         createStringSelect(
           options.get(ids.colorAlgo),
-          Object.values(PAGE_COLOR_ALGO)
+          Object.values(PAGE_COLOR_ALGO),
+          Localizer.localizePageColorAlgo
         )
       ),
-      new OptionWithLabel(
-        ids.captureHeight,
-        Localizer.getMessage("pageCaptureHeight"),
-        options
-      ).appendChild(new NumberInput(options.get(ids.captureHeight), 1, 500)),
+      new OptionWithLabel(ids.captureHeight, options).appendChild(
+        new NumberInput(options.get(ids.captureHeight), 1, 500)
+      ),
     ])
   );
 };
@@ -209,18 +173,16 @@ const makePageOptionsGroup = (options) => {
  * @returns {UIElement}
  */
 const makeTriggersOptions = (options) => {
-  const makeId = (trigger) => `trigger_${trigger}`;
+  const makeId = (trigger) => `trigger.${trigger}`;
   const optionPath = "global.triggers";
   const row = new OptionsRow({
     classList: ["wrap"],
   });
   for (const trigger of Object.keys(TRIGGER)) {
     row.appendChild(
-      new OptionWithLabel(
-        makeId(trigger),
-        Localizer.getMessage(trigger),
-        options
-      )
+      new OptionWithLabel(makeId(trigger), options, {
+        localize: Localizer.localizeTrigger,
+      })
         .appendChild(new Checkbox(options.get(optionPath).includes(trigger)))
         .setOnChange(async (value) => {
           const triggers = new Set(options.get(optionPath));
@@ -240,9 +202,7 @@ const makeTriggersOptions = (options) => {
   }
   return new OptionsRow({
     id: "global_triggers_options",
-  }).appendChild(
-    new OptionsGroup(Localizer.getMessage("triggers")).appendChild(row)
-  );
+  }).appendChild(new OptionsGroup("global.triggers").appendChild(row));
 };
 
 /**

@@ -1,6 +1,7 @@
 import { Div } from "./ui_elements/div.js";
 import { Input } from "./ui_elements/input.js";
 import { Label } from "./ui_elements/label.js";
+import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
 import { Separator } from "./ui_elements/separator.js";
 
@@ -8,15 +9,20 @@ export class OptionWithLabel extends Div {
   /**
    *
    * @param {string} id
-   * @param {string} label
    * @param {Options} options
    * @param {object} params
    * @param {Array<string>} params.classList
    */
-  constructor(id, label, options, { classList = [] } = {}) {
+  constructor(
+    id,
+    options,
+    { classList = [], localize = Localizer.localizeOption } = {}
+  ) {
     super({ id, classList: ["option", ...classList] });
     this.options = options;
-    this.label = new Label(label, { classList: ["option_title"] });
+    this.label = new Label(localize(id), {
+      classList: ["option_title"],
+    });
     this.separator = new Separator();
     this.onChange = async (value) => {
       this.options.set(id, value);

@@ -1,4 +1,5 @@
 import { Label } from "./ui_elements/label.js";
+import { Localizer } from "./utils/localizer.js";
 
 export class Title extends Label {
   /**
@@ -10,6 +11,10 @@ export class Title extends Label {
    * @param {string} params.for_
    */
   constructor(text, { id = null, classList = [], for_ = "" } = {}) {
-    super(text, { id, classList: ["title", ...classList], for: for_ });
+    super(Localizer.getMessage(text), {
+      id,
+      classList: ["title", ...classList],
+      for: for_,
+    });
   }
 }

@@ -1,42 +1,18 @@
 {
-    "algo": {
-        "message": "Algorithm"
-    },
-    "BASIC": {
-        "message": "Basic"
-    },
-    "KMEANS": {
-        "message": "K-means"
-    },
-    "algo_basic": {
-        "message": "Basic"
-    },
-    "algo_kmeans": {
-        "message": "K-means"
-    },
-    "avoidBlack": {
-        "message": "Avoid Black"
-    },
-    "avoidWhite": {
-        "message": "Avoid White"
-    },
-    "auto": {
-        "message": "Auto"
-    },
-    "background_source": {
-        "message": "Background Color Source"
-    },
-    "foreground_source": {
-        "message": "Foreground Color Source"
-    },
-    "brightness": {
-        "message": "Brightness"
-    },
-    "color": {
+    "background_source.COLOR": {
         "message": "Color"
     },
-    "darkness": {
-        "message": "Darkness"
+    "background_source.FAVICON": {
+        "message": "Favicon"
+    },
+    "background_source.PAGE": {
+        "message": "Page"
+    },
+    "button.help": {
+        "message": "Help"
+    },
+    "button.reset": {
+        "message": "Reset"
     },
     "extensionDescription": {
         "message": "WebExtension that allows you to create your own custom theme based on the color of site's favicon, the background color of a page, or any other color you choose."
@@ -44,127 +20,214 @@
     "extensionName": {
         "message": "Adaptive Theme Creator"
     },
-    "favicon": {
+    "foreground_source.AUTO": {
+        "message": "Auto"
+    },
+    "foreground_source.COLOR": {
+        "message": "Color"
+    },
+    "foreground_source.FAVICON": {
         "message": "Favicon"
     },
-    "faviconOptions": {
-        "message": "FAVICON COLOR OPTIONS"
+    "foreground_source.PAGE": {
+        "message": "Page"
     },
-    "frame": {
-        "message": "Frame"
-    },
-    "frame_inactive": {
-        "message": "Frame Inactive"
-    },
-    "help": {
-        "message": "Help"
-    },
-    "help1Greetings": {
-        "message": "Welcome to <b>Adaptive Theme Creator</b>."
-    },
-    "help2Intro": {
-        "message": "It all started with a simple extension called <b>Favicon Color</b>, but over time, it has evolved into something much more. Now, it's a full-fledged theme creator that allows you to use the color of website's <b>favicon</b> and <b>page</b>, as well as your <b>own</b> colors and apply them to almost any part of the browser."
-    },
-    "help3Description": {
-        "message": "The settings consist of <b>global</b> options and options for specific <b>parts of the browser</b>. You see a schematic image of the browser in front of you.<br><br>To turn on or off the coloring of a specific <b>part of the browser</b>, just click on it with the <b>left mouse button</b>.<br><br><b>Right-clicking</b> opens the context menu for the selected <b>part of the browser</b>, as well as the <b>connected</b> with it.<br><br>By clicking on the context menu header, you can select the <b>connected part of the browser</b> and configure it by changing <b>inheritance</b> or other options."
-    },
-    "help4Conclusion": {
-        "message": "Good luck in creating a unique theme."
-    },
-    "help5Contacts": {
-        "message": "<a href=\"https://github.com/aminought/firefox-favicon-color\"><b>Github</b></a><br><a href=\"https://www.donationalerts.com/r/aminought\"><b>Buy Me a Cofee</b></a/"
-    },
-    "inherit_global": {
+    "inheritance.GLOBAL": {
         "message": "Global"
     },
-    "inheritance_off": {
+    "inheritance.OFF": {
         "message": "Off"
     },
-    "inheritFrom": {
-        "message": "Inherit From"
+    "option.avoidBlack": {
+        "message": "Avoid Black"
     },
-    "own_color": {
-        "message": "Own Color"
+    "option.avoidWhite": {
+        "message": "Avoid White"
     },
-    "page": {
-        "message": "Page"
+    "option.brightness": {
+        "message": "Brightness"
     },
-    "pageCaptureHeight": {
+    "option.captureHeight": {
         "message": "Capture Height"
     },
-    "pageOptions": {
-        "message": "PAGE COLOR OPTIONS"
+    "option.color": {
+        "message": "Color"
     },
-    "popup": {
-        "message": "Popup"
+    "option.colorAlgo": {
+        "message": "Algorithm"
     },
-    "popup_border": {
-        "message": "Popup Border"
+    "option.darkness": {
+        "message": "Darkness"
     },
-    "popup_highlight": {
-        "message": "Popup Highlight"
+    "option.enabled": {
+        "message": "Enabled"
     },
-    "reset": {
-        "message": "Reset"
+    "option.inheritance": {
+        "message": "Inheritance"
     },
-    "saturationLimit": {
+    "option.saturationLimit": {
         "message": "Saturation Limit"
     },
-    "sidebar": {
-        "message": "Sidebar"
-    },
-    "sidebar_border": {
-        "message": "Sidebar Border"
-    },
-    "source": {
+    "option.source": {
         "message": "Color Source"
     },
-    "tab_selected": {
-        "message": "Selected Tab"
+    "option_group.background": {
+        "message": "Background Options"
     },
-    "toolbar": {
-        "message": "Toolbar"
+    "option_group.favicon": {
+        "message": "FAVICON OPTIONS"
     },
-    "toolbar_bottom_separator": {
-        "message": "Toolbar Bottom Separator"
+    "option_group.foreground": {
+        "message": "Foreground Options"
     },
-    "toolbar_field": {
-        "message": "Toolbar Field"
+    "option_group.page": {
+        "message": "PAGE OPTIONS"
     },
-    "toolbar_field_border": {
-        "message": "Toolbar Field Border"
-    },
-    "toolbar_field_focus": {
-        "message": "Toolbar Field Focus"
-    },
-    "FAVICON_DETECTED": {
-        "message": "Favicon Detected"
-    },
-    "PAGE_CLICK": {
-        "message": "Page Click"
-    },
-    "PAGE_SCROLL_END": {
-        "message": "Page Scroll End"
-    },
-    "TAB_LOADED": {
-        "message": "Tab Loaded"
-    },
-    "URL_DETECTED": {
-        "message": "URL Detected"
-    },
-    "triggers": {
+    "option_group.triggers": {
         "message": "THEME UPDATE TRIGGERS"
     },
-    "warning": {
-        "message": "The current theme is not compatible with this extension. We recommend installing a different theme than the system default."
+    "page_color_algo.BASIC": {
+        "message": "Basic"
     },
-    "PAGE": {
-        "message": "Page"
+    "page_color_algo.KMEANS": {
+        "message": "K-means"
     },
-    "FAVICON": {
-        "message": "Favicon"
+    "part.bookmark_text": {
+        "message": "Bookmark Text"
     },
-    "COLOR": {
-        "message": "Color"
+    "part.button_background_active": {
+        "message": "Button Background Active"
+    },
+    "part.button_background_hover": {
+        "message": "Button Background Hover"
+    },
+    "part.frame": {
+        "message": "Frame"
+    },
+    "part.frame_inactive": {
+        "message": "Frame Inactive"
+    },
+    "part.icons": {
+        "message": "Icons"
+    },
+    "part.icons_attention": {
+        "message": "Icons Attention"
+    },
+    "part.ntp_background": {
+        "message": "New Tab Background"
+    },
+    "part.ntp_card_background": {
+        "message": "New Tab Card Background"
+    },
+    "part.ntp_text": {
+        "message": "New Tab Text"
+    },
+    "part.popup": {
+        "message": "Popup"
+    },
+    "part.popup_border": {
+        "message": "Popup Border"
+    },
+    "part.popup_highlight": {
+        "message": "Popup Highlight"
+    },
+    "part.popup_highlight_text": {
+        "message": "Popup Highlight Text"
+    },
+    "part.popup_text": {
+        "message": "Popup Text"
+    },
+    "part.sidebar": {
+        "message": "Sidebar"
+    },
+    "part.sidebar_border": {
+        "message": "Sidebar Border"
+    },
+    "part.sidebar_highlight": {
+        "message": "Sidebar Highlight"
+    },
+    "part.sidebar_highlight_text": {
+        "message": "Sidebar Highlight Text"
+    },
+    "part.sidebar_text": {
+        "message": "Sidebar Text"
+    },
+    "part.tab_background_separator": {
+        "message": "Tab Background Separator"
+    },
+    "part.tab_background_text": {
+        "message": "Tab Background Text"
+    },
+    "part.tab_line": {
+        "message": "Tab Line"
+    },
+    "part.tab_loading": {
+        "message": "Tab Loading"
+    },
+    "part.tab_selected": {
+        "message": "Tab Selected"
+    },
+    "part.tab_text": {
+        "message": "Tab Text"
+    },
+    "part.toolbar": {
+        "message": "Toolbar"
+    },
+    "part.toolbar_bottom_separator": {
+        "message": "Toolbar Bottom Separator"
+    },
+    "part.toolbar_field": {
+        "message": "Toolbar Field"
+    },
+    "part.toolbar_field_border": {
+        "message": "Toolbar Field Border"
+    },
+    "part.toolbar_field_border_focus": {
+        "message": "Toolbar Field Border Focus"
+    },
+    "part.toolbar_field_focus": {
+        "message": "Toolbar Field Focus"
+    },
+    "part.toolbar_field_highlight": {
+        "message": "Toolbar Field Highlight"
+    },
+    "part.toolbar_field_highlight_text": {
+        "message": "Toolbar Field Highlight Text"
+    },
+    "part.toolbar_field_separator": {
+        "message": "Toolbar Field Separator"
+    },
+    "part.toolbar_field_text": {
+        "message": "Toolbar Field Text"
+    },
+    "part.toolbar_field_text_focus": {
+        "message": "Toolbar Field Text Focus"
+    },
+    "part.toolbar_text": {
+        "message": "Toolbar Text"
+    },
+    "part.toolbar_top_separator": {
+        "message": "Toolbar Top Separator"
+    },
+    "part.toolbar_vertical_separator": {
+        "message": "Toolbar Vertical Separator"
+    },
+    "title": {
+        "message": "ADAPTIVE THEME CREATOR"
+    },
+    "trigger.FAVICON_DETECTED": {
+        "message": "Favicon Detected"
+    },
+    "trigger.PAGE_CLICK": {
+        "message": "Page Click"
+    },
+    "trigger.PAGE_SCROLL_END": {
+        "message": "Page Scroll End"
+    },
+    "trigger.TAB_LOADED": {
+        "message": "Tab Loaded"
+    },
+    "trigger.URL_DETECTED": {
+        "message": "URL Detected"
     }
 }
