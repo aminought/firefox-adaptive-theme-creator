@@ -8,15 +8,22 @@ export class Part {
    * @param {boolean} params.isForeground
    * @param {string?} params.parentPart
    * @param {string?} params.backgroundPart
+   * @param {boolean} params.hasPreview
    */
   constructor(
     name,
-    { isForeground = false, parentPart = null, backgroundPart = null } = {}
+    {
+      isForeground = false,
+      parentPart = null,
+      backgroundPart = null,
+      hasPreview = false,
+    } = {}
   ) {
     this.name = name;
     this.isForeground = isForeground;
     this.parentPart = parentPart;
     this.backgroundPart = backgroundPart;
+    this.hasPreview = hasPreview;
   }
 
   /**
@@ -39,23 +46,32 @@ export const PARTS = {
   }),
   button_background_active: new Part("button_background_active"),
   button_background_hover: new Part("button_background_hover"),
-  frame: new Part("frame"),
+  frame: new Part("frame", { hasPreview: true }),
   frame_inactive: new Part("frame_inactive", { parentPart: "frame" }),
-  icons: new Part("icons", { isForeground: true, backgroundPart: "toolbar" }),
+  icons: new Part("icons", {
+    isForeground: true,
+    backgroundPart: "toolbar",
+    hasPreview: true,
+  }),
   icons_attention: new Part("icons_attention", {
     isForeground: true,
     backgroundPart: "toolbar",
   }),
-  ntp_background: new Part("ntp_background"),
+  ntp_background: new Part("ntp_background", { hasPreview: true }),
   ntp_card_background: new Part("ntp_card_background", {
     parentPart: "ntp_background",
+    hasPreview: true,
   }),
   ntp_text: new Part("ntp_text", {
     isForeground: true,
     backgroundPart: "ntp_card_background",
+    hasPreview: true,
   }),
-  popup: new Part("popup"),
-  popup_border: new Part("popup_border", { parentPart: "popup" }),
+  popup: new Part("popup", { hasPreview: true }),
+  popup_border: new Part("popup_border", {
+    parentPart: "popup",
+    hasPreview: true,
+  }),
   popup_highlight: new Part("popup_highlight"),
   popup_highlight_text: new Part("popup_highlight_text", {
     isForeground: true,
@@ -64,9 +80,13 @@ export const PARTS = {
   popup_text: new Part("popup_text", {
     isForeground: true,
     backgroundPart: "popup",
+    hasPreview: true,
   }),
-  sidebar: new Part("sidebar"),
-  sidebar_border: new Part("sidebar_border", { parentPart: "sidebar" }),
+  sidebar: new Part("sidebar", { hasPreview: true }),
+  sidebar_border: new Part("sidebar_border", {
+    parentPart: "sidebar",
+    hasPreview: true,
+  }),
   sidebar_highlight: new Part("sidebar_highlight"),
   sidebar_highlight_text: new Part("sidebar_highlight_text", {
     isForeground: true,
@@ -75,24 +95,32 @@ export const PARTS = {
   sidebar_text: new Part("sidebar_text", {
     isForeground: true,
     backgroundPart: "sidebar",
+    hasPreview: true,
   }),
   tab_background_separator: new Part("tab_background_separator"),
   tab_background_text: new Part("tab_background_text", {
     isForeground: true,
     backgroundPart: "frame",
   }),
-  tab_line: new Part("tab_line"),
+  tab_line: new Part("tab_line", { hasPreview: true }),
   tab_loading: new Part("tab_loading"),
-  tab_selected: new Part("tab_selected"),
+  tab_selected: new Part("tab_selected", { hasPreview: true }),
   tab_text: new Part("tab_text", {
     isForeground: true,
     backgroundPart: "tab_selected",
+    hasPreview: true,
   }),
-  toolbar: new Part("toolbar"),
-  toolbar_bottom_separator: new Part("toolbar_bottom_separator"),
-  toolbar_field: new Part("toolbar_field", { parentPart: "toolbar" }),
+  toolbar: new Part("toolbar", { hasPreview: true }),
+  toolbar_bottom_separator: new Part("toolbar_bottom_separator", {
+    hasPreview: true,
+  }),
+  toolbar_field: new Part("toolbar_field", {
+    parentPart: "toolbar",
+    hasPreview: true,
+  }),
   toolbar_field_border: new Part("toolbar_field_border", {
     parentPart: "toolbar_field",
+    hasPreview: true,
   }),
   toolbar_field_border_focus: new Part("toolbar_field_border_focus", {
     parentPart: "toolbar_field_border",
@@ -109,6 +137,7 @@ export const PARTS = {
   toolbar_field_text: new Part("toolbar_field_text", {
     isForeground: true,
     backgroundPart: "toolbar_field",
+    hasPreview: true,
   }),
   toolbar_field_text_focus: new Part("toolbar_field_text_focus", {
     isForeground: true,
@@ -117,8 +146,11 @@ export const PARTS = {
   toolbar_text: new Part("toolbar_text", {
     isForeground: true,
     backgroundPart: "toolbar",
+    hasPreview: true,
   }),
-  toolbar_top_separator: new Part("toolbar_top_separator"),
+  toolbar_top_separator: new Part("toolbar_top_separator", {
+    hasPreview: true,
+  }),
   toolbar_vertical_separator: new Part("toolbar_vertical_separator"),
 };
 

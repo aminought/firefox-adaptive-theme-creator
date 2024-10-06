@@ -6,7 +6,7 @@ import { Color } from "../../../shared/color.js";
  * @param {string} color
  */
 export const setRootColor = (property, color) => {
-  document.documentElement.style.setProperty(property, color);
+  document.documentElement.style.setProperty(`--${property}`, color);
 };
 
 /**

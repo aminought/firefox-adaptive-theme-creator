@@ -1,3 +1,31 @@
+html {
+  --frame: var(--background-color);
+  --tab_selected: var(--background-color);
+  --tab_text: var(--color);
+  --tab_line: var(--color);
+  --toolbar: var(--background-color);
+  --toolbar_text: var(--color);
+  --toolbar_top_separator: var(--color);
+  --toolbar_bottom_separator: var(--color);
+  --toolbar_field: var(--background-color);
+  --toolbar_field_text: var(--color);
+  --toolbar_field_border: var(--color);
+  --icons: var(--color);
+  --popup: var(--background-color);
+  --popup_text: var(--color);
+  --popup_border: var(--color);
+  --sidebar: var(--background-color);
+  --sidebar_text: var(--color);
+  --sidebar_border: var(--color);
+  --ntp_background: var(--background-color);
+  --ntp_card_background: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
+  --ntp_text: var(--color);
+}
+
 #firefox {
   --group-shadow: 0px 0px 8px 4px var(--color);
   --toolbar-button-shadow: 0px 0px 4px 2px var(--color);
@@ -6,7 +34,7 @@
 
   display: flex;
   flex-direction: column;
-  border: 1px solid;
+  border: 2px solid var(--color);
   border-radius: var(--radius);
   width: var(--body-width);
   aspect-ratio: 16 / 9;
@@ -14,7 +42,6 @@
 }
 
 .group {
-  border: 1px solid;
   transition: box-shadow var(--transition-s);
 }
 
@@ -27,6 +54,7 @@
   display: flex;
   flex-direction: column;
   flex: 1;
+  border-radius: 2px;
   background-color: var(--background-color);
 }
 
@@ -36,7 +64,8 @@
   align-items: center;
   flex: 1;
   padding: 2px 5px;
-  background-color: var(--background-color);
+  border-radius: 2px;
+  background-color: var(--frame);
   box-sizing: border-box;
 }
 
@@ -47,7 +76,12 @@
   border-radius: 2px;
   width: 10%;
   height: 90%;
-  background-color: var(--background-color);
+  background-color: var(--tab_selected);
+  border: 1px solid var(--tab_line);
+}
+
+#tab_selected > .text {
+  background-color: var(--tab_text);
 }
 
 #toolbar {
@@ -56,9 +90,10 @@
   flex-direction: row;
   align-items: center;
   flex: 1;
-  padding: 2px;
+  padding: 2px 5px 2px 5px;
   gap: 5px;
-  background-color: var(--background-color);
+  background-color: var(--toolbar);
+  border-top: 1px solid var(--toolbar_top_separator);
   box-sizing: border-box;
 }
 
@@ -69,7 +104,7 @@
   border-radius: 2px;
   height: 90%;
   aspect-ratio: 1 / 1;
-  color: var(--color);
+  color: var(--icons);
   transition: box-shadow var(--transition-s);
 }
 
@@ -96,10 +131,15 @@ body:has(.toolbar_button:hover) .toolbar_button {
   border-radius: 2px;
   width: 50%;
   height: 90%;
-  background-color: var(--background-color);
+  background-color: var(--toolbar_field);
+  border: 1px solid var(--toolbar_field_border);
   padding-left: 10%;
   padding-right: 10%;
   box-sizing: border-box;
+}
+
+#toolbar_field > .text {
+  background-color: var(--toolbar_field_text);
 }
 
 #popup {
@@ -113,10 +153,15 @@ body:has(.toolbar_button:hover) .toolbar_button {
   border-radius: var(--radius);
   right: calc(0% + 1px);
   top: calc(100% - 1px);
-  background-color: var(--background-color);
+  background-color: var(--popup);
+  border: 1px solid var(--popup_border);
   padding-top: 2%;
   z-index: 2;
   box-sizing: border-box;
+}
+
+#popup > .text {
+  background-color: var(--popup_text);
 }
 
 #popup.hidden {
@@ -128,13 +173,16 @@ body:has(.toolbar_button:hover) .toolbar_button {
   flex-direction: row;
   align-items: center;
   flex: 0.7;
-  padding-left: 2px;
+  padding-left: 5px;
+  padding-right: 5px;
   gap: 5px;
-  background-color: var(--background-color);
+  background-color: var(--toolbar);
+  border-bottom: 1px solid var(--toolbar_bottom_separator);
   box-sizing: border-box;
 }
 
 #bookmarks > .text {
+  background-color: var(--toolbar_text);
   width: 4%;
 }
 
@@ -142,7 +190,6 @@ body:has(.toolbar_button:hover) .toolbar_button {
   display: flex;
   flex-direction: row;
   flex: 4;
-  background-color: var(--background-color);
 }
 
 #sidebar {
@@ -151,10 +198,15 @@ body:has(.toolbar_button:hover) .toolbar_button {
   align-items: center;
   gap: var(--text-gap);
   flex: 1;
-  background-color: var(--background-color);
+  background-color: var(--sidebar);
+  border-right: 1px solid var(--sidebar_border);
   width: 20%;
   padding-top: 2%;
   box-sizing: border-box;
+}
+
+#sidebar > .text {
+  background-color: var(--sidebar_text);
 }
 
 #ntp {
@@ -164,15 +216,12 @@ body:has(.toolbar_button:hover) .toolbar_button {
   align-items: center;
   gap: 10%;
   flex: 4;
-  background-color: var(--background-color);
+  background-color: var(--ntp_background);
 }
 
 #ntp_search {
-  background-color: color-mix(
-    in srgb,
-    currentColor 13%,
-    var(--background-color)
-  );
+  background-color: var(--ntp_card_background);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border-radius: var(--radius);
   width: 50%;
   height: 8%;
@@ -205,22 +254,19 @@ body:has(.toolbar_button:hover) .toolbar_button {
 }
 
 .ntp_card {
-  background-color: color-mix(
-    in srgb,
-    currentColor 13%,
-    var(--background-color)
-  );
+  background-color: var(--ntp_card_background);
   border-radius: var(--radius);
   width: 70%;
   aspect-ratio: 1/1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .ntp_card_wrapper .text {
+  background-color: var(--ntp_text);
   width: 70%;
 }
 
 .text {
-  background-color: var(--color);
   border-radius: var(--radius);
   height: 3px;
   width: 80%;

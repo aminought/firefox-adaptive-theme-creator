@@ -44,12 +44,12 @@ export const DEFAULT_OPTIONS = {
     enabled: true,
     triggers: Object.values(TRIGGER),
     favicon: {
-      avoidWhite: false,
-      avoidBlack: false,
-    },
-    page: {
       avoidWhite: true,
       avoidBlack: true,
+    },
+    page: {
+      avoidWhite: false,
+      avoidBlack: false,
       captureHeight: 10,
       colorAlgo: PAGE_COLOR_ALGO.BASIC,
     },
@@ -102,7 +102,7 @@ export const DEFAULT_OPTIONS = {
     }),
     popup_highlight: makePart(),
     popup_highlight_text: makePart({ source: FOREGROUND_SOURCE.AUTO }),
-    popup_text: makePart({ source: FOREGROUND_SOURCE.AUTO }),
+    popup_text: makePart({ enabled: true, source: FOREGROUND_SOURCE.AUTO }),
     sidebar: makePart({ enabled: true }),
     sidebar_border: makePart({ enabled: true, inheritance: "sidebar" }),
     sidebar_highlight: makePart(),
@@ -113,7 +113,10 @@ export const DEFAULT_OPTIONS = {
       source: FOREGROUND_SOURCE.AUTO,
     }),
     tab_background_separator: makePart(),
-    tab_background_text: makePart({ source: FOREGROUND_SOURCE.AUTO }),
+    tab_background_text: makePart({
+      enabled: true,
+      source: FOREGROUND_SOURCE.AUTO,
+    }),
     tab_line: makePart(),
     tab_loading: makePart(),
     tab_selected: makePart({
@@ -128,8 +131,13 @@ export const DEFAULT_OPTIONS = {
       source: FOREGROUND_SOURCE.AUTO,
     }),
     toolbar: makePart({ enabled: true }),
-    toolbar_bottom_separator: makePart(),
-    toolbar_field: makePart({ enabled: true }),
+    toolbar_bottom_separator: makePart({ enabled: true }),
+    toolbar_field: makePart({
+      enabled: true,
+      inheritance: INHERITANCE.OFF,
+      source: BACKGROUND_SOURCE.PAGE,
+      brightness: "1.0",
+    }),
     toolbar_field_border: makePart(),
     toolbar_field_border_focus: makePart(),
     toolbar_field_focus: makePart(),
