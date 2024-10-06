@@ -9,7 +9,7 @@ import { ColorInput } from "../ui_elements/color_input.js";
 import { Div } from "../ui_elements/div.js";
 import { Localizer } from "../utils/localizer.js";
 import { ORIENTATION } from "../ui_elements/select_popup.js";
-import { OptionWithLabel } from "../option_with_label.js";
+import { Option } from "../option.js";
 import { Options } from "../../../shared/options.js";
 import { POSITION } from "../utils/positions.js";
 import { Part } from "../../../shared/browser_parts.js";
@@ -71,10 +71,10 @@ export class ContextMenu extends Div {
     };
     const colorInput = new ColorInput(this.options.get(ids.color));
     this.items.appendChildren([
-      new OptionWithLabel(ids.enabled, this.options)
+      new Option(ids.enabled, this.options)
         .appendChild(new Checkbox(this.options.get(ids.enabled)))
         .setOnChange(() => this.onVisualChange()),
-      new OptionWithLabel(ids.inheritance, this.options)
+      new Option(ids.inheritance, this.options)
         .appendChild(
           createStringSelect(
             this.options.get(ids.inheritance),
@@ -83,7 +83,7 @@ export class ContextMenu extends Div {
           )
         )
         .setOnChange(() => this.onVisualChange()),
-      new OptionWithLabel(ids.source, this.options)
+      new Option(ids.source, this.options)
         .appendChild(
           createStringSelect(
             this.options.get(ids.source),
@@ -96,20 +96,20 @@ export class ContextMenu extends Div {
           )
         )
         .setOnChange(() => this.onVisualChange()),
-      new OptionWithLabel(ids.color, this.options)
+      new Option(ids.color, this.options)
         .appendChild(colorInput)
         .setOnChange((value) => {
           const color = value.rgbaString;
           this.options.set(ids.color, color);
           colorInput.setValue(color).updateBackgroundColor();
         }),
-      new OptionWithLabel(ids.saturationLimit, this.options).appendChild(
+      new Option(ids.saturationLimit, this.options).appendChild(
         createNumberSelect(this.options.get(ids.saturationLimit), 0, 1, 0.1)
       ),
-      new OptionWithLabel(ids.darkness, this.options).appendChild(
+      new Option(ids.darkness, this.options).appendChild(
         createNumberSelect(this.options.get(ids.darkness), 0, 5, 0.5)
       ),
-      new OptionWithLabel(ids.brightness, this.options).appendChild(
+      new Option(ids.brightness, this.options).appendChild(
         createNumberSelect(this.options.get(ids.brightness), 0, 5, 0.5)
       ),
     ]);

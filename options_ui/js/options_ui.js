@@ -16,7 +16,7 @@ import { Firefox } from "./firefox/firefox.js";
 import { Footer } from "./footer.js";
 import { Localizer } from "./utils/localizer.js";
 import { NumberInput } from "./ui_elements/number_input.js";
-import { OptionWithLabel } from "./option_with_label.js";
+import { Option } from "./option.js";
 import { Options } from "../../shared/options.js";
 import { OptionsCol } from "./options_col.js";
 import { OptionsGroup } from "./options_group.js";
@@ -52,7 +52,7 @@ const makeGlobalColorDropdown = (type, options, sources) => {
   return new Dropdown(Localizer.localizeOptionGroup(type), {
     id: ids.dropdown,
   }).appendChildren([
-    new OptionWithLabel(ids.source, options).appendChild(
+    new Option(ids.source, options).appendChild(
       createStringSelect(
         options.get(ids.source),
         Object.values(sources),
@@ -61,20 +61,20 @@ const makeGlobalColorDropdown = (type, options, sources) => {
           : Localizer.localizeBackgroundSource
       )
     ),
-    new OptionWithLabel(ids.color, options)
+    new Option(ids.color, options)
       .appendChild(colorInput)
       .setOnChange((value) => {
         const color = value.rgbaString;
         options.set(ids.color, color);
         colorInput.setValue(color).updateBackgroundColor();
       }),
-    new OptionWithLabel(ids.saturationLimit, options).appendChild(
+    new Option(ids.saturationLimit, options).appendChild(
       createNumberSelect(options.get(ids.saturationLimit), 0, 1, 0.1)
     ),
-    new OptionWithLabel(ids.darkness, options).appendChild(
+    new Option(ids.darkness, options).appendChild(
       createNumberSelect(options.get(ids.darkness), 0, 5, 0.5)
     ),
-    new OptionWithLabel(ids.brightness, options).appendChild(
+    new Option(ids.brightness, options).appendChild(
       createNumberSelect(options.get(ids.brightness), 0, 5, 0.5)
     ),
   ]);
@@ -90,7 +90,7 @@ const makeGlobalOptions = (options) => {
     enabled: "global.enabled",
   };
   return new OptionsRow().appendChildren([
-    new OptionWithLabel(ids.enabled, options).appendChild(
+    new Option(ids.enabled, options).appendChild(
       new Checkbox(options.get(ids.enabled))
     ),
     makeGlobalColorDropdown("background", options, BACKGROUND_SOURCE),
@@ -122,10 +122,10 @@ const makeFaviconOptionsGroup = (options) => {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new OptionWithLabel(ids.avoidWhite, options).appendChild(
+      new Option(ids.avoidWhite, options).appendChild(
         new Checkbox(options.get(ids.avoidWhite))
       ),
-      new OptionWithLabel(ids.avoidBlack, options).appendChild(
+      new Option(ids.avoidBlack, options).appendChild(
         new Checkbox(options.get(ids.avoidBlack))
       ),
     ])
@@ -149,20 +149,20 @@ const makePageOptionsGroup = (options) => {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new OptionWithLabel(ids.avoidWhite, options).appendChild(
+      new Option(ids.avoidWhite, options).appendChild(
         new Checkbox(options.get(ids.avoidWhite))
       ),
-      new OptionWithLabel(ids.avoidBlack, options).appendChild(
+      new Option(ids.avoidBlack, options).appendChild(
         new Checkbox(options.get(ids.avoidBlack))
       ),
-      new OptionWithLabel(ids.colorAlgo, options).appendChild(
+      new Option(ids.colorAlgo, options).appendChild(
         createStringSelect(
           options.get(ids.colorAlgo),
           Object.values(PAGE_COLOR_ALGO),
           Localizer.localizePageColorAlgo
         )
       ),
-      new OptionWithLabel(ids.captureHeight, options).appendChild(
+      new Option(ids.captureHeight, options).appendChild(
         new NumberInput(options.get(ids.captureHeight), 1, 500)
       ),
     ])
@@ -182,7 +182,7 @@ const makeTriggersOptions = (options) => {
   });
   for (const trigger of Object.keys(TRIGGER)) {
     row.appendChild(
-      new OptionWithLabel(makeId(trigger), options, {
+      new Option(makeId(trigger), options, {
         localize: Localizer.localizeTrigger,
       })
         .appendChild(new Checkbox(options.get(optionPath).includes(trigger)))
