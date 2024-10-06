@@ -40,10 +40,6 @@ export class Part {
 }
 
 export const PARTS = {
-  bookmark_text: new Part("bookmark_text", {
-    isForeground: true,
-    backgroundPart: "toolbar",
-  }),
   button_background_active: new Part("button_background_active"),
   button_background_hover: new Part("button_background_hover"),
   frame: new Part("frame", { hasPreview: true }),
@@ -195,10 +191,10 @@ export const GROUPS = {
     PARTS.toolbar_field_separator,
   ],
   [GROUP_NAMES.BUTTONS_AND_ICONS]: [
-    PARTS.button_background_active,
-    PARTS.button_background_hover,
     PARTS.icons,
     PARTS.icons_attention,
+    PARTS.button_background_active,
+    PARTS.button_background_hover,
   ],
   [GROUP_NAMES.POPUP]: [
     PARTS.popup,
@@ -207,7 +203,6 @@ export const GROUPS = {
     PARTS.popup_highlight_text,
     PARTS.popup_border,
   ],
-  [GROUP_NAMES.BOOKMARKS]: [PARTS.bookmark_text],
   [GROUP_NAMES.SIDEBAR]: [
     PARTS.sidebar,
     PARTS.sidebar_text,

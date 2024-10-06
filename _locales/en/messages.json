@@ -92,9 +92,6 @@
     "page_color_algo.KMEANS": {
         "message": "K-means"
     },
-    "part.bookmark_text": {
-        "message": "Bookmark Text"
-    },
     "part.button_background_active": {
         "message": "Button Background Active"
     },

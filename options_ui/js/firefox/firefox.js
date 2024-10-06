@@ -46,7 +46,6 @@ export class Firefox {
       ICONS.MENU
     );
     this.popup = new Group("popup");
-    this.bookmarks = new Group("bookmarks");
     this.browser = new NamedPart("browser");
     this.sidebar = new Group("sidebar");
     this.ntp = new Group("ntp");
@@ -73,7 +72,6 @@ export class Firefox {
         GROUP_NAMES.BUTTONS_AND_ICONS,
       ],
       [this.popup.id]: [this.popup, GROUP_NAMES.POPUP],
-      [this.bookmarks.id]: [this.bookmarks, GROUP_NAMES.BOOKMARKS],
       [this.sidebar.id]: [this.sidebar, GROUP_NAMES.SIDEBAR],
       [this.ntp.id]: [this.ntp, GROUP_NAMES.NTP],
     };
@@ -142,7 +140,6 @@ export class Firefox {
           this.toolbarMenuButton,
           this.popup.appendChildren([new Text(), new Text()]),
         ]),
-        this.bookmarks.appendChildren([new Text(), new Text(), new Text()]),
       ]),
       this.browser.appendChildren([
         this.sidebar.appendChildren([new Text(), new Text(), new Text()]),

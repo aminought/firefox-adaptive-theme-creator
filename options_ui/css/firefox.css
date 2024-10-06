@@ -168,28 +168,10 @@ body:has(.toolbar_button:hover) .toolbar_button {
   display: none;
 }
 
-#bookmarks {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  flex: 0.7;
-  padding-left: 5px;
-  padding-right: 5px;
-  gap: 5px;
-  background-color: var(--toolbar);
-  border-bottom: 1px solid var(--toolbar_bottom_separator);
-  box-sizing: border-box;
-}
-
-#bookmarks > .text {
-  background-color: var(--toolbar_text);
-  width: 4%;
-}
-
 #browser {
   display: flex;
   flex-direction: row;
-  flex: 4;
+  flex: 6;
 }
 
 #sidebar {

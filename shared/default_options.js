@@ -69,11 +69,6 @@ export const DEFAULT_OPTIONS = {
     },
   },
   parts: {
-    bookmark_text: makePart({
-      enabled: true,
-      inheritance: INHERITANCE.OFF,
-      source: FOREGROUND_SOURCE.AUTO,
-    }),
     button_background_active: makePart(),
     button_background_hover: makePart(),
     frame: makePart({ enabled: true }),
