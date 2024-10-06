@@ -73,7 +73,10 @@ export class ContextMenu extends Div {
     this.items.appendChildren([
       new Option(ids.enabled, this.options)
         .appendChild(new Checkbox(this.options.get(ids.enabled)))
-        .setOnChange(() => this.onVisualChange()),
+        .setOnChange((value) => {
+          this.options.set(ids.enabled, value);
+          this.onVisualChange();
+        }),
       new Option(ids.inheritance, this.options)
         .appendChild(
           createStringSelect(
@@ -82,7 +85,10 @@ export class ContextMenu extends Div {
             Localizer.localizeInheritance
           )
         )
-        .setOnChange(() => this.onVisualChange()),
+        .setOnChange((value) => {
+          this.options.set(ids.inheritance, value);
+          this.onVisualChange();
+        }),
       new Option(ids.source, this.options)
         .appendChild(
           createStringSelect(
@@ -95,7 +101,10 @@ export class ContextMenu extends Div {
               : Localizer.localizeBackgroundSource
           )
         )
-        .setOnChange(() => this.onVisualChange()),
+        .setOnChange((value) => {
+          this.options.set(ids.source, value);
+          this.onVisualChange();
+        }),
       new Option(ids.color, this.options)
         .appendChild(colorInput)
         .setOnChange((value) => {

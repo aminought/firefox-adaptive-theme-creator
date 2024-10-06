@@ -3,6 +3,7 @@
 import {
   BACKGROUND_SOURCE,
   FOREGROUND_SOURCE,
+  PAGE_CAPTURE_ALGO,
   PAGE_COLOR_ALGO,
   TRIGGER,
 } from "../../shared/constants.js";
@@ -143,7 +144,9 @@ const makePageOptionsGroup = (options) => {
     avoidWhite: "global.page.avoidWhite",
     avoidBlack: "global.page.avoidBlack",
     colorAlgo: "global.page.colorAlgo",
+    captureAlgo: "global.page.captureAlgo",
     captureHeight: "global.page.captureHeight",
+    captureWidth: "global.page.captureWidth",
   };
   return new OptionsGroup("global.page", {
     id: ids.group,
@@ -162,8 +165,18 @@ const makePageOptionsGroup = (options) => {
           Localizer.localizePageColorAlgo
         )
       ),
+      new Option(ids.captureAlgo, options).appendChild(
+        createStringSelect(
+          options.get(ids.captureAlgo),
+          Object.values(PAGE_CAPTURE_ALGO),
+          Localizer.localizePageCaptureAlgo
+        )
+      ),
       new Option(ids.captureHeight, options).appendChild(
         new NumberInput(options.get(ids.captureHeight), 1, 500)
+      ),
+      new Option(ids.captureWidth, options).appendChild(
+        new NumberInput(options.get(ids.captureWidth), 1, 500)
       ),
     ])
   );
@@ -241,7 +254,6 @@ export const makeOptionsUI = async (options) => {
     active: true,
     currentWindow: true,
   });
-  console.log(tab);
   const optionsUI = new OptionsCol().appendChildren([
     makeTitle(),
     makeGlobalOptions(options),

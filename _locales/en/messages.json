@@ -47,14 +47,20 @@
     "option.brightness": {
         "message": "Brightness"
     },
+    "option.captureAlgo": {
+        "message": "Capture Algo"
+    },
     "option.captureHeight": {
         "message": "Capture Height"
+    },
+    "option.captureWidth": {
+        "message": "Capture Width"
     },
     "option.color": {
         "message": "Color"
     },
     "option.colorAlgo": {
-        "message": "Algorithm"
+        "message": "Color Algo"
     },
     "option.darkness": {
         "message": "Darkness"
@@ -85,6 +91,18 @@
     },
     "option_group.triggers": {
         "message": "THEME UPDATE TRIGGERS"
+    },
+    "page_capture_algo.EDGES": {
+        "message": "Edges"
+    },
+    "page_capture_algo.FULL_WIDTH": {
+        "message": "Full Width"
+    },
+    "page_capture_algo.LEFT_EDGE": {
+        "message": "Left Edge"
+    },
+    "page_capture_algo.RIGHT_EDGE": {
+        "message": "Right Edge"
     },
     "page_color_algo.BASIC": {
         "message": "Basic"

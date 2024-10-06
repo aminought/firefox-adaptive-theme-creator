@@ -17,7 +17,6 @@ body {
   position: relative;
   font-family: var(--font-family);
   max-width: var(--body-width);
-  overflow: hidden;
 }
 
 /* Hide all options if disabled */
@@ -71,6 +70,14 @@ body:not(:has(#global\.background\.source [data-value="COLOR"])) {
 
 body:not(:has(#global\.foreground\.source [data-value="COLOR"])) {
   #global\.foreground\.color {
+    display: none;
+  }
+}
+
+/* Hide page capture width if capture algo is full width */
+
+body:has(#global\.page\.captureAlgo [data-value="FULL_WIDTH"]) {
+  #global\.page\.captureWidth {
     display: none;
   }
 }

@@ -1,11 +1,14 @@
 import {
   BACKGROUND_SOURCE,
   DEFAULT_BRIGHTNESS,
+  DEFAULT_CAPTURE_HEIGHT,
+  DEFAULT_CAPTURE_WIDTH,
   DEFAULT_COLOR,
   DEFAULT_DARKNESS,
   DEFAULT_SATURATION_LIMIT,
   FOREGROUND_SOURCE,
   INHERITANCE,
+  PAGE_CAPTURE_ALGO,
   PAGE_COLOR_ALGO,
   TRIGGER,
 } from "./constants.js";
@@ -50,8 +53,10 @@ export const DEFAULT_OPTIONS = {
     page: {
       avoidWhite: false,
       avoidBlack: false,
-      captureHeight: 10,
       colorAlgo: PAGE_COLOR_ALGO.BASIC,
+      captureAlgo: PAGE_CAPTURE_ALGO.EDGES,
+      captureHeight: DEFAULT_CAPTURE_HEIGHT,
+      captureWidth: DEFAULT_CAPTURE_WIDTH,
     },
     background: {
       source: BACKGROUND_SOURCE.PAGE,

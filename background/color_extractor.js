@@ -1,4 +1,9 @@
-import { BACKGROUND_SOURCE, PAGE_COLOR_ALGO } from "../shared/constants.js";
+/* eslint-disable max-lines */
+import {
+  BACKGROUND_SOURCE,
+  PAGE_CAPTURE_ALGO,
+  PAGE_COLOR_ALGO,
+} from "../shared/constants.js";
 import {
   extractColorFromPaletteBasic,
   extractColorFromPaletteKMeans,
@@ -186,6 +191,48 @@ export class ColorExtractor {
 
   /**
    *
+   * @param {ImageData} imageData
+   * @param {string} captureAlgo
+   * @param {number} captureWidth
+   * @returns {ImageData}
+   */
+  static captureEdges(imageData, captureAlgo, captureWidth) {
+    const { width, height } = imageData;
+    const values = [];
+    for (let i = 0; i < height; i++) {
+      const rowLength = width * 4;
+      const rowStart = rowLength * i;
+      const rowEnd = rowStart + rowLength;
+      const row = imageData.data.slice(rowStart, rowEnd);
+      if (
+        [PAGE_CAPTURE_ALGO.LEFT_EDGE, PAGE_CAPTURE_ALGO.EDGES].includes(
+          captureAlgo
+        )
+      ) {
+        values.push(...row.slice(0, captureWidth * 4));
+      }
+      if (
+        [PAGE_CAPTURE_ALGO.RIGHT_EDGE, PAGE_CAPTURE_ALGO.EDGES].includes(
+          captureAlgo
+        )
+      ) {
+        values.push(...row.slice(rowLength - captureWidth * 4, rowLength));
+      }
+    }
+    const widthMap = {
+      [PAGE_CAPTURE_ALGO.LEFT_EDGE]: captureWidth,
+      [PAGE_CAPTURE_ALGO.RIGHT_EDGE]: captureWidth,
+      [PAGE_CAPTURE_ALGO.EDGES]: captureWidth * 2,
+    };
+    return new ImageData(
+      Uint8ClampedArray.from(values),
+      widthMap[captureAlgo],
+      height
+    );
+  }
+
+  /**
+   *
    * @param {string} base64Image
    * @returns {Color?}
    */
@@ -228,7 +275,16 @@ export class ColorExtractor {
           canvas.width = width;
           canvas.height = height;
           context.drawImage(image, 0, 0);
-          const imageData = context.getImageData(0, 0, width, height);
+          let imageData = context.getImageData(0, 0, width, height);
+
+          const { captureAlgo, captureWidth } = globalOptions.page;
+          if (captureAlgo !== PAGE_CAPTURE_ALGO.FULL_WIDTH) {
+            imageData = ColorExtractor.captureEdges(
+              imageData,
+              captureAlgo,
+              captureWidth
+            );
+          }
 
           const palette = this.extractPaletteFromImageData(
             imageData,

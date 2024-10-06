@@ -80,6 +80,15 @@ export class Localizer {
 
   /**
    *
+   * @param {string} pageCaptureAlgo
+   * @returns {string}
+   */
+  static localizePageCaptureAlgo(pageCaptureAlgo) {
+    return Localizer.getMessage(`page_capture_algo.${pageCaptureAlgo}`);
+  }
+
+  /**
+   *
    * @param {string} part
    * @returns {string}
    */

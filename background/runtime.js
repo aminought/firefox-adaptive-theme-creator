@@ -283,9 +283,10 @@ export class Runtime {
     }
 
     if (
-      (changeInfo.url && triggers.has(TRIGGER.URL_DETECTED)) ||
-      (changeInfo.favIconUrl && triggers.has(TRIGGER.FAVICON_DETECTED)) ||
-      (changeInfo.status === "complete" && triggers.has(TRIGGER.TAB_LOADED))
+      (changeInfo.url && triggers.includes(TRIGGER.URL_DETECTED)) ||
+      (changeInfo.favIconUrl && triggers.includes(TRIGGER.FAVICON_DETECTED)) ||
+      (changeInfo.status === "complete" &&
+        triggers.includes(TRIGGER.TAB_LOADED))
     ) {
       await this.updateTheme(tab);
     }
