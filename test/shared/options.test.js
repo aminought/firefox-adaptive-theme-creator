@@ -132,9 +132,9 @@ describe("Options", () => {
       options.set("parts.frame.darkness", "1.0");
 
       expect(options.options.global.enabled).to.equal(true);
-      expect(options.options.global.background.source).to.equal('page');
-      expect(options.options.global.background.color).to.equal('black');
-      expect(options.options.parts.frame.darkness).to.equal('1.0');
+      expect(options.options.global.background.source).to.equal("page");
+      expect(options.options.global.background.color).to.equal("black");
+      expect(options.options.parts.frame.darkness).to.equal("1.0");
       expect(() => options.set("parts.sidebar.brightness")).to.throw();
       expect(() => options.set("parts.frame.brightness")).to.throw();
     });
