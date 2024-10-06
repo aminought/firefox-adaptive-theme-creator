@@ -20,9 +20,11 @@ export class Firefox {
   /**
    *
    * @param {Options} options
+   * @param {string} tabUrl
    */
-  constructor(options) {
+  constructor(options, tabUrl) {
     this.options = options;
+    this.tabUrl = tabUrl;
     this.element = new Div({ id: "firefox" });
     this.navigator = new NamedPart("navigator");
     this.titlebar = new Group("titlebar");
@@ -49,6 +51,7 @@ export class Firefox {
     this.browser = new NamedPart("browser");
     this.sidebar = new Group("sidebar");
     this.ntp = new Group("ntp");
+    this.page = new Group("page");
 
     this.groups = {
       [this.titlebar.id]: [this.titlebar, GROUP_NAMES.TITLEBAR],
@@ -74,6 +77,7 @@ export class Firefox {
       [this.popup.id]: [this.popup, GROUP_NAMES.POPUP],
       [this.sidebar.id]: [this.sidebar, GROUP_NAMES.SIDEBAR],
       [this.ntp.id]: [this.ntp, GROUP_NAMES.NTP],
+      [this.page.id]: [this.page, GROUP_NAMES.PAGE],
     };
 
     for (const groupItemId of Object.keys(this.groups)) {
@@ -109,6 +113,9 @@ export class Firefox {
       }
       const [groupName] = this.groups[target.id].slice(-1);
       const parts = GROUPS[groupName];
+      if (parts.length === 0) {
+        return;
+      }
       const context_menu = new ContextMenu(parts, this.options, {
         position: POSITION.POINTER,
       });
@@ -143,7 +150,9 @@ export class Firefox {
       ]),
       this.browser.appendChildren([
         this.sidebar.appendChildren([new Text(), new Text(), new Text()]),
-        this.ntp.appendChildren([new NtpSearch(), new NtpCards(1, 6)]),
+        this.tabUrl === "about:newtab"
+          ? this.ntp.appendChildren([new NtpSearch(), new NtpCards(1, 6)])
+          : this.page,
       ]),
     ]);
 

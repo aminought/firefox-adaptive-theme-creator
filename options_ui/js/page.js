@@ -1,6 +1,5 @@
-import { GROUPS, PARTS } from "../../shared/browser_parts.js";
-
 import { Options } from "../../shared/options.js";
+import { PARTS } from "../../shared/browser_parts.js";
 import { PopupController } from "./popup_controller.js";
 import { Theme } from "../../shared/theme.js";
 import { makeOptionsUI } from "./options_ui.js";
@@ -24,6 +23,7 @@ const stylePage = async () => {
       setRootColor(part.name, theme.getColor(part.name)?.css());
     }
   }
+  setRootColor("page", theme.getProperty("page"));
 };
 
 /**
@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const options = new Options(browser.storage.local);
   await options.load();
 
-  makeOptionsUI(options);
+  await makeOptionsUI(options);
   // eslint-disable-next-line no-unused-vars
   // const form = new Form(options);
   // const browserPreview = new BrowserPreview();

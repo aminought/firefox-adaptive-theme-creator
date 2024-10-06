@@ -1,4 +1,5 @@
 html {
+  --page: var(--background-color);
   --frame: var(--background-color);
   --tab_selected: var(--background-color);
   --tab_text: var(--color);
@@ -94,6 +95,7 @@ html {
   gap: 5px;
   background-color: var(--toolbar);
   border-top: 1px solid var(--toolbar_top_separator);
+  border-bottom: 1px solid var(--toolbar_bottom_separator);
   box-sizing: border-box;
 }
 
@@ -189,6 +191,21 @@ body:has(.toolbar_button:hover) .toolbar_button {
 
 #sidebar > .text {
   background-color: var(--sidebar_text);
+}
+
+#page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+  flex: 4;
+  background-color: var(--page);
+  background-image: repeating-linear-gradient(
+    -45deg,
+    color-mix(in srgb, var(--color) 0%, transparent) 0 10px,
+    color-mix(in srgb, var(--color) 5%, transparent) 10px 20px
+  );
 }
 
 #ntp {

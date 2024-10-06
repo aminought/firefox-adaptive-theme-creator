@@ -100,11 +100,12 @@ const makeGlobalOptions = (options) => {
 
 /**
  *
- * @param {Options}
+ * @param {Options} options
+ * @param {string} tabUrl
  * @returns {UIElement}
  */
-const makeFirefoxPreview = (options) =>
-  new OptionsRow().appendChild(new Firefox(options));
+const makeFirefoxPreview = (options, tabUrl) =>
+  new OptionsRow().appendChild(new Firefox(options, tabUrl));
 
 /**
  *
@@ -235,11 +236,16 @@ const makeFooter = (options) =>
  *
  * @param {Options} options
  */
-export const makeOptionsUI = (options) => {
+export const makeOptionsUI = async (options) => {
+  const [tab] = await browser.tabs.query({
+    active: true,
+    currentWindow: true,
+  });
+  console.log(tab);
   const optionsUI = new OptionsCol().appendChildren([
     makeTitle(),
     makeGlobalOptions(options),
-    makeFirefoxPreview(options),
+    makeFirefoxPreview(options, tab.url),
     makeTriggersOptions(options),
     makeGlobalSourceOptions(options),
     makeFooter(options),

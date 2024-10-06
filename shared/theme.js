@@ -97,6 +97,14 @@ export class Theme {
     this.themeInfo.properties.source = "favicon-color";
   }
 
+  getProperty(name) {
+    return this.themeInfo.properties[name];
+  }
+
+  setProperty(name, value) {
+    this.themeInfo.properties[name] = value;
+  }
+
   isModified() {
     return this.themeInfo.properties.source === "favicon-color";
   }

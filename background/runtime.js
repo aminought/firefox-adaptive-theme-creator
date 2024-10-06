@@ -120,7 +120,7 @@ export class Runtime {
       pageMostPopularColor
     );
 
-    this.applyColors(tab.windowId, colors);
+    this.applyColors(tab.windowId, colors, pageMostPopularColor);
   }
 
   makeColors(parts, faviconMostPopularColor, pageMostPopularColor) {
@@ -205,13 +205,15 @@ export class Runtime {
    *
    * @param {integer} windowId
    * @param {object} colors
+   * @param {Color?} pageMostPopularColor
    */
-  async applyColors(windowId, colors) {
+  async applyColors(windowId, colors, pageMostPopularColor) {
     const theme = this.defaultTheme.clone();
     for (const part in colors) {
       theme.setColor(part, colors[part]);
     }
     await theme.fixImages();
+    theme.setProperty("page", pageMostPopularColor?.css() ?? "null");
     await theme.update(windowId);
     browser.runtime.sendMessage({ event: "themeUpdated" });
   }

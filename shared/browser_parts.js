@@ -160,6 +160,7 @@ export const GROUP_NAMES = {
   BOOKMARKS: "BOOKMARKS",
   SIDEBAR: "SIDEBAR",
   NTP: "NTP",
+  PAGE: "PAGE",
 };
 
 export const GROUPS = {
@@ -215,4 +216,5 @@ export const GROUPS = {
     PARTS.ntp_card_background,
     PARTS.ntp_text,
   ],
+  [GROUP_NAMES.PAGE]: [],
 };

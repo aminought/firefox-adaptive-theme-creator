@@ -218,6 +218,9 @@
     "part_group.NTP": {
         "message": "New Tab Page"
     },
+    "part_group.PAGE": {
+        "message": "Page"
+    },
     "part_group.POPUP": {
         "message": "Popup"
     },
