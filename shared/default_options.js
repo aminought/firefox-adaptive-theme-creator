@@ -80,12 +80,10 @@ export const DEFAULT_OPTIONS = {
     frame_inactive: makePart({ enabled: true, inheritance: "frame" }),
     icons: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     icons_attention: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     ntp_background: makePart(),
@@ -109,7 +107,6 @@ export const DEFAULT_OPTIONS = {
     sidebar_highlight_text: makePart({ source: FOREGROUND_SOURCE.AUTO }),
     sidebar_text: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     tab_background_separator: makePart(),
@@ -127,7 +124,6 @@ export const DEFAULT_OPTIONS = {
     }),
     tab_text: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     toolbar: makePart({ enabled: true }),
@@ -146,13 +142,11 @@ export const DEFAULT_OPTIONS = {
     toolbar_field_separator: makePart(),
     toolbar_field_text: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     toolbar_field_text_focus: makePart({ source: FOREGROUND_SOURCE.AUTO }),
     toolbar_text: makePart({
       enabled: true,
-      inheritance: INHERITANCE.OFF,
       source: FOREGROUND_SOURCE.AUTO,
     }),
     toolbar_top_separator: makePart(),
