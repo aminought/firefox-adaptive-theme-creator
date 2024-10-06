@@ -46,6 +46,14 @@ export class ContextMenu extends Div {
 
   /**
    *
+   * @param {CallableFunction} callback
+   */
+  setOnVisualChange(callback) {
+    this.onVisualChange = callback;
+  }
+
+  /**
+   *
    * @param {Part} part
    * @returns {ContextMenu}
    */
@@ -63,27 +71,31 @@ export class ContextMenu extends Div {
     };
     const colorInput = new ColorInput(this.options.get(ids.color));
     this.items.appendChildren([
-      new OptionWithLabel(ids.enabled, this.options).appendChild(
-        new Checkbox(this.options.get(ids.enabled))
-      ),
-      new OptionWithLabel(ids.inheritance, this.options).appendChild(
-        createStringSelect(
-          this.options.get(ids.inheritance),
-          part.getInheritances(),
-          Localizer.localizeInheritance
+      new OptionWithLabel(ids.enabled, this.options)
+        .appendChild(new Checkbox(this.options.get(ids.enabled)))
+        .setOnChange(() => this.onVisualChange()),
+      new OptionWithLabel(ids.inheritance, this.options)
+        .appendChild(
+          createStringSelect(
+            this.options.get(ids.inheritance),
+            part.getInheritances(),
+            Localizer.localizeInheritance
+          )
         )
-      ),
-      new OptionWithLabel(ids.source, this.options).appendChild(
-        createStringSelect(
-          this.options.get(ids.source),
-          Object.values(
-            part.isForeground ? FOREGROUND_SOURCE : BACKGROUND_SOURCE
-          ),
-          part.isForeground
-            ? Localizer.localizeForegroundSource
-            : Localizer.localizeBackgroundSource
+        .setOnChange(() => this.onVisualChange()),
+      new OptionWithLabel(ids.source, this.options)
+        .appendChild(
+          createStringSelect(
+            this.options.get(ids.source),
+            Object.values(
+              part.isForeground ? FOREGROUND_SOURCE : BACKGROUND_SOURCE
+            ),
+            part.isForeground
+              ? Localizer.localizeForegroundSource
+              : Localizer.localizeBackgroundSource
+          )
         )
-      ),
+        .setOnChange(() => this.onVisualChange()),
       new OptionWithLabel(ids.color, this.options)
         .appendChild(colorInput)
         .setOnChange((value) => {
@@ -117,6 +129,7 @@ export class ContextMenu extends Div {
     this.select.setOnChange((partName) => {
       const [part] = this.parts.filter((p) => p.name === partName);
       this.updateItems(part);
+      this.onVisualChange?.();
     });
 
     this.element.appendChild(this.select.draw());

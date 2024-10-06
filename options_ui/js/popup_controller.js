@@ -25,12 +25,15 @@ export class PopupController {
     const element = popup.draw(...args);
     PopupController.body.appendChild(element);
     if (position === POSITION.POINTER) {
-      positionByCoords(
-        element,
-        PopupController.body,
-        event.clientX,
-        event.clientY
-      );
+      popup.setOnVisualChange(() => {
+        positionByCoords(
+          element,
+          PopupController.body,
+          event.clientX,
+          event.clientY
+        );
+      });
+      popup.onVisualChange();
     } else {
       positionRelative(position, element, PopupController.body, target);
     }

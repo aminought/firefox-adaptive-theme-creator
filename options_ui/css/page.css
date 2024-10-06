@@ -17,6 +17,7 @@ body {
   position: relative;
   font-family: var(--font-family);
   max-width: var(--body-width);
+  overflow: hidden;
 }
 
 /* Hide all options if disabled */
