@@ -131,12 +131,6 @@ export class Runtime {
       pageMostPopularColor,
       globalOptions.background
     );
-    const globalForegroundColor = Runtime.computeForegroundColor(
-      faviconMostPopularColor,
-      pageMostPopularColor,
-      globalBackgroundColor,
-      globalOptions.foreground
-    );
 
     const colors = {};
     let partNames = Object.keys(parts);
@@ -180,7 +174,12 @@ export class Runtime {
             );
       } else if (partOptions.inheritance === INHERITANCE.GLOBAL) {
         partColor = part.isForeground
-          ? globalForegroundColor
+          ? Runtime.computeForegroundColor(
+              faviconMostPopularColor,
+              pageMostPopularColor,
+              backgroundPartColor,
+              globalOptions.foreground
+            )
           : globalBackgroundColor;
       } else {
         const parentPartName = partOptions.inheritance;
@@ -214,6 +213,10 @@ export class Runtime {
     }
     await theme.fixImages();
     theme.setProperty("page", pageMostPopularColor?.css() ?? "null");
+    theme.setProperty(
+      "page_text",
+      pageMostPopularColor?.getForeground()?.css() ?? "null"
+    );
     await theme.update(windowId);
     browser.runtime.sendMessage({ event: "themeUpdated" });
   }

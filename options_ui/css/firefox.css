@@ -203,8 +203,8 @@ body:has(.toolbar_button:hover) .toolbar_button {
   background-color: var(--page);
   background-image: repeating-linear-gradient(
     -45deg,
-    color-mix(in srgb, var(--color) 0%, transparent) 0 10px,
-    color-mix(in srgb, var(--color) 5%, transparent) 10px 20px
+    color-mix(in srgb, var(--page_text) 0%, transparent) 0 10px,
+    color-mix(in srgb, var(--page_text) 5%, transparent) 10px 20px
   );
 }
 

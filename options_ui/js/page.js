@@ -24,6 +24,7 @@ const stylePage = async () => {
     }
   }
   setRootColor("page", theme.getProperty("page"));
+  setRootColor("page_text", theme.getProperty("page_text"));
 };
 
 /**
