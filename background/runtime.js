@@ -140,7 +140,7 @@ export class Runtime {
       const part = parts[partName];
       const partOptions = this.options.getPartOptions(partName);
 
-      if (!partOptions.enabled) {
+      if (!globalOptions.enabled || !partOptions.enabled) {
         colors[partName] = this.defaultTheme.getColor(partName);
         continue;
       }
