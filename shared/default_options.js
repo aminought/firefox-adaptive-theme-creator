@@ -10,6 +10,7 @@ import {
   INHERITANCE,
   PAGE_CAPTURE_ALGO,
   PAGE_COLOR_ALGO,
+  THEME,
   TRIGGER,
 } from "./constants.js";
 
@@ -45,6 +46,7 @@ const makePart = ({
 export const DEFAULT_OPTIONS = {
   global: {
     enabled: true,
+    theme: THEME.DARK,
     triggers: Object.values(TRIGGER),
     favicon: {
       avoidWhite: true,

@@ -3,10 +3,10 @@ import { Color } from "../../../shared/color.js";
 /**
  *
  * @param {string} property
- * @param {string} color
+ * @param {string} value
  */
-export const setRootColor = (property, color) => {
-  document.documentElement.style.setProperty(`--${property}`, color);
+export const setRootVariable = (property, value) => {
+  document.documentElement.style.setProperty(`--${property}`, value);
 };
 
 /**

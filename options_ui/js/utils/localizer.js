@@ -123,4 +123,13 @@ export class Localizer {
   static localizeStatusBar(text) {
     return Localizer.getMessage(`status_bar.${text}`);
   }
+
+  /**
+   *
+   * @param {string} theme
+   * @returns
+   */
+  static localizeTheme(theme) {
+    return Localizer.getMessage(`theme.${theme}`);
+  }
 }

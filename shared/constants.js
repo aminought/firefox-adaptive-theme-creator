@@ -1,3 +1,8 @@
+export const THEME = {
+  LIGHT: "LIGHT",
+  DARK: "DARK",
+};
+
 export const INHERITANCE = {
   OFF: "OFF",
   GLOBAL: "GLOBAL",

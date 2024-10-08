@@ -77,6 +77,9 @@
     "option.source": {
         "message": "Color Source"
     },
+    "option.theme": {
+        "message": "Theme"
+    },
     "option_group.background": {
         "message": "Background Options"
     },
@@ -262,6 +265,12 @@
     },
     "status_bar.options_saved": {
         "message": "Options have been saved"
+    },
+    "theme.DARK": {
+        "message": "Dark"
+    },
+    "theme.LIGHT": {
+        "message": "Light"
     },
     "title": {
         "message": "ADAPTIVE THEME CREATOR"

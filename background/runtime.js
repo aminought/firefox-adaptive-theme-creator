@@ -12,6 +12,7 @@ import { Color } from "../shared/color.js";
 import { ColorExtractor } from "./color_extractor.js";
 import { Options } from "../shared/options.js";
 import { PARTS } from "../shared/browser_parts.js";
+import { Theme } from "../shared/theme.js";
 
 export class Runtime {
   /**
@@ -99,10 +100,6 @@ export class Runtime {
    * @param {number?} pageY
    */
   async updateTheme(tab, pageY) {
-    if (!this.defaultTheme.isCompatible()) {
-      return;
-    }
-
     if (!tab) {
       [tab] = await browser.tabs.query({ active: true, currentWindow: true });
     }
@@ -207,7 +204,7 @@ export class Runtime {
    * @param {Color?} pageMostPopularColor
    */
   async applyColors(windowId, colors, pageMostPopularColor) {
-    const theme = this.defaultTheme.clone();
+    const theme = await this.defaultTheme.clone();
     for (const part in colors) {
       theme.setColor(part, colors[part]);
     }
@@ -294,20 +291,22 @@ export class Runtime {
 
   async onOptionsUpdated() {
     await this.options.load();
+    await this.defaultTheme.load();
     await this.updateTheme();
   }
 
   /**
    *
-   * @param {Theme} theme
+   * @param {object} themeInfo
    * @returns
    */
-  async onThemeUpdated(theme) {
-    if (!theme.isCompatible() || theme.isModified()) {
+  async onThemeUpdated(themeInfo) {
+    if (themeInfo.properties?.modified === "true") {
       return;
     }
-    await this.defaultTheme.reload();
-    await this.updateTheme();
+    if (await this.defaultTheme.load(themeInfo)) {
+      await this.updateTheme();
+    }
   }
 
   async onContentMessage(message) {

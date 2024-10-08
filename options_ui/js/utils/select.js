@@ -13,7 +13,7 @@ import { SelectItem } from "../ui_elements/select_item.js";
  * @param {string} params.id
  * @param {Array<string>} params.classList
  * @param {Array<string>} params.itemClassList
- * @param {string} params.osiition
+ * @param {string} params.posiition
  * @param {string} params.orientation
  * @returns {Select}
  */

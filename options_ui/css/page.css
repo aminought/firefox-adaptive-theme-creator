@@ -5,6 +5,7 @@ html {
   --option-height: 24px;
   --font-family: monospace;
   --body-width: 500px;
+  --global-theme-display: "none";
 }
 
 body {
@@ -22,6 +23,7 @@ body {
 /* Hide all options if disabled */
 
 body:has(#global\.enabled [data-value="false"]) {
+  #global\.theme,
   #global_foreground_options,
   #global_background_options,
   #global_triggers_options,
@@ -80,6 +82,12 @@ body:has(#global\.page\.captureAlgo [data-value="FULL_WIDTH"]) {
   #global\.page\.captureWidth {
     display: none;
   }
+}
+
+/* Show/hide global.theme option */
+
+#global\.theme {
+  display: var(--global-theme-display);
 }
 
 /* Disable text selection */

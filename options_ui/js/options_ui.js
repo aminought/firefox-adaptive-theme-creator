@@ -5,6 +5,7 @@ import {
   FOREGROUND_SOURCE,
   PAGE_CAPTURE_ALGO,
   PAGE_COLOR_ALGO,
+  THEME,
   TRIGGER,
 } from "../../shared/constants.js";
 import { createNumberSelect, createStringSelect } from "./utils/select.js";
@@ -24,6 +25,7 @@ import { OptionsGroup } from "./options_group.js";
 import { OptionsRow } from "./options_row.js";
 import { PopupController } from "./popup_controller.js";
 import { StatusBar } from "./status_bar.js";
+import { Theme } from "../../shared/theme.js";
 import { Title } from "./title.js";
 import { UIElement } from "./ui_elements/ui_element.js";
 
@@ -89,13 +91,29 @@ const makeGlobalColorDropdown = (type, options, sources) => {
 const makeGlobalOptions = (options) => {
   const ids = {
     enabled: "global.enabled",
+    theme: "global.theme",
   };
-  return new OptionsRow().appendChildren([
-    new Option(ids.enabled, options).appendChild(
-      new Checkbox(options.get(ids.enabled))
+  return new OptionsCol().appendChildren([
+    new OptionsRow().appendChildren([
+      new OptionsCol().appendChildren([
+        new Option(ids.enabled, options).appendChild(
+          new Checkbox(options.get(ids.enabled))
+        ),
+      ]),
+      new OptionsRow().appendChildren([
+        makeGlobalColorDropdown("background", options, BACKGROUND_SOURCE),
+        makeGlobalColorDropdown("foreground", options, FOREGROUND_SOURCE),
+      ]),
+    ]),
+    new OptionsRow({ classList: ["left"] }).appendChild(
+      new Option(ids.theme, options).appendChild(
+        createStringSelect(
+          options.get(ids.theme),
+          Object.values(THEME),
+          Localizer.localizeTheme
+        )
+      )
     ),
-    makeGlobalColorDropdown("background", options, BACKGROUND_SOURCE),
-    makeGlobalColorDropdown("foreground", options, FOREGROUND_SOURCE),
   ]);
 };
 

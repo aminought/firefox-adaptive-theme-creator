@@ -3,28 +3,25 @@ import { PARTS } from "../../shared/browser_parts.js";
 import { PopupController } from "./popup_controller.js";
 import { Theme } from "../../shared/theme.js";
 import { makeOptionsUI } from "./options_ui.js";
-import { setRootColor } from "./utils/html.js";
+import { setRootVariable } from "./utils/html.js";
 
-const stylePage = async () => {
-  const theme = await Theme.load();
-  //   const warning = document.getElementById("warning");
-  //   if (!theme.isCompatible()) {
-  //     warning.classList.toggle("hidden", false);
-  //     return;
-  //   }
-  //   warning.classList.toggle("hidden", true);
-
-  setRootColor("background-color", theme.getColor("popup")?.css());
-  setRootColor("color", theme.getColor("popup_text")?.css());
+const stylePage = (theme) => {
+  setRootVariable("background-color", theme.getColor("popup")?.css());
+  setRootVariable("color", theme.getColor("popup_text")?.css());
 
   for (const partName of Object.keys(PARTS)) {
     const part = PARTS[partName];
     if (part.hasPreview) {
-      setRootColor(part.name, theme.getColor(part.name)?.css());
+      setRootVariable(part.name, theme.getColor(part.name)?.css());
     }
   }
-  setRootColor("page", theme.getProperty("page"));
-  setRootColor("page_text", theme.getProperty("page_text"));
+  setRootVariable("page", theme.getProperty("page"));
+  setRootVariable("page_text", theme.getProperty("page_text"));
+
+  setRootVariable(
+    "global-theme-display",
+    theme.getProperty("system") === "true" ? "flex" : "none"
+  );
 };
 
 /**
@@ -96,22 +93,22 @@ const onBodyClick = (event) => {
 
 document.addEventListener("DOMContentLoaded", async () => {
   const body = document.querySelector("body");
+
   const options = new Options(browser.storage.local);
   await options.load();
 
-  await makeOptionsUI(options);
-  // eslint-disable-next-line no-unused-vars
-  // const form = new Form(options);
-  // const browserPreview = new BrowserPreview();
+  const theme = new Theme(options);
+  await theme.loadAsIs();
 
-  // Localizer.localizePage();
-  await stylePage();
+  await makeOptionsUI(options);
+  stylePage(theme);
 
   body.onclick = onBodyClick;
 
   browser.runtime.onMessage.addListener(async (message) => {
     if (message.event === "themeUpdated") {
-      await stylePage();
+      await theme.loadAsIs();
+      stylePage(theme);
     }
   });
 });
