@@ -1,12 +1,12 @@
 .color_picker_wrapper {
-  border: 1px solid var(--color);
-  border-radius: var(--radius);
+  border: 1px solid var(--color-picker-color);
+  border-radius: var(--color-picker-radius);
   overflow: hidden;
-  box-shadow: 0px 0px 24px 4px var(--color);
+  box-shadow: 0px 0px 24px 4px var(--color-picker-color);
 }
 
 .picker_wrapper {
-  background-color: var(--background-color) !important;
+  background-color: var(--color-picker-background-color) !important;
 }
 
 .picker_arrow {
@@ -14,27 +14,23 @@
 }
 
 .picker_editor {
-  height: var(--option-height) !important;
-  border: 1px solid var(--color) !important;
-  border-radius: var(--radius) !important;
+  height: var(--color-picker-option-height) !important;
+  border: 1px solid var(--color-picker-color) !important;
+  border-radius: var(--color-picker-radius) !important;
   overflow: hidden;
 }
 
 .picker_editor > input {
-  background-color: color-mix(
-    in srgb,
-    currentColor 13%,
-    var(--background-color)
-  );
-  color: var(--color) !important;
+  background-color: var(--color-picker-input-background-color);
+  color: var(--color-picker-color) !important;
   box-shadow: none !important;
   text-align: center !important;
 }
 
 .picker_sample {
-  height: var(--option-height) !important;
-  border: 1px solid var(--color) !important;
-  border-radius: var(--radius) !important;
+  height: var(--color-picker-option-height) !important;
+  border: 1px solid var(--color-picker-color) !important;
+  border-radius: var(--color-picker-radius) !important;
   overflow: hidden !important;
   box-shadow: none !important;
 }

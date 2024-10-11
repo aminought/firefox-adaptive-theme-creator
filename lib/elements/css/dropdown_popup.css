@@ -6,7 +6,7 @@
 }
 
 .dropdown_popup > * {
-  background-color: var(--background-color);
-  color: var(--color);
-  box-shadow: 0px 0px 8px 1px var(--color);
+  background-color: var(--dropdown-popup-background-color);
+  color: var(--dropdown-popup-color);
+  box-shadow: 0px 0px 8px 1px var(--dropdown-popup-color);
 }

@@ -1,10 +1,10 @@
 .number_input > input {
-  height: var(--option-height);
-  border-radius: 0 var(--radius) var(--radius) 0;
+  height: var(--number-input-height);
+  border-radius: 0 var(--number-input-radius) var(--number-input-radius) 0;
   border: none;
-  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
-  color: var(--color);
-  font-family: var(--font-family);
+  background-color: var(--number-input-background-color);
+  color: var(--number-input-color);
+  font-family: var(--number-input-font-family);
   -moz-appearance: textfield;
   appearance: textfield;
   width: 3em;
@@ -13,7 +13,7 @@
 }
 
 .number_input > input:hover {
-  background-color: color-mix(in srgb, currentColor 17%, var(--background-color));
+  background-color: var(--number-input-hover-background-color);
 }
 
 .number_input > input:focus {

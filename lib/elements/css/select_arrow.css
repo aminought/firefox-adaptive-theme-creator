@@ -1,7 +1,7 @@
 .select_arrow {
   height: 10px;
   width: 10px;
-  color: var(--color);
+  color: var(--select-arrow-color);
 }
 
 .select_arrow > svg {

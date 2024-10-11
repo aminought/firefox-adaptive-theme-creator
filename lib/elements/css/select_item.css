@@ -2,7 +2,7 @@
   padding: 8px;
   cursor: default;
   white-space: nowrap;
-  border-color: color-mix(in srgb, currentColor 50%, var(--background-color));
+  border-color: var(--select-item-border-color);
 }
 
 .select_popup.horizontal {
@@ -18,9 +18,5 @@
 }
 
 .select_item:hover {
-  background-color: color-mix(
-    in srgb,
-    currentColor 13%,
-    var(--background-color)
-  );
+  background-color: var(--select-item-hover-background-color);
 }

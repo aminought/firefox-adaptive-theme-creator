@@ -6,6 +6,55 @@ html {
   --font-family: monospace;
   --body-width: 500px;
   --global-theme-display: "none";
+
+  --option-background-color: color-mix(
+    in srgb,
+    currentColor 13%,
+    var(--background-color)
+  );
+  --option-hover-background-color: color-mix(
+    in srgb,
+    currentColor 17%,
+    var(--background-color)
+  );
+  --option-border-color: color-mix(
+    in srgb,
+    currentColor 50%,
+    var(--background-color)
+  );
+
+  --button-background-color: var(--background-color);
+  --button-color: var(--color);
+  --button-radius: var(--radius);
+  --checkbox-background-color: var(--background-color);
+  --checkbox-color: var(--color);
+  --color-input-radius: var(--radius);
+  --color-picker-background-color: var(--background-color);
+  --color-picker-input-background-color: var(--option-background-color);
+  --color-picker-color: var(--color);
+  --color-picker-radius: var(--radius);
+  --color-picker-option-height: var(--option-height);
+  --dropdown-popup-background-color: var(--background-color);
+  --dropdown-popup-color: var(--color);
+  --dropdown-background-color: var(--option-background-color);
+  --dropdown-hover-background-color: var(--option-hover-background-color);
+  --dropdown-radius: var(--radius);
+  --dropdown-height: var(--option-height);
+  --number-input-height: var(--option-height);
+  --number-input-radius: var(--radius);
+  --number-option-background-color: var(--option-background-color);
+  --number-input-color: var(--color);
+  --number-option-hover-background-color: var(--option-hover-background-color);
+  --number-input-font-family: var(--font-family);
+  --select-arrow-color: var(--color);
+  --select-item-border-color: var(--option-border-color);
+  --select-item-hover-background-color: var(--option-hover-background-color);
+  --select-popup-color: var(--color);
+  --select-popup-background-color: var(--background-color);
+  --select-popup-radius: var(--radius);
+  --select-background-color: var(--option-background-color);
+  --select-hover-background-color: var(--option-hover-background-color);
+  --separator-border-color: var(--option-border-color);
 }
 
 body {

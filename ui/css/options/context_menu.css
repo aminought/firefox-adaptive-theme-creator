@@ -21,7 +21,6 @@
   font-weight: bold;
   width: fit-content;
   box-shadow: 0px 0px 8px 1px var(--color);
-  font-family: var(--font-family);
   pointer-events: all;
 }
 

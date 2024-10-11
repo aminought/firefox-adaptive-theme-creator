@@ -1,7 +1,7 @@
 .select_popup {
-  border: 1px solid var(--color);
-  border-radius: var(--radius);
-  box-shadow: 0px 0px 8px 1px var(--color);
-  background-color: var(--background-color);
+  border: 1px solid var(--select-popup-color);
+  border-radius: var(--select-popup-radius);
+  box-shadow: 0px 0px 8px 1px var(--select-popup-color);
+  background-color: var(--select-popup-background-color);
   overflow: hidden;
 }

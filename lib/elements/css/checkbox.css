@@ -1,6 +1,6 @@
 .checkbox {
-  background-color: var(--background-color);
-  color: var(--color);
+  background-color: var(--checkbox-background-color);
+  color: var(--checkbox-color);
   height: 20px;
   width: 20px;
 }

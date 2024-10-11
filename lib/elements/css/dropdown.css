@@ -7,14 +7,14 @@
   padding-left: 8px;
   padding-right: 4px;
   cursor: default;
-  background-color: color-mix(in srgb, currentColor 13%, var(--background-color));
-  border-radius: var(--radius);
+  background-color: var(--dropdown-background-color);
+  border-radius: var(--dropdown-radius);
   border: 1px solid;
-  height: var(--option-height);
+  height: var(--dropdown-height);
 }
 
 .dropdown:hover {
-  background-color: color-mix(in srgb, currentColor 17%, var(--background-color));
+  background-color: var(--dropdown-hover-background-color);
 }
 
 .dropdown_label {

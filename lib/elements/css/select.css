@@ -8,19 +8,11 @@
   padding-right: 4px;
   height: 100%;
   cursor: default;
-  background-color: color-mix(
-    in srgb,
-    currentColor 13%,
-    var(--background-color)
-  );
+  background-color: var(--select-background-color);
 }
 
 .select:hover {
-  background-color: color-mix(
-    in srgb,
-    currentColor 17%,
-    var(--background-color)
-  );
+  background-color: var(--select-hover-background-color);
 }
 
 .select_label {
