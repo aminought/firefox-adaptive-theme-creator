@@ -88,7 +88,8 @@ const stylePage = (theme) => {
  * @param {MouseEvent} event
  */
 const onBodyClick = (event) => {
-  PopupController.popFor(event.target);
+  console.log(event);
+  PopupController.popFor(event);
 };
 
 document.addEventListener("DOMContentLoaded", async () => {

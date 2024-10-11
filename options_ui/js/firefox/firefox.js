@@ -1,4 +1,4 @@
-import { GROUPS, GROUP_NAMES, Part } from "../../../shared/browser_parts.js";
+import { GROUPS, GROUP_NAMES } from "../../../shared/browser_parts.js";
 
 import { ContextMenu } from "./context_menu.js";
 import { Div } from "../ui_elements/div.js";
@@ -9,9 +9,7 @@ import { NamedPart } from "./named_part.js";
 import { NtpCards } from "./npt_cards.js";
 import { NtpSearch } from "./ntp_search.js";
 import { Options } from "../../../shared/options.js";
-import { POSITION } from "../utils/positions.js";
 import { Placeholder } from "./placeholder.js";
-import { PopupController } from "../popup_controller.js";
 import { StatusBar } from "../status_bar.js";
 import { Text } from "./text.js";
 import { ToolbarButton } from "./toolbar_button.js";
@@ -83,24 +81,20 @@ export class Firefox {
     for (const groupItemId of Object.keys(this.groups)) {
       const [groupItem, groupName] = this.groups[groupItemId];
       groupItem.setOnMouseEnter(() => {
-        PopupController.showFixed(
-          new StatusBar(groupName, {
-            localize: Localizer.localizePartGroup,
-            timeout: null,
-          })
-        );
+        new StatusBar(groupName, {
+          localize: Localizer.localizePartGroup,
+          timeout: null,
+        }).show();
       });
       groupItem.setOnMouseLeave((event) => {
-        PopupController.removeFixed("status_bar");
+        StatusBar.unshow();
         const parentGroupItemId = event.relatedTarget?.id;
         if (parentGroupItemId in this.groups) {
           const [parentGroupName] = this.groups[parentGroupItemId].slice(-1);
-          PopupController.showFixed(
-            new StatusBar(parentGroupName, {
-              localize: Localizer.localizePartGroup,
-              timeout: null,
-            })
-          );
+          new StatusBar(parentGroupName, {
+            localize: Localizer.localizePartGroup,
+            timeout: null,
+          }).show();
         }
       });
     }
@@ -116,12 +110,8 @@ export class Firefox {
       if (parts.length === 0) {
         return;
       }
-      const context_menu = new ContextMenu(parts, this.options, {
-        position: POSITION.POINTER,
-      });
-      if (!PopupController.popFor(target)) {
-        PopupController.push(event, context_menu, target, POSITION.POINTER);
-      }
+      const context_menu = new ContextMenu(parts, this.options);
+      context_menu.push(event);
     });
   }
 

@@ -3,7 +3,6 @@ import { Input } from "./ui_elements/input.js";
 import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
 import { Options } from "../../shared/options.js";
-import { PopupController } from "./popup_controller.js";
 import { Separator } from "./ui_elements/separator.js";
 import { StatusBar } from "./status_bar.js";
 
@@ -55,7 +54,7 @@ export class Option extends Div {
     this.onChange = async (value) => {
       callback(value);
       await this.options.save();
-      PopupController.showFixed(new StatusBar("options_saved"));
+      new StatusBar("options_saved").show();
     };
     for (const child of this.children) {
       child.onChange = this.onChange;

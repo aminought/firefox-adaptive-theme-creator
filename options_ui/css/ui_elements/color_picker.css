@@ -1,5 +1,4 @@
 .color_picker_wrapper {
-  position: absolute;
   border: 1px solid var(--color);
   border-radius: var(--radius);
   overflow: hidden;

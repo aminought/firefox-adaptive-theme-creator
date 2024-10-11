@@ -1,6 +1,4 @@
 .dropdown_popup {
-  position: absolute;
-  display: flex;
   gap: 4px;
   flex-direction: column;
   justify-content: center;

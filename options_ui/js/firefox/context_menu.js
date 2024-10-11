@@ -8,15 +8,13 @@ import { Checkbox } from "../ui_elements/checkbox.js";
 import { ColorInput } from "../ui_elements/color_input.js";
 import { Div } from "../ui_elements/div.js";
 import { Localizer } from "../utils/localizer.js";
-import { ORIENTATION } from "../ui_elements/select_popup.js";
 import { Option } from "../option.js";
 import { Options } from "../../../shared/options.js";
-import { POSITION } from "../utils/positions.js";
 import { Part } from "../../../shared/browser_parts.js";
-import { PopupController } from "../popup_controller.js";
+import { Popup } from "../ui_elements/popup.js";
 import { StatusBar } from "../status_bar.js";
 
-export class ContextMenu extends Div {
+export class ContextMenu extends Popup {
   /**
    *
    * @param {Array<Part>} parts
@@ -26,7 +24,13 @@ export class ContextMenu extends Div {
    * @param {Array<string>} params.classList
    */
   constructor(parts, options, { id = null, classList = [] } = {}) {
-    super({ id, classList: ["context_menu", ...classList] });
+    super(
+      null,
+      Popup.ALIGNMENT_X.OFF,
+      Popup.ALIGNMENT_Y.OFF,
+      Popup.ORIENTATION.VERTICAL,
+      { id, classList: ["context_menu", ...classList] }
+    );
     this.parts = parts;
     this.options = options;
 
@@ -37,19 +41,11 @@ export class ContextMenu extends Div {
       {
         classList: ["context_menu_select"],
         itemClassList: ["context_menu_select_item"],
-        position: POSITION.BELOW_ALIGN_LEFT,
-        orientation: ORIENTATION.VERTICAL,
+        alignmentX: Popup.ALIGNMENT_X.LEFT,
+        orientation: Popup.ORIENTATION.VERTICAL,
       }
     );
     this.items = new Div({ classList: ["context_menu_items"] });
-  }
-
-  /**
-   *
-   * @param {CallableFunction} callback
-   */
-  setOnVisualChange(callback) {
-    this.onVisualChange = callback;
   }
 
   /**

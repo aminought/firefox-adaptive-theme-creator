@@ -1,8 +1,6 @@
 import { Div } from "./div.js";
-import { DropdownPopup } from "./dropdown_popup.js";
 import { Label } from "./label.js";
-import { POSITION } from "../utils/positions.js";
-import { PopupController } from "../popup_controller.js";
+import { Popup } from "./popup.js";
 import { SelectArrow } from "./select_arrow.js";
 
 export class Dropdown extends Div {
@@ -12,15 +10,18 @@ export class Dropdown extends Div {
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
-   * @param {string} params.position
    */
-  constructor(
-    label,
-    { id = null, classList = [], position = POSITION.BELOW_ALIGN_CENTER } = {}
-  ) {
+  constructor(label, { id = null, classList = [] } = {}) {
     super({ id, classList: ["dropdown", ...classList] });
-    this.position = position;
-    this.popup = new DropdownPopup();
+    this.popup = new Popup(
+      this,
+      Popup.ALIGNMENT_X.CENTER,
+      Popup.ALIGNMENT_Y.BELOW,
+      Popup.ORIENTATION.VERTICAL,
+      {
+        classList: ["dropdown_popup"],
+      }
+    );
     this.label = new Label(label, { classList: ["dropdown_label"] });
     this.arrow = new SelectArrow();
   }
@@ -44,9 +45,7 @@ export class Dropdown extends Div {
 
     this.element.onclick = (event) => {
       event.stopPropagation();
-      if (!PopupController.popFor(this.element)) {
-        PopupController.push(event, this.popup, this.element, this.position);
-      }
+      this.popup.push(event);
     };
 
     return this.element;

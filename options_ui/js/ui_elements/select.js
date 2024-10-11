@@ -1,9 +1,6 @@
-import { ORIENTATION, SelectPopup } from "./select_popup.js";
-
 import { Input } from "./input.js";
 import { Label } from "./label.js";
-import { POSITION } from "../utils/positions.js";
-import { PopupController } from "../popup_controller.js";
+import { Popup } from "./popup.js";
 import { SelectArrow } from "./select_arrow.js";
 import { SelectItem } from "./select_item.js";
 
@@ -13,18 +10,21 @@ export class Select extends Input {
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
+   * @param {string} params.alignmentX
+   * @param {string} params.alignmentY
    * @param {string} params.orientation
-   * @param {string} params.popupPosition
    */
   constructor({
     id = null,
     classList = [],
-    orientation = ORIENTATION.HORIZONTAL,
-    popupPosition = POSITION.BELOW_ALIGN_CENTER,
+    alignmentX = Popup.ALIGNMENT_X.CENTER,
+    alignmentY = Popup.ALIGNMENT_Y.BELOW,
+    orientation = Popup.ORIENTATION.HORIZONTAL,
   } = {}) {
     super("", { id, classList: ["select", ...classList] });
-    this.popupPosition = popupPosition;
-    this.popup = new SelectPopup({ orientation });
+    this.popup = new Popup(this, alignmentX, alignmentY, orientation, {
+      classList: ["select_popup"],
+    });
     this.label = new Label(this.value, { classList: ["select_label"] });
     this.arrow = new SelectArrow();
     this.values = {};
@@ -59,14 +59,7 @@ export class Select extends Input {
 
     this.element.onclick = (event) => {
       event.stopPropagation();
-      if (!PopupController.popFor(this.element)) {
-        PopupController.push(
-          event,
-          this.popup,
-          this.element,
-          this.popupPosition
-        );
-      }
+      this.popup.push(event);
     };
 
     return this.element;

@@ -1,7 +1,5 @@
 import { ColorPicker } from "./color_picker.js";
 import { Input } from "./input.js";
-import { POSITION } from "../utils/positions.js";
-import { PopupController } from "../popup_controller.js";
 
 export class ColorInput extends Input {
   /**
@@ -13,7 +11,7 @@ export class ColorInput extends Input {
    */
   constructor(color, { id = null, classList = [] } = {}) {
     super(color, { id, classList: ["color_input", ...classList] });
-    this.popup = new ColorPicker(color);
+    this.popup = new ColorPicker(this, color);
     this.updateBackgroundColor();
   }
 
@@ -46,9 +44,7 @@ export class ColorInput extends Input {
 
     this.element.onclick = (event) => {
       event.stopPropagation();
-      if (!PopupController.popFor(this.element)) {
-        PopupController.push(event, this.popup, this.element, POSITION.BELOW_ALIGN_CENTER);
-      }
+      this.popup.push(event);
     };
 
     return this.element;

@@ -1,0 +1,12 @@
+.popup {
+  position: absolute;
+  display: flex;
+}
+
+.popup.horizontal {
+  flex-direction: row;
+}
+
+.popup.vertical {
+  flex-direction: column;
+}

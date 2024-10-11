@@ -1,8 +1,10 @@
-import { Div } from "./ui_elements/div.js";
+import { FixedPopup } from "./ui_elements/fixed_popup.js";
 import { Label } from "./ui_elements/label.js";
 import { Localizer } from "./utils/localizer.js";
 
-export class StatusBar extends Div {
+const ID = "status_bar";
+
+export class StatusBar extends FixedPopup {
   /**
    *
    * @param {string} text
@@ -20,9 +22,8 @@ export class StatusBar extends Div {
       localize = Localizer.localizeStatusBar,
     } = {}
   ) {
-    super({ id: "status_bar", classList });
+    super(timeout, { id: ID, classList });
     this.text = localize(text);
-    this.timeout = timeout;
   }
 
   /**
@@ -32,13 +33,10 @@ export class StatusBar extends Div {
   draw() {
     const label = new Label(this.text);
     this.element.appendChild(label.draw());
-
-    if (this.timeout !== null) {
-      setTimeout(() => {
-        this.remove();
-      }, this.timeout);
-    }
-
     return this.element;
+  }
+
+  static unshow() {
+    FixedPopup.unshow(ID);
   }
 }

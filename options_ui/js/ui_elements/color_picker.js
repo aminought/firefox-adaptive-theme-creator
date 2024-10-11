@@ -1,17 +1,23 @@
-import { Input } from "./input.js";
-import { POSITION } from "../utils/positions.js";
-import { PopupController } from "../popup_controller.js";
+import { Popup } from "./popup.js";
+import { UIElement } from "./ui_element.js";
 
-export class ColorPicker extends Input {
+export class ColorPicker extends Popup {
   /**
    *
+   * @param {UIElement} related
    * @param {string} color
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(color, { id = null, classList = [] } = {}) {
-    super(color, { id, classList: ["color_picker_wrapper", ...classList] });
+  constructor(related, color, { id = null, classList = [] } = {}) {
+    super(
+      related,
+      Popup.ALIGNMENT_X.OFF,
+      Popup.ALIGNMENT_Y.OFF,
+      Popup.ORIENTATION.HORIZONTAL,
+      { id, classList: ["color_picker_wrapper", ...classList] }
+    );
     this.picker = new Picker({
       parent: this.element,
       popup: false,
@@ -22,23 +28,31 @@ export class ColorPicker extends Input {
 
   /**
    *
+   * @param {string | number} value
+   * @returns {ColorPicker}
+   */
+  setValue(value) {
+    this.value = value;
+    return this;
+  }
+
+  /**
+   *
+   * @param {CallableFunction} callback
+   * @returns {ColorPicker}
+   */
+  setOnChange(callback) {
+    this.onChange = callback;
+    return this;
+  }
+
+  /**
+   *
    * @returns {HTMLElement}
    */
   draw() {
     this.picker.setColor(this.value);
     this.picker.onChange = this.onChange;
-    this.picker.onDone = () => PopupController.pop();
-
-    this.element.onclick = (event) => {
-      if (event.target !== this.element) {
-        return;
-      }
-      event.stopPropagation();
-      if (!PopupController.popFor(this.element)) {
-        PopupController.push(event, this.popup, this.element, POSITION.BELOW_ALIGN_CENTER);
-      }
-    };
-
     return this.element;
   }
 }

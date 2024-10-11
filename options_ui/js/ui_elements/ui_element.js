@@ -96,15 +96,23 @@ export class UIElement {
 
   /**
    *
-   * @param {HTMLElement} element
+   * @param {UIElement} target
    * @returns {boolean}
    */
-  contains(element) {
-    return this.element?.contains(element);
+  contains(target) {
+    return this.element?.contains(target.element);
   }
 
   remove() {
     this.element?.remove();
+  }
+
+  /**
+   *
+   * @returns {DOMRect}
+   */
+  getBoundingClientRect() {
+    return this.element.getBoundingClientRect();
   }
 
   /**

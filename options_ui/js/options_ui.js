@@ -23,9 +23,7 @@ import { Options } from "../../shared/options.js";
 import { OptionsCol } from "./options_col.js";
 import { OptionsGroup } from "./options_group.js";
 import { OptionsRow } from "./options_row.js";
-import { PopupController } from "./popup_controller.js";
 import { StatusBar } from "./status_bar.js";
-import { Theme } from "../../shared/theme.js";
 import { Title } from "./title.js";
 import { UIElement } from "./ui_elements/ui_element.js";
 
@@ -259,7 +257,7 @@ const makeFooter = (options) =>
     new Button("Reset").setOnClick(async () => {
       options.reset();
       await options.save();
-      PopupController.showFixed(new StatusBar("options_reset"));
+      new StatusBar("options_reset").show();
     }),
   ]);
 

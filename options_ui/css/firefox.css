@@ -35,7 +35,7 @@ html {
 
   display: flex;
   flex-direction: column;
-  border: 2px solid var(--color);
+  border: 1px solid var(--color);
   border-radius: var(--radius);
   width: var(--body-width);
   aspect-ratio: 16 / 9;
@@ -55,7 +55,8 @@ html {
   display: flex;
   flex-direction: column;
   flex: 1;
-  border-radius: 2px;
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
   background-color: var(--background-color);
 }
 
@@ -65,7 +66,6 @@ html {
   align-items: center;
   flex: 1;
   padding: 2px 5px;
-  border-radius: 2px;
   background-color: var(--frame);
   box-sizing: border-box;
 }
@@ -184,6 +184,7 @@ body:has(.toolbar_button:hover) .toolbar_button {
   flex: 1;
   background-color: var(--sidebar);
   border-right: 1px solid var(--sidebar_border);
+  border-bottom-left-radius: var(--radius);
   width: 20%;
   padding-top: 2%;
   box-sizing: border-box;
@@ -200,6 +201,7 @@ body:has(.toolbar_button:hover) .toolbar_button {
   align-items: center;
   gap: 10%;
   flex: 4;
+  border-bottom-right-radius: var(--radius);
   background-color: var(--page);
   background-image: repeating-linear-gradient(
     -45deg,
@@ -215,6 +217,7 @@ body:has(.toolbar_button:hover) .toolbar_button {
   align-items: center;
   gap: 10%;
   flex: 4;
+  border-bottom-right-radius: var(--radius);
   background-color: var(--ntp_background);
 }
 
