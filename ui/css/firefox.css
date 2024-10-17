@@ -210,6 +210,11 @@ body:has(.toolbar_button:hover) .toolbar_button {
   );
 }
 
+#page #rickroll {
+  max-width: 100%;
+  aspect-ratio: 16/9;
+}
+
 #ntp {
   display: flex;
   flex-direction: column;

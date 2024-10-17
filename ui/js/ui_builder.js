@@ -8,15 +8,14 @@ import {
   THEME,
   TRIGGER,
 } from "../../shared/constants.js";
+import { Button, Checkbox, Dropdown } from "../../lib/elements/elements.js";
 import {
-  Button,
-  Checkbox,
-  ColorInput,
-  Dropdown,
-  Element,
-  NumberInput,
-} from "../../lib/elements/elements.js";
-import { createNumberSelect, createStringSelect } from "./utils/select.js";
+  makeCheckboxOption,
+  makeColorInputOption,
+  makeNumberInputOption,
+  makeNumberSelectOption,
+  makeStringSelectOption,
+} from "./utils/option_elements.js";
 
 import { Firefox } from "./firefox/firefox.js";
 import { Footer } from "./options/footer.js";
@@ -31,16 +30,19 @@ import { Title } from "./options/title.js";
 
 /**
  *
- * @returns {Element}
+ * @returns {Title}
  */
-const buildTitle = () => new OptionsRow().appendChild(new Title("title"));
+const buildTitle = () =>
+  new OptionsRow().appendChild(
+    new Title().setText(Localizer.getMessage("title"))
+  );
 
 /**
  *
  * @param {string} type
  * @param {Options} options
  * @param {object} sources
- * @returns {Element}
+ * @returns {Dropdown}
  */
 const buildGlobalColorDropdown = (type, options, sources) => {
   const ids = {
@@ -51,42 +53,28 @@ const buildGlobalColorDropdown = (type, options, sources) => {
     darkness: `global.${type}.darkness`,
     brightness: `global.${type}.brightness`,
   };
-  const colorInput = new ColorInput(options.get(ids.color));
-  return new Dropdown(Localizer.localizeOptionGroup(type), {
-    id: ids.dropdown,
-  }).appendChildren([
-    new Option(ids.source, options).appendChild(
-      createStringSelect(
-        options.get(ids.source),
+  return new Dropdown({ id: ids.dropdown })
+    .setText(Localizer.localizeOptionGroup(type))
+    .appendDropdownItems([
+      makeStringSelectOption(
+        ids.source,
+        options,
         Object.values(sources),
         type === "foreground"
           ? Localizer.localizeForegroundSource
           : Localizer.localizeBackgroundSource
-      )
-    ),
-    new Option(ids.color, options)
-      .appendChild(colorInput)
-      .setOnChange((value) => {
-        const color = value.rgbaString;
-        options.set(ids.color, color);
-        colorInput.setValue(color).updateBackgroundColor();
-      }),
-    new Option(ids.saturationLimit, options).appendChild(
-      createNumberSelect(options.get(ids.saturationLimit), 0, 1, 0.1)
-    ),
-    new Option(ids.darkness, options).appendChild(
-      createNumberSelect(options.get(ids.darkness), 0, 5, 0.5)
-    ),
-    new Option(ids.brightness, options).appendChild(
-      createNumberSelect(options.get(ids.brightness), 0, 5, 0.5)
-    ),
-  ]);
+      ),
+      makeColorInputOption(ids.color, options),
+      makeNumberSelectOption(ids.saturationLimit, options, 0, 1, 0.1),
+      makeNumberSelectOption(ids.darkness, options, 0, 5, 0.5),
+      makeNumberSelectOption(ids.brightness, options, 0, 5, 0.5),
+    ]);
 };
 
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {OptionsCol}
  */
 const buildGlobalOptions = (options) => {
   const ids = {
@@ -96,9 +84,7 @@ const buildGlobalOptions = (options) => {
   return new OptionsCol().appendChildren([
     new OptionsRow().appendChildren([
       new OptionsCol().appendChildren([
-        new Option(ids.enabled, options).appendChild(
-          new Checkbox(options.get(ids.enabled))
-        ),
+        makeCheckboxOption(ids.enabled, options),
       ]),
       new OptionsRow().appendChildren([
         buildGlobalColorDropdown("background", options, BACKGROUND_SOURCE),
@@ -106,12 +92,11 @@ const buildGlobalOptions = (options) => {
       ]),
     ]),
     new OptionsRow({ classList: ["left"] }).appendChild(
-      new Option(ids.theme, options).appendChild(
-        createStringSelect(
-          options.get(ids.theme),
-          Object.values(THEME),
-          Localizer.localizeTheme
-        )
+      makeStringSelectOption(
+        ids.theme,
+        options,
+        Object.values(THEME),
+        Localizer.localizeTheme
       )
     ),
   ]);
@@ -121,7 +106,7 @@ const buildGlobalOptions = (options) => {
  *
  * @param {Options} options
  * @param {string} tabUrl
- * @returns {Element}
+ * @returns {OptionsRow}
  */
 const buildFirefoxPreview = (options, tabUrl) =>
   new OptionsRow().appendChild(new Firefox(options, tabUrl));
@@ -129,7 +114,7 @@ const buildFirefoxPreview = (options, tabUrl) =>
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {OptionsGroup}
  */
 const buildFaviconOptionsGroup = (options) => {
   const ids = {
@@ -141,12 +126,8 @@ const buildFaviconOptionsGroup = (options) => {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new Option(ids.avoidWhite, options).appendChild(
-        new Checkbox(options.get(ids.avoidWhite))
-      ),
-      new Option(ids.avoidBlack, options).appendChild(
-        new Checkbox(options.get(ids.avoidBlack))
-      ),
+      makeCheckboxOption(ids.avoidWhite, options),
+      makeCheckboxOption(ids.avoidBlack, options),
     ])
   );
 };
@@ -154,7 +135,7 @@ const buildFaviconOptionsGroup = (options) => {
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {OptionsGroup}
  */
 const buildPageOptionsGroup = (options) => {
   const ids = {
@@ -170,32 +151,22 @@ const buildPageOptionsGroup = (options) => {
     id: ids.group,
   }).appendChild(
     new OptionsRow({ classList: ["wrap"] }).appendChildren([
-      new Option(ids.avoidWhite, options).appendChild(
-        new Checkbox(options.get(ids.avoidWhite))
+      makeCheckboxOption(ids.avoidWhite, options),
+      makeCheckboxOption(ids.avoidBlack, options),
+      makeStringSelectOption(
+        ids.colorAlgo,
+        options,
+        Object.values(PAGE_COLOR_ALGO),
+        Localizer.localizePageColorAlgo
       ),
-      new Option(ids.avoidBlack, options).appendChild(
-        new Checkbox(options.get(ids.avoidBlack))
+      makeStringSelectOption(
+        ids.captureAlgo,
+        options,
+        Object.values(PAGE_CAPTURE_ALGO),
+        Localizer.localizePageCaptureAlgo
       ),
-      new Option(ids.colorAlgo, options).appendChild(
-        createStringSelect(
-          options.get(ids.colorAlgo),
-          Object.values(PAGE_COLOR_ALGO),
-          Localizer.localizePageColorAlgo
-        )
-      ),
-      new Option(ids.captureAlgo, options).appendChild(
-        createStringSelect(
-          options.get(ids.captureAlgo),
-          Object.values(PAGE_CAPTURE_ALGO),
-          Localizer.localizePageCaptureAlgo
-        )
-      ),
-      new Option(ids.captureHeight, options).appendChild(
-        new NumberInput(options.get(ids.captureHeight), 1, 500)
-      ),
-      new Option(ids.captureWidth, options).appendChild(
-        new NumberInput(options.get(ids.captureWidth), 1, 500)
-      ),
+      makeNumberInputOption(ids.captureHeight, options, 1, 500),
+      makeNumberInputOption(ids.captureWidth, options, 1, 500),
     ])
   );
 };
@@ -203,7 +174,7 @@ const buildPageOptionsGroup = (options) => {
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {OptionsRow}
  */
 const buildTriggersOptions = (options) => {
   const makeId = (trigger) => `trigger.${trigger}`;
@@ -215,32 +186,35 @@ const buildTriggersOptions = (options) => {
     row.appendChild(
       new Option(makeId(trigger), options, {
         localize: Localizer.localizeTrigger,
-      })
-        .appendChild(new Checkbox(options.get(optionPath).includes(trigger)))
-        .setOnChange((value) => {
-          const triggers = new Set(options.get(optionPath));
-          if (value) {
-            triggers.add(trigger);
-          } else {
-            triggers.delete(trigger);
-          }
-          options.set(optionPath, Array.from(triggers));
-        })
-        .setOnReset((child) => {
-          const triggers = options.get(optionPath);
-          child.setValue(triggers.includes(trigger));
-        })
+      }).setInputElement(
+        new Checkbox().setValue(options.get(optionPath).includes(trigger)),
+        {
+          onChange: (value) => {
+            const triggers = new Set(options.get(optionPath));
+            if (value) {
+              triggers.add(trigger);
+            } else {
+              triggers.delete(trigger);
+            }
+            options.set(optionPath, Array.from(triggers));
+          },
+          onReset: (element) => {
+            const triggers = options.get(optionPath);
+            element.setValue(triggers.includes(trigger));
+          },
+        }
+      )
     );
   }
   return new OptionsRow({
     id: "global_triggers_options",
-  }).appendChild(new OptionsGroup("global.triggers").appendChild(row));
+  }).appendChild(new OptionsGroup("global.triggers").addToGroup(row));
 };
 
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {OptionsRow}
  */
 const buildGlobalSourceOptions = (options) =>
   new OptionsRow().appendChildren([
@@ -251,15 +225,15 @@ const buildGlobalSourceOptions = (options) =>
 /**
  *
  * @param {Options} options
- * @returns {Element}
+ * @returns {Footer}
  */
 const buildFooter = (options) =>
   new Footer().appendChildren([
-    new Button("Help"),
-    new Button("Reset").setOnClick(async () => {
+    new Button().setText("Help"),
+    new Button().setText("Reset").addOnClick(async () => {
       options.reset();
       await options.save();
-      new StatusBar("options_reset").show();
+      new StatusBar(true).setText("options_reset").show();
     }),
   ]);
 

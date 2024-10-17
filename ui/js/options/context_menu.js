@@ -2,21 +2,20 @@ import {
   BACKGROUND_SOURCE,
   FOREGROUND_SOURCE,
 } from "../../../shared/constants.js";
+import { Div, Popup } from "../../../lib/elements/elements.js";
 import {
-  Checkbox,
-  ColorInput,
-  Div,
-  Popup,
-} from "../../../lib/elements/elements.js";
-import { createNumberSelect, createStringSelect } from "../utils/select.js";
+  makeCheckboxOption,
+  makeColorInputOption,
+  makeNumberSelectOption,
+  makeStringSelect,
+  makeStringSelectOption,
+} from "../utils/option_elements.js";
 
 import { Localizer } from "../utils/localizer.js";
-import { Option } from "./option.js";
 import { Options } from "../../../shared/options.js";
 import { Part } from "../../../shared/browser_parts.js";
-import { StatusBar } from "../options/status_bar.js";
 
-export class ContextMenu extends Popup {
+export class ContextMenu extends Div {
   /**
    *
    * @param {Array<Part>} parts
@@ -26,17 +25,11 @@ export class ContextMenu extends Popup {
    * @param {Array<string>} params.classList
    */
   constructor(parts, options, { id = null, classList = [] } = {}) {
-    super(
-      null,
-      Popup.ALIGNMENT_X.OFF,
-      Popup.ALIGNMENT_Y.OFF,
-      Popup.ORIENTATION.VERTICAL,
-      { id, classList: ["context_menu", ...classList] }
-    );
+    super({ id, classList: ["context_menu", ...classList] });
     this.parts = parts;
     this.options = options;
 
-    this.select = createStringSelect(
+    this.select = makeStringSelect(
       this.parts[0].name,
       this.parts.map((part) => part.name),
       Localizer.localizePart,
@@ -48,6 +41,23 @@ export class ContextMenu extends Popup {
       }
     );
     this.items = new Div({ classList: ["context_menu_items"] });
+
+    this.appendChild(this.select);
+    this.appendChild(this.items);
+
+    this.popup = new Popup(this, {
+      alignmentX: Popup.ALIGNMENT_X.OFF,
+      alignmentY: Popup.ALIGNMENT_Y.OFF,
+      orientation: Popup.ORIENTATION.VERTICAL,
+    });
+
+    this.select.addOnChange((partName) => {
+      const [part] = this.parts.filter((p) => p.name === partName);
+      this.updateItems(part);
+      this.popup.reposition();
+    });
+
+    this.updateItems(this.parts[0]);
   }
 
   /**
@@ -67,81 +77,31 @@ export class ContextMenu extends Popup {
       darkness: makeId("darkness"),
       brightness: makeId("brightness"),
     };
-    const colorInput = new ColorInput(this.options.get(ids.color));
     this.items.appendChildren([
-      new Option(ids.enabled, this.options)
-        .appendChild(new Checkbox(this.options.get(ids.enabled)))
-        .setOnChange((value) => {
-          this.options.set(ids.enabled, value);
-          this.onVisualChange();
-        }),
-      new Option(ids.inheritance, this.options)
-        .appendChild(
-          createStringSelect(
-            this.options.get(ids.inheritance),
-            part.getInheritances(),
-            Localizer.localizeInheritance
-          )
-        )
-        .setOnChange((value) => {
-          this.options.set(ids.inheritance, value);
-          this.onVisualChange();
-        }),
-      new Option(ids.source, this.options)
-        .appendChild(
-          createStringSelect(
-            this.options.get(ids.source),
-            Object.values(
-              part.isForeground ? FOREGROUND_SOURCE : BACKGROUND_SOURCE
-            ),
-            part.isForeground
-              ? Localizer.localizeForegroundSource
-              : Localizer.localizeBackgroundSource
-          )
-        )
-        .setOnChange((value) => {
-          this.options.set(ids.source, value);
-          this.onVisualChange();
-        }),
-      new Option(ids.color, this.options)
-        .appendChild(colorInput)
-        .setOnChange((value) => {
-          const color = value.rgbaString;
-          this.options.set(ids.color, color);
-          colorInput.setValue(color).updateBackgroundColor();
-        }),
-      new Option(ids.saturationLimit, this.options).appendChild(
-        createNumberSelect(this.options.get(ids.saturationLimit), 0, 1, 0.1)
+      makeCheckboxOption(ids.enabled, this.options).addOnChange(() =>
+        this.popup.reposition()
       ),
-      new Option(ids.darkness, this.options).appendChild(
-        createNumberSelect(this.options.get(ids.darkness), 0, 5, 0.5)
-      ),
-      new Option(ids.brightness, this.options).appendChild(
-        createNumberSelect(this.options.get(ids.brightness), 0, 5, 0.5)
-      ),
+      makeStringSelectOption(
+        ids.inheritance,
+        this.options,
+        part.getInheritances(),
+        Localizer.localizeInheritance
+      ).addOnChange(() => this.popup.reposition()),
+      makeStringSelectOption(
+        ids.source,
+        this.options,
+        Object.values(
+          part.isForeground ? FOREGROUND_SOURCE : BACKGROUND_SOURCE
+        ),
+        part.isForeground
+          ? Localizer.localizeForegroundSource
+          : Localizer.localizeBackgroundSource
+      ).addOnChange(() => this.popup.reposition()),
+      makeColorInputOption(ids.color, this.options),
+      makeNumberSelectOption(ids.saturationLimit, this.options, 0, 1, 0.1),
+      makeNumberSelectOption(ids.darkness, this.options, 0, 5, 0.5),
+      makeNumberSelectOption(ids.brightness, this.options, 0, 5, 0.5),
     ]);
-    for (const child of this.items.children) {
-      this.items.element.appendChild(child.draw());
-    }
     return this;
-  }
-
-  /**
-   *
-   * @returns {HTMLElement}
-   */
-  draw() {
-    this.updateItems(this.parts[0]);
-
-    this.select.setOnChange((partName) => {
-      const [part] = this.parts.filter((p) => p.name === partName);
-      this.updateItems(part);
-      this.onVisualChange?.();
-    });
-
-    this.element.appendChild(this.select.draw());
-    this.element.appendChild(this.items.draw());
-
-    return this.element;
   }
 }

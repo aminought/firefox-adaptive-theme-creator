@@ -1,10 +1,10 @@
-.select_arrow {
+.arrow_down {
   height: 10px;
   width: 10px;
   color: var(--select-arrow-color);
 }
 
-.select_arrow > svg {
+.arrow_down > svg {
   display: block;
   margin: auto;
 }

@@ -5,32 +5,31 @@ import { Localizer } from "../utils/localizer.js";
 export class OptionsGroup extends Div {
   /**
    *
-   * @param {string} title
+   * @param {string} titleKey
    * @param {object} params
    * @param {string} params.id
    * @param {Array<string>} params.classList
    */
-  constructor(title, { id = null, classList = [] } = {}) {
+  constructor(titleKey, { id = null, classList = [] } = {}) {
     super({ id, classList: ["options_group_wrapper", ...classList] });
-    this.title = Localizer.localizeOptionGroup(title);
+
+    const title = Localizer.localizeOptionGroup(titleKey);
+    const label = new Label({
+      classList: ["options_group_title"],
+    }).setText(title);
     this.optionsGroup = new Div({ classList: ["options_group"] });
+
+    this.appendChild(label);
+    this.appendChild(this.optionsGroup);
   }
 
   /**
    *
-   * @returns {HTMLElement}
+   * @param {Element} element
+   * @returns {OptionsGroup}
    */
-  draw() {
-    for (const child of this.children) {
-      this.optionsGroup.appendChild(child);
-    }
-
-    const label = new Label(this.title, {
-      classList: ["options_group_title"],
-    });
-    this.element.appendChild(label.draw());
-    this.element.appendChild(this.optionsGroup.draw());
-
-    return this.element;
+  addToGroup(element) {
+    this.optionsGroup.appendChild(element);
+    return this;
   }
 }

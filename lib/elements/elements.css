@@ -1,12 +1,12 @@
+@import "css/arrow_down.css";
 @import "css/button.css";
 @import "css/checkbox.css";
-@import "css/popup.css";
 @import "css/color_input.css";
 @import "css/color_picker.css";
 @import "css/dropdown_popup.css";
 @import "css/dropdown.css";
 @import "css/number_input.css";
-@import "css/select_arrow.css";
+@import "css/popup.css";
 @import "css/select_item.css";
 @import "css/select_popup.css";
 @import "css/select.css";

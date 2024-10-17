@@ -8,15 +8,6 @@ export class ToolbarButton extends Part {
    */
   constructor(id, iconSvg) {
     super({ id, classList: ["toolbar_button"] });
-    this.iconSvg = iconSvg;
-  }
-
-  /**
-   *
-   * @returns {HTMLElement}
-   */
-  draw() {
-    this.element.innerHTML = this.iconSvg;
-    return this.element;
+    this.html.innerHTML = iconSvg;
   }
 }

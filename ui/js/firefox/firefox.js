@@ -1,12 +1,12 @@
+import { Div, Img } from "../../../lib/elements/elements.js";
 import { GROUPS, GROUP_NAMES } from "../../../shared/browser_parts.js";
 
 import { ContextMenu } from "../options/context_menu.js";
-import { Div } from "../../../lib/elements/elements.js";
 import { Group } from "./group.js";
 import { ICONS } from "./icons.js";
 import { Localizer } from "../utils/localizer.js";
 import { NamedPart } from "./named_part.js";
-import { NtpCards } from "./npt_cards.js";
+import { NtpCards } from "./ntp_cards.js";
 import { NtpSearch } from "./ntp_search.js";
 import { Options } from "../../../shared/options.js";
 import { Placeholder } from "./placeholder.js";
@@ -80,26 +80,22 @@ export class Firefox {
 
     for (const groupItemId of Object.keys(this.groups)) {
       const [groupItem, groupName] = this.groups[groupItemId];
-      groupItem.setOnMouseEnter(() => {
-        new StatusBar(groupName, {
-          localize: Localizer.localizePartGroup,
-          timeout: null,
-        }).show();
+      groupItem.addOnMouseEnter(() => {
+        new StatusBar().setText(groupName, Localizer.localizePartGroup).show();
       });
-      groupItem.setOnMouseLeave((event) => {
-        StatusBar.unshow();
+      groupItem.addOnMouseLeave((event) => {
+        new StatusBar().hide();
         const parentGroupItemId = event.relatedTarget?.id;
         if (parentGroupItemId in this.groups) {
           const [parentGroupName] = this.groups[parentGroupItemId].slice(-1);
-          new StatusBar(parentGroupName, {
-            localize: Localizer.localizePartGroup,
-            timeout: null,
-          }).show();
+          new StatusBar()
+            .setText(parentGroupName, Localizer.localizePartGroup)
+            .show();
         }
       });
     }
 
-    this.element.setOnContextMenu((event) => {
+    this.element.addOnContextMenu((event) => {
       event.preventDefault();
       let { target } = event;
       while (!(target.id in this.groups) && target.parentElement) {
@@ -111,7 +107,23 @@ export class Firefox {
         return;
       }
       const context_menu = new ContextMenu(parts, this.options);
-      context_menu.push(event);
+      context_menu.popup.push(event);
+    });
+
+    this.page.addOnContextMenu(() => {
+      if (this.page.hasChildren()) {
+        this.page.removeChildren();
+      } else {
+        const img = new Img(
+          `https://github.com/aminought/storage/blob/main/Adaptive%20Theme%20Creator/rickroll.gif?raw=true`,
+          { id: "rickroll" }
+        );
+        this.page.appendChild(img);
+      }
+    });
+
+    this.page.addOnClick(() => {
+      this.page.removeChildren();
     });
   }
 

@@ -17,7 +17,7 @@ export class Part extends Div {
    * @returns {Part}
    */
   setColor(color) {
-    this.element.style.color = color;
+    this.style.color = color;
     return this;
   }
 
@@ -27,7 +27,7 @@ export class Part extends Div {
    * @returns {Part}
    */
   setBackgroundColor(color) {
-    this.element.style.backgroundColor = color;
+    this.style.backgroundColor = color;
     return this;
   }
 }
